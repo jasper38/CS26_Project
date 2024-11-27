@@ -38,8 +38,8 @@ public class BankAccountRepository {
 
     public float getBankAccountBalance(int bankAccountNumberID) throws SQLException {
         String sql = "SELECT Bank_Account_Balance "
-                + "FROM Bank_Accounts "
-                + "WHERE Bank_Account_Number_ID = ?";
+                   + "FROM Bank_Accounts "
+                   + "WHERE Bank_Account_Number_ID = ?";
 
         float bankAccountBalance = 0;
         DatabaseMetaData BankConnectionManager;
@@ -58,8 +58,8 @@ public class BankAccountRepository {
 
     public int getBankAccountNumberID(int customerID) throws SQLException {
         String sql = "SELECT Bank_Account_Number_ID "
-                + "FROM Bank_Accounts "
-                + "WHERE Customer_ID = ?";
+                   + "FROM Bank_Accounts "
+                   + "WHERE Customer_ID = ?";
         int bankAccountID = 0;
         try (Connection conn = IMBankConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

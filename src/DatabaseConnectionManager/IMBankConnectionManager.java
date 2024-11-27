@@ -24,8 +24,4 @@ public class IMBankConnectionManager {
         }
         return con;
     }
-
-    public static void main(String[] args) {
-        Connection con = getConnection();
-    }
 }

@@ -103,7 +103,7 @@ public class LogInWindow {
             showMessage("Please input Username and Password");
             return;
         }
-
+        bankController.verifyLogin(getUserCredentials());
     }
 
     private void registerBtnActionPerformed(ActionEvent ae) {

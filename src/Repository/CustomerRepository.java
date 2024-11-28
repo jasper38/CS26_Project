@@ -39,25 +39,23 @@ public class CustomerRepository {
     }
 
     public LogInRequestDTO findCustomerByUsername(LogInRequestDTO logInRequestDTO) throws SQLException {
-        String sql = "SELECT Username, Password "
-                + "FROM Customers "
-                + "WHERE Username = ? ";
-        LogInRequestDTO loginRequest = null;
+        String sql = "SELECT Username, Password FROM Customers WHERE Username = ?";
         try (Connection conn = IMBankConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, logInRequestDTO.getUsername());
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String username = rs.getString("Username");
-                String password = rs.getString("Password");
-                System.out.println(username + " " + password);
-                loginRequest = new LogInRequestDTO(username, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) { // Expecting only one result
+                    String username = rs.getString("Username");
+                    String password = rs.getString("Password");
+                    return new LogInRequestDTO(username, password);
+                } else {
+                    return null; // No match found
+                }
             }
-            return loginRequest;
         }
     }
+
 
     public int getCustomerID(String username) throws SQLException {
         String sql = "SELECT Customer_ID "

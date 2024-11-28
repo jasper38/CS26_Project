@@ -6,7 +6,10 @@ public class LogInRequestDTO {
 
     public LogInRequestDTO() {}
 
-    public LogInRequestDTO(String username, String password) {}
+    public LogInRequestDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;

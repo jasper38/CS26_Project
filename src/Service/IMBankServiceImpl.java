@@ -77,7 +77,6 @@ public class IMBankServiceImpl implements IMBankService {
     public float getBankAccountBalance() throws SQLException {
         int customerID = customerRepository.getCustomerID(sessionUsername);
         int bankAccountNumberID = bankAccountRepository.getBankAccountNumberID(customerID);
-        System.out.println(bankAccountNumberID);
         return bankAccountRepository.getBankAccountBalance(bankAccountNumberID);
     }
 }

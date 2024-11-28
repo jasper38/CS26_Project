@@ -11,15 +11,15 @@ public class IMBankConnectionManager {
     private static final String PASSWORD = "jasper123";
     private static Connection con;
 
-    public static Connection getConnection(){
-        try{
+    public static Connection getConnection() {
+        try {
             Class.forName(DRIVER);
-            try{
+            try {
                 con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            } catch(SQLException e){
+            } catch (SQLException e) {
                 System.out.println("Can't get connection.");
             }
-        } catch(ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             System.out.println("Driver not found");
         }
         return con;

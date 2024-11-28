@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="0495188f-7865-444b-9819-3b2b02cc9e3b" name="bankingsystem@localhost Mapping">
+      <data-sources db="22aeaeb2-6a4c-44e9-9720-4fc2f1029008" />
+      <scope>
+        <node kind="schema" qname="bankingsystem" />
+      </scope>
+    </mapping>
+  </component>
+</project>

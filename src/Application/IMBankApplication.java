@@ -6,7 +6,6 @@ import Service.IMBankServiceImpl;
 
 public class IMBankApplication {
     public static void main(String[] args) {
-
         IMBankServiceImpl bankService = new IMBankServiceImpl(
                 new AffiliatedBankRepository(), new BankAccountRepository(),
                 new CardInfoRepository(), new CustomerRepository(),

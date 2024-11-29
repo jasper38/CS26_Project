@@ -63,14 +63,15 @@ public class IMBankServiceImpl implements IMBankService {
     @Override
     public boolean verifyLogIn(LogInRequestDTO logInRequest) throws SQLException, IllegalArgumentException {
         LogInRequestDTO credentials = customerRepository.findCustomerByUsername(logInRequest);
-        if (credentials == null)
+        if (credentials == null){
             throw new IllegalArgumentException("User Not Found");
-        else if (!credentials.getUsername().equals(logInRequest.getUsername())
-                && !credentials.getPassword().equals(logInRequest.getPassword())) {
-            throw new IllegalArgumentException("Invalid Username or Password");
         }
+        if (!credentials.getUsername().equals(logInRequest.getUsername()) &&
+                !credentials.getPassword().equals(logInRequest.getPassword()))
+            throw new IllegalArgumentException("Invalid Username or Password");
         sessionUsername = credentials.getUsername();
-        return true;
+        return (credentials.getUsername().equals(logInRequest.getUsername()) &&
+                credentials.getPassword().equals(logInRequest.getPassword()));
     }
 
     @Override

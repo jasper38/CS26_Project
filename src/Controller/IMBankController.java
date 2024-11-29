@@ -9,6 +9,7 @@ import View.RegisterWindow;
 
 import javax.swing.*;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
 
 public class IMBankController {
     private final IMBankServiceImpl bankService;
@@ -24,36 +25,67 @@ public class IMBankController {
     }
 
     public void registerPerson(RegistrationRequestDTO registrationRequestDTO) {
-            try {
-                if (bankService.registerPerson(registrationRequestDTO)) {
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws SQLException {
+                return bankService.registerPerson(registrationRequestDTO);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    boolean registrationSuccessful = get();
+                    if (registrationSuccessful) {
                         showLoginWindow();
                         registerWindow.showMessage("Registration Successful! Please claim your ATM Card at the Bank.");
+                    }
+                } catch (Exception se) {
+                    registerWindow.showMessage("An Error occured during registration.");
                 }
-            } catch (SQLException se) {
-                registerWindow.showMessage("An Error occured during registration.");
             }
+        };
+        worker.execute();
     }
 
     public void verifyLogin(LogInRequestDTO logInRequest) {
-            try {
-                if (bankService.verifyLogIn(logInRequest)) {
-                        showMainWindow();
-                    getAccountBalance();
-                }
-            } catch (SQLException se) {
-                logInWindow.showMessage("Invalid Username or Password");
-            } catch (IllegalArgumentException ie) {
-                logInWindow.showMessage(ie.getMessage());
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return bankService.verifyLogIn(logInRequest);
             }
+            @Override
+            protected void done() {
+                try {
+                    boolean logInSuccess = get();
+                    if (logInSuccess) {
+                        getAccountBalance();
+                        showMainWindow();
+                    }
+                } catch (Exception e) {
+                    logInWindow.showMessage(e.getMessage());
+                }
+            }
+        };
+        worker.execute();
     }
 
-    public void getAccountBalance() {
-        try {
-            float bankAccountBalance = bankService.getBankAccountBalance();
-            mainWindow.setDisplayBalanceField(String.valueOf(bankAccountBalance));
-        } catch (Exception e) {
-            mainWindow.showMessage("Failed to retrieve balance");
-        }
+    private void getAccountBalance() {
+        SwingWorker<Float, Void> worker = new SwingWorker<Float, Void>(){
+            @Override
+            protected Float doInBackground() throws Exception {
+                return bankService.getBankAccountBalance();
+            }
+            @Override
+            protected void done() {
+                try {
+                    float bankAccountBalance = get();
+                    mainWindow.setDisplayBalanceField(String.valueOf(bankAccountBalance));
+                } catch (Exception e) {
+                    mainWindow.showMessage("Failed to retrieve balance");
+                }
+            }
+        };
+        worker.execute();
     }
 
     public void showLoginWindow() {
@@ -72,16 +104,5 @@ public class IMBankController {
         logInWindow.hide();
         mainWindow.show();
         registerWindow.hide();
-    }
-
-    private void disposeThread(Thread thread) {
-        if (thread != null && thread.isAlive()) {
-            thread.interrupt();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                System.out.println("Unable to stop thread.");
-            }
-        }
     }
 }

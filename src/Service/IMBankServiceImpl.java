@@ -1,6 +1,7 @@
 package Service;
 
 import DTO.LogInRequestDTO;
+import DTO.LogInResult;
 import DTO.RegistrationRequestDTO;
 import DTO.RegistrationRequestFactory;
 import Model.BankAccount;
@@ -61,17 +62,17 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
-    public boolean verifyLogIn(LogInRequestDTO logInRequest) throws SQLException, IllegalArgumentException {
+    public LogInResult verifyLogIn(LogInRequestDTO logInRequest) throws SQLException {
         LogInRequestDTO credentials = customerRepository.findCustomerByUsername(logInRequest);
-        if (credentials == null){
-            throw new IllegalArgumentException("User Not Found");
+
+        if (credentials == null) {
+            return new LogInResult(false, "User not found");
         }
-        if (!credentials.getUsername().equals(logInRequest.getUsername()) &&
-                !credentials.getPassword().equals(logInRequest.getPassword()))
-            throw new IllegalArgumentException("Invalid Username or Password");
+        if (!credentials.getPassword().equals(logInRequest.getPassword())) {
+            return new LogInResult(false, "Invalid username or password");
+        }
         sessionUsername = credentials.getUsername();
-        return (credentials.getUsername().equals(logInRequest.getUsername()) &&
-                credentials.getPassword().equals(logInRequest.getPassword()));
+        return new LogInResult(true, "Login successful");
     }
 
     @Override

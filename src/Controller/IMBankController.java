@@ -1,6 +1,7 @@
 package Controller;
 
 import DTO.LogInRequestDTO;
+import DTO.LogInResult;
 import DTO.RegistrationRequestDTO;
 import Service.IMBankServiceImpl;
 import View.LogInWindow;
@@ -48,21 +49,24 @@ public class IMBankController {
     }
 
     public void verifyLogin(LogInRequestDTO logInRequest) {
-        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+        SwingWorker<LogInResult, Void> worker = new SwingWorker<>() {
             @Override
-            protected Boolean doInBackground() throws Exception {
+            protected LogInResult doInBackground() throws Exception {
                 return bankService.verifyLogIn(logInRequest);
             }
+
             @Override
             protected void done() {
                 try {
-                    boolean logInSuccess = get();
-                    if (logInSuccess) {
+                    LogInResult result = get(); // Retrieve the LoginResult
+                    if (result.isSuccess()) {
                         getAccountBalance();
                         showMainWindow();
+                    } else {
+                        logInWindow.showMessage(result.getMessage());
                     }
                 } catch (Exception e) {
-                    logInWindow.showMessage(e.getMessage());
+                    logInWindow.showMessage("An unexpected error occurred: " + e.getMessage());
                 }
             }
         };

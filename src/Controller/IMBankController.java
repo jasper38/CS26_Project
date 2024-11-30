@@ -52,13 +52,14 @@ public class IMBankController {
         SwingWorker<LogInResult, Void> worker = new SwingWorker<>() {
             @Override
             protected LogInResult doInBackground() throws Exception {
+                Thread.sleep(40);
                 return bankService.verifyLogIn(logInRequest);
             }
 
             @Override
             protected void done() {
                 try {
-                    LogInResult result = get(); // Retrieve the LoginResult
+                    LogInResult result = get();
                     if (result.isSuccess()) {
                         getAccountBalance();
                         showMainWindow();
@@ -90,6 +91,20 @@ public class IMBankController {
             }
         };
         worker.execute();
+    }
+
+    public void authenticateBankCredentials(int bankAccountNumberID, int cardPIN){
+        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return null;
+            }
+
+            @Override
+            protected void done() {
+
+            }
+        };
     }
 
     public void showLoginWindow() {

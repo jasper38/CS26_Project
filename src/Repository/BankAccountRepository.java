@@ -56,15 +56,16 @@ public class BankAccountRepository {
         }
     }
 
-    public int getBankAccountNumberID(int customerID) throws SQLException {
-        String sql = "SELECT Bank_Account_Number_ID "
-                   + "FROM Bank_Accounts "
-                   + "WHERE Customer_ID = ?";
+    public int getBankAccountNumberID(String username) throws SQLException {
+        String sql = "SELECT ba.Bank_Account_Number_ID " +
+                     "FROM Bank_Accounts ba " +
+                     "INNER JOIN Customers c ON ba.Customer_ID = c.Customer_ID " +
+                     "WHERE c.Username = ?";
         int bankAccountID = 0;
         try (Connection conn = IMBankConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, customerID);
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

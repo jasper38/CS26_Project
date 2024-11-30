@@ -13,13 +13,18 @@ import Repository.*;
 import java.sql.SQLException;
 
 public class IMBankServiceImpl implements IMBankService {
-    private String sessionUsername = "";
+
     private final AffiliatedBankRepository affiliatedBankRepository;
     private final BankAccountRepository bankAccountRepository;
     private final CardInfoRepository cardInfoRepository;
     private final CustomerRepository customerRepository;
     private final PersonRepository personRepository;
     private final TransactionRepository transactionRepository;
+
+    // session variables for seamless retrieval of data from db
+    private String sessionUsername = "";
+    private int bankAccountNumberID = 0;
+    private int customerID = 0;
 
     public IMBankServiceImpl(AffiliatedBankRepository affiliatedBankRepository,
                              BankAccountRepository bankAccountRepository, CardInfoRepository cardInfoRepository,
@@ -72,13 +77,13 @@ public class IMBankServiceImpl implements IMBankService {
             return new LogInResult(false, "Invalid username or password");
         }
         sessionUsername = credentials.getUsername();
+        bankAccountNumberID = bankAccountRepository.getBankAccountNumberID(sessionUsername);
+        customerID = customerRepository.getCustomerID(sessionUsername);
         return new LogInResult(true, "Login successful");
     }
 
     @Override
     public float getBankAccountBalance() throws SQLException {
-        int customerID = customerRepository.getCustomerID(sessionUsername);
-        int bankAccountNumberID = bankAccountRepository.getBankAccountNumberID(customerID);
         return bankAccountRepository.getBankAccountBalance(bankAccountNumberID);
     }
 }

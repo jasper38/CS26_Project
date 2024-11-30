@@ -56,11 +56,8 @@ public class CustomerRepository {
         }
     }
 
-
     public int getCustomerID(String username) throws SQLException {
-        String sql = "SELECT Customer_ID "
-                + "FROM Customers "
-                + "WHERE Username = ?";
+        String sql = "SELECT Customer_ID FROM Customers WHERE Username = ?";
         int ID = 0;
         try(Connection conn = IMBankConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){

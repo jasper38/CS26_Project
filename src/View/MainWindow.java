@@ -1,10 +1,9 @@
 package View;
 
 import Controller.IMBankController;
+import Utility.ViewUtility;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
@@ -115,12 +114,12 @@ public class MainWindow {
         JButton homeBtn = new JButton("Home");
         homeBtn.setFocusable(false);
         homeBtn.setBounds(0, 0, 200, 50);
-        homeBtn.addActionListener(ae -> { homeBtnActionPerformed(ae); });
+        homeBtn.addActionListener(this::homeBtnActionPerformed);
 
         JButton transactionHistoryBtn = new JButton("Transaction History");
         transactionHistoryBtn.setFocusable(false);
         transactionHistoryBtn.setBounds(0, 50, 200, 50);
-        transactionHistoryBtn.addActionListener(ae -> { transactionHistoryBtnActionPerformed(ae); });
+        transactionHistoryBtn.addActionListener(this::transactionHistoryBtnActionPerformed);
 
         profileBtn = new JButton("Profile");
         profileBtn.setFocusable(false);
@@ -129,7 +128,7 @@ public class MainWindow {
         logoutBtn = new JButton("Logout");
         logoutBtn.setFocusable(false);
         logoutBtn.setBounds(0, 430, 200, 50);
-        logoutBtn.addActionListener(ae -> { logoutBtnActionPerformed(ae); });
+        logoutBtn.addActionListener(this::logoutBtnActionPerformed);
 
         navPanel.add(homeBtn);
         navPanel.add(transactionHistoryBtn);
@@ -153,12 +152,12 @@ public class MainWindow {
         depositBtn = new JButton("Deposit");
         depositBtn.setFocusable(false);
         depositBtn.setBounds(40, 100, 100, 30);
-        depositBtn.addActionListener(ae -> { depositBtnActionPerformed(ae); });
+        depositBtn.addActionListener(this::depositBtnActionPerformed);
 
         withdrawBtn = new JButton("Withdraw");
         withdrawBtn.setFocusable(false);
         withdrawBtn.setBounds(160, 100, 100, 30);
-        withdrawBtn.addActionListener(ae -> { withdrawBtnActionPerformed(ae); });
+        withdrawBtn.addActionListener(this::withdrawBtnActionPerformed);
 
         homePanel.add(balanceLbl);
         homePanel.add(displayBalanceField);
@@ -167,7 +166,7 @@ public class MainWindow {
 
         panels[0] = homePanel;
 
-        setEnabledPanelAndComponents(panels[0], true);
+        ViewUtility.setEnabledPanelAndComponents(panels[0], true);
     }
 
     private void initTransactionHistoryPanel() {
@@ -189,7 +188,7 @@ public class MainWindow {
 
         panels[1] = transactionHistoryPanel;
 
-        setEnabledPanelAndComponents(panels[1], false);
+        ViewUtility.setEnabledPanelAndComponents(panels[1], false);
     }
 
     private void initProfilePanel() {
@@ -232,19 +231,21 @@ public class MainWindow {
 
         bankAccountNumField = new JTextField();
         bankAccountNumField.setBounds(10, 45, 200, 25);
+        bankAccountNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
         cardPINField = new JTextField();
         cardPINField.setBounds(10, 105, 200, 25);
+        cardPINField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
         cancelBtn = new JButton("Cancel");
         cancelBtn.setFocusable(false);
         cancelBtn.setBounds(10, 140, 100, 25);
-        cancelBtn.addActionListener(ae -> { cancelBtnActionPerformed(ae); });
+        cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
         enterBtn = new JButton("Enter");
         enterBtn.setFocusable(false);
         enterBtn.setBounds(110, 140, 100, 25);
-        enterBtn.addActionListener(ae -> { enterBtnActionPerformed(ae); });
+        enterBtn.addActionListener(this::enterBtnActionPerformed);
 
         popUpFrame1.add(bankAccountNumLbl);
         popUpFrame1.add(cardPINLbl);
@@ -337,13 +338,13 @@ public class MainWindow {
 
     // Navigation bar buttons here
     private void homeBtnActionPerformed(ActionEvent ae) {
-        setEnabledPanelAndComponents(panels[0], true);
-        setEnabledPanelAndComponents(panels[1], false);
+        ViewUtility.setEnabledPanelAndComponents(panels[0], true);
+        ViewUtility.setEnabledPanelAndComponents(panels[1], false);
     }
 
     private void transactionHistoryBtnActionPerformed(ActionEvent ae) {
-        setEnabledPanelAndComponents(panels[0], false);
-        setEnabledPanelAndComponents(panels[1], true);
+        ViewUtility.setEnabledPanelAndComponents(panels[0], false);
+        ViewUtility.setEnabledPanelAndComponents(panels[1], true);
     }
 
     private void logoutBtnActionPerformed(ActionEvent ae) {
@@ -367,6 +368,8 @@ public class MainWindow {
         }
 
         if (popUpFrame2 == null || !popUpFrame2.isVisible()) {
+            // input validation for bank account number ID and card PIN: TO DO
+          //  bankController.authenticateBankCredentials();
             createPopUpWindow2();
         } else {
             popUpFrame2.dispose();
@@ -389,17 +392,6 @@ public class MainWindow {
     private void submitTransactionRequestBtnActionPerformed(ActionEvent ae) {
         depositBtn.setEnabled(true);
         withdrawBtn.setEnabled(true);
-    }
-
-    // Enable/Disable panels
-    private void setEnabledPanelAndComponents(Container container, boolean isEnabled) {
-        for (Component component : container.getComponents()) {
-            component.setEnabled(isEnabled);
-            if (component instanceof Container) {
-                setEnabledPanelAndComponents((Container) component, isEnabled);
-            }
-        }
-        container.setVisible(isEnabled);
     }
 
     // Getter/Setter

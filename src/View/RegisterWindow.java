@@ -21,6 +21,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import DTO.RegistrationRequestDTO;
+import Utility.ViewUtility;
 import org.jdatepicker.JDateComponentFactory;
 import org.jdatepicker.impl.JDatePickerImpl;
 
@@ -145,7 +146,7 @@ public class RegisterWindow {
 
         ageField = new JTextField(3);
         ageField.setBounds(120, 125, 150, 25);
-        ageField.addKeyListener(addNumberInputKeyListener());
+        ageField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
         JDateComponentFactory fac = new JDateComponentFactory();
         datePicker = (JDatePickerImpl) fac.createJDatePicker();
@@ -196,7 +197,7 @@ public class RegisterWindow {
 
         panels[0] = step1Panel;
 
-        setEnabledPanelAndComponents(panels[0], true);
+        ViewUtility.setEnabledPanelAndComponents(panels[0], true);
     }
 
     private void initStep2PanelComponents() {
@@ -224,6 +225,7 @@ public class RegisterWindow {
 
         phoneNumField = new JTextField(11);
         phoneNumField.setBounds(120, 45, 150, 25);
+        phoneNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
         addressField = new JTextField();
         addressField.setBounds(120, 85, 150, 25);
@@ -236,7 +238,7 @@ public class RegisterWindow {
 
         zipCodeField = new JTextField(4);
         zipCodeField.setBounds(120, 205, 150, 25);
-        zipCodeField.addKeyListener(addNumberInputKeyListener());
+        zipCodeField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
         initRepeatComponents1();
         initRepeatComponents2();
@@ -260,7 +262,7 @@ public class RegisterWindow {
 
         panels[1] = step2Panel;
 
-        setEnabledPanelAndComponents(panels[1], false);
+        ViewUtility.setEnabledPanelAndComponents(panels[1], false);
     }
 
     private void initStep3PanelComponents() {
@@ -325,9 +327,7 @@ public class RegisterWindow {
         submitBtn = new JButton("Submit");
         submitBtn.setFocusable(false);
         submitBtn.setBounds(200, 245, 70, 25);
-        submitBtn.addActionListener(ae -> {
-            submitBtnActionPerformed(ae);
-        });
+        submitBtn.addActionListener(this::submitBtnActionPerformed);
 
         initRepeatComponents1();
         initRepeatComponents3();
@@ -351,7 +351,7 @@ public class RegisterWindow {
 
         panels[2] = step3Panel;
 
-        setEnabledPanelAndComponents(panels[2], false);
+        ViewUtility.setEnabledPanelAndComponents(panels[2], false);
     }
 
     private void initRepeatComponents1() {
@@ -361,40 +361,24 @@ public class RegisterWindow {
         logInBtn = new JButton("Log In");
         logInBtn.setFocusable(false);
         logInBtn.setBounds(150, 305, 70, 25);
-        logInBtn.addActionListener(ae -> {
-            logInBtnActionPerformed(ae);
-        });
+        logInBtn.addActionListener(this::logInBtnActionPerformed);
     }
 
     private void initRepeatComponents2() {
         nextBtn = new JButton("Next");
         nextBtn.setFocusable(false);
         nextBtn.setBounds(200, 245, 70, 25);
-        nextBtn.addActionListener(ae -> {
-            nextBtnActionPerformed(ae);
-        });
+        nextBtn.addActionListener(this::nextBtnActionPerformed);
     }
 
     private void initRepeatComponents3() {
         backBtn = new JButton("Bank");
         backBtn.setFocusable(false);
         backBtn.setBounds(120, 245, 70, 25);
-        backBtn.addActionListener(ae -> {
-            backBtnActionPerformed(ae);
-        });
+        backBtn.addActionListener(this::backBtnActionPerformed);
     }
 
-    private KeyAdapter addNumberInputKeyListener() {
-        return new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent ke) {
-                char c = ke.getKeyChar();
-                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE && c != '.') {
-                    ke.consume();
-                }
-            }
-        };
-    }
+
 
     public void show() {
         registerFrame.setVisible(true);
@@ -420,34 +404,26 @@ public class RegisterWindow {
 
     private void nextBtnActionPerformed(ActionEvent ae) {
         if (panels[0].isVisible()) {
-            setEnabledPanelAndComponents(panels[0], false);
-            setEnabledPanelAndComponents(panels[1], true);
+            ViewUtility.setEnabledPanelAndComponents(panels[0], false);
+            ViewUtility.setEnabledPanelAndComponents(panels[1], true);
         } else if (panels[1].isVisible()) {
-            setEnabledPanelAndComponents(panels[1], false);
-            setEnabledPanelAndComponents(panels[2], true);
+            ViewUtility.setEnabledPanelAndComponents(panels[1], false);
+            ViewUtility.setEnabledPanelAndComponents(panels[2], true);
         }
     }
 
     private void backBtnActionPerformed(ActionEvent ae) {
         if (panels[2].isVisible()) {
-            setEnabledPanelAndComponents(panels[2], false);
-            setEnabledPanelAndComponents(panels[1], true);
+            ViewUtility.setEnabledPanelAndComponents(panels[2], false);
+            ViewUtility.setEnabledPanelAndComponents(panels[1], true);
         } else if (panels[1].isVisible()) {
-            setEnabledPanelAndComponents(panels[1], false);
-            setEnabledPanelAndComponents(panels[0], true);
+            ViewUtility.setEnabledPanelAndComponents(panels[1], false);
+            ViewUtility.setEnabledPanelAndComponents(panels[0], true);
         }
     }
 
     // Enable/Disable panels
-    private void setEnabledPanelAndComponents(Container container, boolean isEnabled) {
-        for (Component component : container.getComponents()) {
-            component.setEnabled(isEnabled);
-            if (component instanceof Container) {
-                setEnabledPanelAndComponents((Container) component, isEnabled);
-            }
-        }
-        container.setVisible(isEnabled);
-    }
+
 
     // Form Validation
     private RegistrationRequestDTO getRegistrationData() {
@@ -455,7 +431,7 @@ public class RegisterWindow {
         RegistrationRequestDTO registrationRequestDTO = new RegistrationRequestDTO();
         registrationRequestDTO.setFirstName(String.valueOf(fNameField.getText()));
         registrationRequestDTO.setLastName(String.valueOf(lNameField.getText()));
-        registrationRequestDTO.setAge(Integer.valueOf(ageField.getText()));
+        registrationRequestDTO.setAge(Integer.parseInt(ageField.getText()));
 
         Calendar selectedCalendar = (Calendar) datePicker.getModel().getValue();
         java.util.Date utilDate = selectedCalendar.getTime();

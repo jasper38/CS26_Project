@@ -121,6 +121,10 @@ public class IMBankController {
         worker.execute();
     }
 
+    public void initiateTransactionRequest(){
+
+    }
+
     public void showLoginWindow() {
         ViewUtility.hide(registerWindow.getRegisterFrame());
         ViewUtility.show(logInWindow.getLoginFrame());

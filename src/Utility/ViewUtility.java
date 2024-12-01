@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class ViewUtility {
+public final class ViewUtility {
     public static void setEnabledPanelAndComponents(Container container, boolean isEnabled) {
         for (Component component : container.getComponents()) {
             component.setEnabled(isEnabled);
@@ -16,7 +16,7 @@ public class ViewUtility {
         container.setVisible(isEnabled);
     }
 
-    public static  KeyAdapter addNumberInputKeyListener() {
+    public static KeyAdapter addNumberInputKeyListener() {
         return new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent ke) {

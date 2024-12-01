@@ -39,11 +39,7 @@ public class LogInWindow {
     }
 
     private void initComponents() {
-        loginFrame = new JFrame("IM Bank");
-        loginFrame.setLayout(null);
-        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        loginFrame.setSize(600, 400);
-        loginFrame.setLocationRelativeTo(null);
+        loginFrame = ViewFactory.createFrame("IM Bank", 600, 400);
 
         loginPanel = new JPanel();
         loginPanel.setLayout(null);

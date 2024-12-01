@@ -6,16 +6,9 @@ import Utility.ViewUtility;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -25,9 +18,12 @@ public class MainWindow {
 
     // Header panel and its components
     private JPanel headerPanel;
+    private JLabel headerLbl;
 
     // Left Side Navigation Bar Panel and its components
     private JPanel navPanel;
+    private JButton homeBtn;
+    private JButton transactionHistoryBtn;
     private JButton profileBtn;
     private JButton logoutBtn;
 
@@ -53,7 +49,6 @@ public class MainWindow {
     private JSeparator verticalSeparator;
 
     private JPanel[] panels = new JPanel[3];
-
     private final IMBankController bankController;
 
     public MainWindow(IMBankController bankController) {
@@ -62,11 +57,7 @@ public class MainWindow {
     }
 
     private void initMainWindowComponents() {
-        mainFrame = new JFrame("IM Bank: Main");
-        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        mainFrame.setLayout(null);
-        mainFrame.setSize(800, 600);
-        mainFrame.setLocationRelativeTo(null);
+        mainFrame = ViewFactory.createFrame("IM Bank: Main", 800, 600);
 
         initHeaderPanel();
         initNavPanel();
@@ -98,7 +89,7 @@ public class MainWindow {
         headerPanel.setLayout(null);
         headerPanel.setBounds(0, 0, 800, 80);
 
-        JLabel headerLbl = new JLabel("Welcome [Name of Person]");
+        headerLbl = new JLabel("Welcome [Name of Person]");
         headerLbl.setFont(new Font("Nimbus", Font.BOLD, 20));
         headerLbl.setBounds(270, 0, 260, 50);
 
@@ -110,12 +101,12 @@ public class MainWindow {
         navPanel.setLayout(null);
         navPanel.setBounds(0, 82, 200, 498);
 
-        JButton homeBtn = new JButton("Home");
+        homeBtn = new JButton("Home");
         homeBtn.setFocusable(false);
         homeBtn.setBounds(0, 0, 200, 50);
         homeBtn.addActionListener(this::homeBtnActionPerformed);
 
-        JButton transactionHistoryBtn = new JButton("Transaction History");
+        transactionHistoryBtn = new JButton("Transaction History");
         transactionHistoryBtn.setFocusable(false);
         transactionHistoryBtn.setBounds(0, 50, 200, 50);
         transactionHistoryBtn.addActionListener(this::transactionHistoryBtnActionPerformed);
@@ -246,12 +237,12 @@ public class MainWindow {
     }
 
     private JFrame popUpFrame2;
-    private JButton bank1Btn;
-    private JButton bank2Btn;
-    private JButton bank3Btn;
-    private JButton bank4Btn;
-    private JButton bank5Btn;
-    private JButton bank6Btn;
+    private JToggleButton bank1Btn;
+    private JToggleButton bank2Btn;
+    private JToggleButton bank3Btn;
+    private JToggleButton bank4Btn;
+    private JToggleButton bank5Btn;
+    private JToggleButton bank6Btn;
     private JButton submitBtn;
     private JLabel chooseLbl;
     private JLabel amountLbl;
@@ -267,35 +258,38 @@ public class MainWindow {
         chooseLbl = new JLabel("Choose Bank:");
         chooseLbl.setBounds(0, 0, 100, 30);
 
-        bank1Btn = new JButton("IM Bank");
-        bank1Btn.setFocusable(false);
-        bank1Btn.setBounds(0, 40, 100, 30);
+        bank1Btn = ViewFactory.createToggleButton(popUpFrame2 ,"IM Bank", 0, 40);
+        bank2Btn = ViewFactory.createToggleButton(popUpFrame2 ,"BDO", 100, 40);
+        bank3Btn = ViewFactory.createToggleButton(popUpFrame2 ,"LandBank", 200, 40);
+        bank4Btn = ViewFactory.createToggleButton(popUpFrame2 ,"MetroBank", 0, 70);
+        bank5Btn = ViewFactory.createToggleButton(popUpFrame2 ,"BPI", 100, 70);
+        bank6Btn = ViewFactory.createToggleButton(popUpFrame2 ,"RCBC", 200, 70);
 
-        bank2Btn = new JButton("BDO");
-        bank2Btn.setFocusable(false);
-        bank2Btn.setBounds(100, 40, 100, 30);
+        ButtonGroup bankGroup = new ButtonGroup();
+        bankGroup.add(bank1Btn);
+        bankGroup.add(bank2Btn);
+        bankGroup.add(bank3Btn);
+        bankGroup.add(bank4Btn);
+        bankGroup.add(bank5Btn);
+        bankGroup.add(bank6Btn);
 
-        bank3Btn = new JButton("LandBank");
-        bank3Btn.setFocusable(false);
-        bank3Btn.setBounds(200, 40, 100, 30);
+        ActionListener toggleListener = e ->{
+            getSelectedBank((JToggleButton) e.getSource());
+        };
 
-        bank4Btn = new JButton("MetroBank");
-        bank4Btn.setFocusable(false);
-        bank4Btn.setBounds(0, 70, 100, 30);
-
-        bank5Btn = new JButton("BPI");
-        bank5Btn.setFocusable(false);
-        bank5Btn.setBounds(100, 70, 100, 30);
-
-        bank6Btn = new JButton("RCBC");
-        bank6Btn.setFocusable(false);
-        bank6Btn.setBounds(200, 70, 100, 30);
+        bank1Btn.addActionListener(toggleListener);
+        bank2Btn.addActionListener(toggleListener);
+        bank3Btn.addActionListener(toggleListener);
+        bank4Btn.addActionListener(toggleListener);
+        bank5Btn.addActionListener(toggleListener);
+        bank6Btn.addActionListener(toggleListener);
 
         amountLbl = new JLabel("Enter Amount:");
         amountLbl.setBounds(0, 100, 100, 30);
 
         amountField = new JTextField();
         amountField.setBounds(0, 130, 120, 25);
+        amountField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
         cancelBtn = new JButton("Cancel");
         cancelBtn.setFocusable(false);
@@ -309,12 +303,6 @@ public class MainWindow {
 
         popUpFrame2.add(chooseLbl);
         popUpFrame2.add(amountLbl);
-        popUpFrame2.add(bank1Btn);
-        popUpFrame2.add(bank2Btn);
-        popUpFrame2.add(bank3Btn);
-        popUpFrame2.add(bank4Btn);
-        popUpFrame2.add(bank5Btn);
-        popUpFrame2.add(bank6Btn);
         popUpFrame2.add(cancelBtn);
         popUpFrame2.add(submitBtn);
         popUpFrame2.add(amountField);
@@ -385,9 +373,9 @@ public class MainWindow {
         withdrawBtn.setEnabled(true);
     }
 
-    // Getter/Setter
-    public JTextField getDisplayBalanceField() {
-        return displayBalanceField;
+    // Getters/Setters
+    public String getSelectedBank(JToggleButton tb) {
+        return tb.getText();
     }
 
     public void setDisplayBalanceField(String bankAccountBalance) {

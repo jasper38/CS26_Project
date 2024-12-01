@@ -378,16 +378,6 @@ public class RegisterWindow {
         backBtn.addActionListener(this::backBtnActionPerformed);
     }
 
-
-
-    public void show() {
-        registerFrame.setVisible(true);
-    }
-
-    public void hide() {
-        registerFrame.setVisible(false);
-    }
-
     // Actions of buttons in the following lines of code
     private void logInBtnActionPerformed(ActionEvent ae) {
         bankController.showLoginWindow();
@@ -397,8 +387,7 @@ public class RegisterWindow {
         if (String.valueOf(passField.getPassword()).equals(String.valueOf(confirmPassField.getPassword()))) {
             bankController.registerPerson(getRegistrationData());
         } else {
-            showMessage("Passwords don't match. Please try again");
-            return;
+            ViewUtility.showMessage("Passwords don't match. Please try again");
         }
     }
 
@@ -421,9 +410,6 @@ public class RegisterWindow {
             ViewUtility.setEnabledPanelAndComponents(panels[0], true);
         }
     }
-
-    // Enable/Disable panels
-
 
     // Form Validation
     private RegistrationRequestDTO getRegistrationData() {
@@ -449,7 +435,7 @@ public class RegisterWindow {
         return registrationRequestDTO;
     }
 
-    public void showMessage(String msg) {
-        JOptionPane.showMessageDialog(addressField, msg);
+    public JFrame getRegisterFrame() {
+        return registerFrame;
     }
 }

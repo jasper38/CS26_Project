@@ -1,5 +1,6 @@
 package Utility;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -25,5 +26,17 @@ public class ViewUtility {
                 }
             }
         };
+    }
+
+    public static void show(JFrame frame) {
+        frame.setVisible(true);
+    }
+
+    public static void hide(JFrame frame) {
+        frame.setVisible(false);
+    }
+
+    public static void showMessage(String msg) {
+        JOptionPane.showMessageDialog(null, msg);
     }
 }

@@ -4,13 +4,13 @@ import DTO.LogInRequestDTO;
 import DTO.LogInResult;
 import DTO.RegistrationRequestDTO;
 import Service.IMBankServiceImpl;
+import Utility.ViewUtility;
 import View.LogInWindow;
 import View.MainWindow;
 import View.RegisterWindow;
 
 import javax.swing.*;
 import java.sql.SQLException;
-import java.util.concurrent.ExecutionException;
 
 public class IMBankController {
     private final IMBankServiceImpl bankService;
@@ -38,10 +38,10 @@ public class IMBankController {
                     boolean registrationSuccessful = get();
                     if (registrationSuccessful) {
                         showLoginWindow();
-                        registerWindow.showMessage("Registration Successful! Please claim your ATM Card at the Bank.");
+                        ViewUtility.showMessage("Registration Successful! Please claim your ATM Card at the Bank.");
                     }
                 } catch (Exception se) {
-                    registerWindow.showMessage("An Error occured during registration.");
+                    ViewUtility.showMessage("An Error occured during registration.");
                 }
             }
         };
@@ -64,10 +64,10 @@ public class IMBankController {
                         getAccountBalance();
                         showMainWindow();
                     } else {
-                        logInWindow.showMessage(result.getMessage());
+                        ViewUtility.showMessage(result.getMessage());
                     }
                 } catch (Exception e) {
-                    logInWindow.showMessage("An unexpected error occurred: " + e.getMessage());
+                    ViewUtility.showMessage("An unexpected error occurred: " + e.getMessage());
                 }
             }
         };
@@ -86,7 +86,7 @@ public class IMBankController {
                     float bankAccountBalance = get();
                     mainWindow.setDisplayBalanceField(String.valueOf(bankAccountBalance));
                 } catch (Exception e) {
-                    mainWindow.showMessage("Failed to retrieve balance");
+                    ViewUtility.showMessage("Failed to retrieve balance");
                 }
             }
         };
@@ -97,31 +97,45 @@ public class IMBankController {
         SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                return null;
+                try{
+                    return bankService.verifyBankAccountCredentials(bankAccountNumberID, cardPIN);
+                } catch (SQLException se) {
+                    throw new Exception(se.getMessage());
+                }
             }
 
             @Override
             protected void done() {
-
+                try{
+                    boolean isVerified = get();
+                    if (isVerified) {
+                        mainWindow.createPopUpWindow2();
+                    } else {
+                        throw new Exception("Invalid credentials");
+                    }
+                } catch (Exception e) {
+                    ViewUtility.showMessage(e.getMessage());
+                }
             }
         };
+        worker.execute();
     }
 
     public void showLoginWindow() {
-        registerWindow.hide();
-        logInWindow.show();
-        mainWindow.hide();
+        ViewUtility.hide(registerWindow.getRegisterFrame());
+        ViewUtility.show(logInWindow.getLoginFrame());
+        ViewUtility.hide(mainWindow.getMainFrame());
     }
 
     public void showRegisterWindow() {
-        logInWindow.hide();
-        registerWindow.show();
-        mainWindow.hide();
+        ViewUtility.hide(logInWindow.getLoginFrame());
+        ViewUtility.show(registerWindow.getRegisterFrame());
+        ViewUtility.hide(mainWindow.getMainFrame());
     }
 
     public void showMainWindow() {
-        logInWindow.hide();
-        mainWindow.show();
-        registerWindow.hide();
+        ViewUtility.hide(logInWindow.getLoginFrame());
+        ViewUtility.show(mainWindow.getMainFrame());
+        ViewUtility.hide(registerWindow.getRegisterFrame());
     }
 }

@@ -2,6 +2,7 @@ package View;
 
 import Controller.IMBankController;
 import DTO.LogInRequestDTO;
+import Utility.ViewUtility;
 
 import java.awt.event.ActionEvent;
 
@@ -100,7 +101,7 @@ public class LogInWindow {
 
     private void logInBtnActionPerformed(ActionEvent ae) {
         if(userNameField.getText().isEmpty() || String.valueOf(passField.getPassword()).isEmpty()) {
-            showMessage("Please input Username and Password");
+            ViewUtility.showMessage("Please input Username and Password");
             return;
         }
         bankController.verifyLogin(getUserCredentials());
@@ -115,15 +116,7 @@ public class LogInWindow {
                 String.valueOf(passField.getPassword()));
     }
 
-    public void show() {
-        loginFrame.setVisible(true);
-    }
-
-    public void hide() {
-        loginFrame.setVisible(false);
-    }
-
-    public void showMessage(String msg) {
-        JOptionPane.showMessageDialog(loginFrame, msg);
+    public JFrame getLoginFrame() {
+        return loginFrame;
     }
 }

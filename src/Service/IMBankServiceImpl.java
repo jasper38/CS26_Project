@@ -86,4 +86,13 @@ public class IMBankServiceImpl implements IMBankService {
     public float getBankAccountBalance() throws SQLException {
         return bankAccountRepository.getBankAccountBalance(bankAccountNumberID);
     }
+
+    @Override
+    public boolean verifyBankAccountCredentials(int bankAccountNumberID, int cardPIN) throws SQLException {
+        CardInfo bankAccountCredentials = cardInfoRepository.getCardInfo(bankAccountNumberID, cardPIN);
+
+        if(bankAccountCredentials == null) { return false; }
+        return (bankAccountCredentials.getBankAccountNumberID() == bankAccountNumberID &&
+                bankAccountCredentials.getCardPIN() == cardPIN);
+    }
 }

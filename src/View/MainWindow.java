@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -204,18 +203,6 @@ public class MainWindow {
     private JButton cancelBtn;
     private JButton enterBtn;
 
-    public void show() {
-        mainFrame.setVisible(true);
-    }
-
-    public void hide() {
-        mainFrame.setVisible(false);
-    }
-
-    public void showMessage(String msg) {
-        JOptionPane.showMessageDialog(mainFrame, msg);
-    }
-
     private void createPopUpWindow1() {
         popUpFrame1 = new JFrame("Initiating Transaction Request");
         popUpFrame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -270,7 +257,7 @@ public class MainWindow {
     private JLabel amountLbl;
     private JTextField amountField;
 
-    private void createPopUpWindow2() {
+    public void createPopUpWindow2() {
         popUpFrame2 = new JFrame("Ongoing Transaction...");
         popUpFrame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         popUpFrame2.setLayout(null);
@@ -366,11 +353,15 @@ public class MainWindow {
         if (popUpFrame1 != null) {
             popUpFrame1.dispose();
         }
-
         if (popUpFrame2 == null || !popUpFrame2.isVisible()) {
-            // input validation for bank account number ID and card PIN: TO DO
-          //  bankController.authenticateBankCredentials();
-            createPopUpWindow2();
+            try{
+                bankController.authenticateBankCredentials(
+                        Integer.parseInt(bankAccountNumField.getText()),
+                        Integer.parseInt(cardPINField.getText())
+                );
+            } catch (NumberFormatException ex){
+                ViewUtility.showMessage("Please enter fields.");
+            }
         } else {
             popUpFrame2.dispose();
         }
@@ -401,5 +392,9 @@ public class MainWindow {
 
     public void setDisplayBalanceField(String bankAccountBalance) {
         this.displayBalanceField.setText(bankAccountBalance);;
+    }
+
+    public JFrame getMainFrame() {
+        return mainFrame;
     }
 }

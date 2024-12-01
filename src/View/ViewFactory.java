@@ -24,15 +24,20 @@ public final class ViewFactory {
         return panel;
     }
 
+    /*
+    * Creates a JToggleButton with a specified label and position.
+    *
+    * @param container  the container to add said toggleButton
+    * @param label      the button label
+    * @param x          the x-coordinate of the button
+    * @param y          the y-coordinate of the button
+    * @return the created JToggleButton
+    */
     public static JToggleButton createToggleButton(Container container, String label, int x, int y) {
         JToggleButton toggleButton = new JToggleButton(label);
         toggleButton.setFocusable(false);
         toggleButton.setBounds(x, y, 100, 30);
         container.add(toggleButton);
         return toggleButton;
-    }
-
-    public static void ambotNaunsaNi(){
-
     }
 }

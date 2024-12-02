@@ -21,8 +21,8 @@ public class LogInWindow {
 
     // Simple GUI for testing
     private JFrame loginFrame;
-    private JPanel loginPanel;
-    private JLabel userNameLbl;
+    private JPanel loginPanel, bannerPanel;
+    private JLabel userNameLbl,titleLabel;
     private JLabel passwordLbl;
     private JLabel confirmationLbl;
     private JTextField userNameField;
@@ -39,20 +39,22 @@ public class LogInWindow {
     }
 
     private void initComponents() {
+
+
         // Frame settings
-        loginFrame = ViewFactory.createFrame("IM Bank Log In", 550, 480);
+        loginFrame = ViewFactory.createFrame("IM Bank Log In", 650, 480);
 
         // Main panel
         loginPanel = new JPanel();
         loginPanel.setLayout(null); // Absolute layout
-        loginPanel.setBounds(0, 0, 550, 460);
+        loginPanel.setBounds(0, 0, 650, 480);
 
         // Top banner panel
-        JPanel bannerPanel = new JPanel();
+        bannerPanel = new JPanel();
         bannerPanel.setBackground(new java.awt.Color(35, 35, 77));
-        bannerPanel.setBounds(0, 0, 550, 80);
+        bannerPanel.setBounds(0, 0, 650, 80);
 
-        JLabel titleLabel = new JLabel("IMBANK LOG IN");
+        titleLabel = new JLabel("IMBANK LOG IN");
         titleLabel.setFont(new java.awt.Font("MS UI Gothic", 1, 48));
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         bannerPanel.add(titleLabel);
@@ -61,30 +63,30 @@ public class LogInWindow {
         userNameLbl = new JLabel("Username:");
         userNameLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
         userNameLbl.setForeground(new java.awt.Color(35, 35, 77));
-        userNameLbl.setBounds(30, 96, 150, 30);
+        userNameLbl.setBounds(110, 96, 150, 30);
 
         // Password label
         passwordLbl = new JLabel("Password:");
         passwordLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
         passwordLbl.setForeground(new java.awt.Color(35, 35, 77));
-        passwordLbl.setBounds(30, 190, 150, 30);
+        passwordLbl.setBounds(110, 190, 150, 30);
 
         // Username field
         userNameField = new JTextField("Type your Username");
         userNameField.setFont(new java.awt.Font("MS UI Gothic", 0, 24));
         userNameField.setForeground(new java.awt.Color(102, 102, 102));
-        userNameField.setBounds(30, 136, 362, 51);
+        userNameField.setBounds(110, 136, 362, 45);
 
         // Password field
         passField = new JPasswordField();
         passField.setFont(new java.awt.Font("MS UI Gothic", 0, 24));
         passField.setForeground(new java.awt.Color(102, 102, 102));
-        passField.setBounds(30, 230, 362, 50);
+        passField.setBounds(110, 230, 362, 45);
 
         showPass = new JCheckBox("Show password");
         showPass.setFont(new java.awt.Font("MS UI Gothic", 0, 15));
         showPass.setFocusable(false);
-        showPass.setBounds(400, 240, 150, 25);
+        showPass.setBounds(480, 240, 150, 25);
         showPass.addActionListener(this::showPassActionPerformed);
 
         // Submit button
@@ -93,13 +95,13 @@ public class LogInWindow {
         logInBtn.setForeground(new java.awt.Color(224, 224, 231));
         logInBtn.setBackground(new java.awt.Color(35, 35, 77));
         logInBtn.setBorder(null);
-        logInBtn.setBounds(30, 302, 362, 43);
+        logInBtn.setBounds(110, 302, 362, 43);
         logInBtn.addActionListener(this::logInBtnActionPerformed);
 
         // Sign up section
         confirmationLbl = new JLabel("Don't have an account?");
         confirmationLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
-        confirmationLbl.setBounds(90, 364, 200, 30);
+        confirmationLbl.setBounds(130, 364, 200, 30);
 
         registerBtn = new JButton("Sign Up");
         registerBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
@@ -107,7 +109,7 @@ public class LogInWindow {
         registerBtn.setBackground(new java.awt.Color(35, 35, 77));
         registerBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
         registerBtn.setBorderPainted(false);
-        registerBtn.setBounds(285, 363, 79, 30);
+        registerBtn.setBounds(325, 363, 79, 30);
         registerBtn.addActionListener(this::registerBtnActionPerformed);
 
         loginPanel.add(bannerPanel);

@@ -372,7 +372,7 @@ public class RegisterWindow {
     }
 
     private void initRepeatComponents3() {
-        backBtn = new JButton("Bank");
+        backBtn = new JButton("Back");
         backBtn.setFocusable(false);
         backBtn.setBounds(120, 245, 70, 25);
         backBtn.addActionListener(this::backBtnActionPerformed);

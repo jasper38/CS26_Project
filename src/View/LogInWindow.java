@@ -39,42 +39,78 @@ public class LogInWindow {
     }
 
     private void initComponents() {
-        loginFrame = ViewFactory.createFrame("IM Bank", 600, 400);
+        // Frame settings
+        loginFrame = ViewFactory.createFrame("IM Bank Log In", 550, 480);
 
+        // Main panel
         loginPanel = new JPanel();
-        loginPanel.setLayout(null);
-        loginPanel.setBounds(0, 0, 600, 400);
+        loginPanel.setLayout(null); // Absolute layout
+        loginPanel.setBounds(0, 0, 550, 460);
 
+        // Top banner panel
+        JPanel bannerPanel = new JPanel();
+        bannerPanel.setBackground(new java.awt.Color(35, 35, 77));
+        bannerPanel.setBounds(0, 0, 550, 80);
+
+        JLabel titleLabel = new JLabel("IMBANK LOG IN");
+        titleLabel.setFont(new java.awt.Font("MS UI Gothic", 1, 48));
+        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        bannerPanel.add(titleLabel);
+
+        // Username label
         userNameLbl = new JLabel("Username:");
-        userNameLbl.setBounds(0, 0, 70, 30);
+        userNameLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
+        userNameLbl.setForeground(new java.awt.Color(35, 35, 77));
+        userNameLbl.setBounds(30, 96, 150, 30);
 
+        // Password label
         passwordLbl = new JLabel("Password:");
-        passwordLbl.setBounds(0, 40, 70, 30);
+        passwordLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
+        passwordLbl.setForeground(new java.awt.Color(35, 35, 77));
+        passwordLbl.setBounds(30, 190, 150, 30);
 
-        userNameField = new JTextField();
-        userNameField.setBounds(70, 5, 120, 25);
+        // Username field
+        userNameField = new JTextField("Type your Username");
+        userNameField.setFont(new java.awt.Font("MS UI Gothic", 0, 24));
+        userNameField.setForeground(new java.awt.Color(102, 102, 102));
+        userNameField.setBounds(30, 136, 362, 51);
 
+        // Password field
         passField = new JPasswordField();
-        passField.setBounds(70, 45, 120, 25);
+        passField.setFont(new java.awt.Font("MS UI Gothic", 0, 24));
+        passField.setForeground(new java.awt.Color(102, 102, 102));
+        passField.setBounds(30, 230, 362, 50);
 
         showPass = new JCheckBox("Show password");
+        showPass.setFont(new java.awt.Font("MS UI Gothic", 0, 15));
         showPass.setFocusable(false);
-        showPass.setBounds(190, 50, 120, 25);
+        showPass.setBounds(400, 240, 150, 25);
         showPass.addActionListener(this::showPassActionPerformed);
 
-        logInBtn = new JButton("Log In");
-        logInBtn.setFocusable(false);
-        logInBtn.setBounds(70, 80, 120, 25);
+        // Submit button
+        logInBtn = new JButton("Submit");
+        logInBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 24));
+        logInBtn.setForeground(new java.awt.Color(224, 224, 231));
+        logInBtn.setBackground(new java.awt.Color(35, 35, 77));
+        logInBtn.setBorder(null);
+        logInBtn.setBounds(30, 302, 362, 43);
         logInBtn.addActionListener(this::logInBtnActionPerformed);
 
+        // Sign up section
         confirmationLbl = new JLabel("Don't have an account?");
-        confirmationLbl.setBounds(0, 120, 150, 30);
+        confirmationLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
+        confirmationLbl.setBounds(90, 364, 200, 30);
 
-        registerBtn = new JButton("Register");
-        registerBtn.setFocusable(false);
-        registerBtn.setBounds(150, 120, 100, 25);
+        registerBtn = new JButton("Sign Up");
+        registerBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
+        registerBtn.setForeground(new java.awt.Color(224, 224, 231));
+        registerBtn.setBackground(new java.awt.Color(35, 35, 77));
+        registerBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+        registerBtn.setBorderPainted(false);
+        registerBtn.setBounds(285, 363, 79, 30);
         registerBtn.addActionListener(this::registerBtnActionPerformed);
 
+        loginPanel.add(bannerPanel);
         loginPanel.add(userNameLbl);
         loginPanel.add(passwordLbl);
         loginPanel.add(userNameField);

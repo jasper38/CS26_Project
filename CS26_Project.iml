@@ -25,8 +25,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="junit-platform-engine-1.11.2" level="project" />
-    <orderEntry type="library" name="junit-platform-launcher-1.11.2" level="project" />
-    <orderEntry type="library" name="junit-jupiter-api-5.10.0" level="project" />
+    <orderEntry type="library" exported="" name="junit-platform-engine-1.11.2" level="project" />
+    <orderEntry type="library" exported="" name="junit-platform-launcher-1.11.2" level="project" />
+    <orderEntry type="library" exported="" name="junit-jupiter-api-5.10.0" level="project" />
   </component>
 </module>

@@ -243,10 +243,12 @@ public class MainWindow {
     private JToggleButton bank4Btn;
     private JToggleButton bank5Btn;
     private JToggleButton bank6Btn;
+    private ButtonGroup bankGroup;
     private JButton submitBtn;
     private JLabel chooseLbl;
     private JLabel amountLbl;
     private JTextField amountField;
+    private String selectedBank;
 
     public void createPopUpWindow2() {
         popUpFrame2 = new JFrame("Ongoing Transaction...");
@@ -258,14 +260,14 @@ public class MainWindow {
         chooseLbl = new JLabel("Choose Bank:");
         chooseLbl.setBounds(0, 0, 100, 30);
 
-        bank1Btn = ViewFactory.createToggleButton(popUpFrame2 ,"IM Bank", 0, 40);
+        bank1Btn = ViewFactory.createToggleButton(popUpFrame2 ,"IMBank", 0, 40);
         bank2Btn = ViewFactory.createToggleButton(popUpFrame2 ,"BDO", 100, 40);
         bank3Btn = ViewFactory.createToggleButton(popUpFrame2 ,"LandBank", 200, 40);
         bank4Btn = ViewFactory.createToggleButton(popUpFrame2 ,"MetroBank", 0, 70);
         bank5Btn = ViewFactory.createToggleButton(popUpFrame2 ,"BPI", 100, 70);
         bank6Btn = ViewFactory.createToggleButton(popUpFrame2 ,"RCBC", 200, 70);
 
-        ButtonGroup bankGroup = new ButtonGroup();
+        bankGroup = new ButtonGroup();
         bankGroup.add(bank1Btn);
         bankGroup.add(bank2Btn);
         bankGroup.add(bank3Btn);
@@ -274,7 +276,7 @@ public class MainWindow {
         bankGroup.add(bank6Btn);
 
         ActionListener toggleListener = e ->{
-            getSelectedBank((JToggleButton) e.getSource());
+            selectedBank = getSelectedBank((JToggleButton) e.getSource());
         };
 
         bank1Btn.addActionListener(toggleListener);
@@ -315,11 +317,13 @@ public class MainWindow {
     private void homeBtnActionPerformed(ActionEvent ae) {
         ViewUtility.setEnabledPanelAndComponents(panels[0], true);
         ViewUtility.setEnabledPanelAndComponents(panels[1], false);
+        bankController.getAccountBalance();
     }
 
     private void transactionHistoryBtnActionPerformed(ActionEvent ae) {
         ViewUtility.setEnabledPanelAndComponents(panels[0], false);
         ViewUtility.setEnabledPanelAndComponents(panels[1], true);
+        bankController.getTransactionHistory();
     }
 
     private void logoutBtnActionPerformed(ActionEvent ae) {
@@ -369,6 +373,14 @@ public class MainWindow {
     }
 
     private void submitTransactionRequestBtnActionPerformed(ActionEvent ae) {
+        if(bankGroup.getSelection() != null && !amountField.getText().isEmpty()){
+            String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
+            System.out.println(transactionType + " " + selectedBank);
+            bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
+        } else {
+            ViewUtility.showMessage("Please enter fields.");
+        }
+        popUpFrame2.dispose();
         depositBtn.setEnabled(true);
         withdrawBtn.setEnabled(true);
     }

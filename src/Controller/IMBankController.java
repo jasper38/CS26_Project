@@ -3,6 +3,7 @@ package Controller;
 import DTO.LogInRequestDTO;
 import DTO.LogInResult;
 import DTO.RegistrationRequestDTO;
+import Model.Transaction;
 import Service.IMBankServiceImpl;
 import Utility.ViewUtility;
 import View.LogInWindow;
@@ -11,6 +12,7 @@ import View.RegisterWindow;
 
 import javax.swing.*;
 import java.sql.SQLException;
+import java.util.List;
 
 public class IMBankController {
     private final IMBankServiceImpl bankService;
@@ -74,7 +76,7 @@ public class IMBankController {
         worker.execute();
     }
 
-    private void getAccountBalance() {
+    public void getAccountBalance() {
         SwingWorker<Float, Void> worker = new SwingWorker<Float, Void>(){
             @Override
             protected Float doInBackground() throws Exception {
@@ -121,8 +123,46 @@ public class IMBankController {
         worker.execute();
     }
 
-    public void initiateTransactionRequest(){
+    public void initiateTransactionRequest(String transactionType, String selectedBank, int amount){
+        SwingWorker<Integer, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Integer doInBackground() throws Exception {
+                try{
+                    return bankService.createTransaction(transactionType ,selectedBank, amount);
+                } catch (Exception e){
+                    throw new Exception(e.getMessage());
+                }
+            }
+            @Override
+            protected void done() {
+                try{
+                    int OTP = get();
+                    if (OTP > 0) {
+                        ViewUtility.showMessage("Transaction Created. OTP: " + OTP);
+                    }
+                } catch (Exception e) {
+                    ViewUtility.showMessage(e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
 
+    public void getTransactionHistory(){
+        SwingWorker<List<Transaction>, Transaction> worker = new SwingWorker<List<Transaction>, Transaction>() {
+            @Override
+            protected List<Transaction> doInBackground() throws Exception {
+                return bankService.getTransactions();
+            }
+            @Override
+            protected void done() {
+                try{
+
+                } catch (Exception e){
+
+                }
+            }
+        };
     }
 
     public void showLoginWindow() {

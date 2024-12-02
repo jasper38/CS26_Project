@@ -4,13 +4,15 @@ import DTO.LogInRequestDTO;
 import DTO.LogInResult;
 import DTO.RegistrationRequestDTO;
 import DTO.RegistrationRequestFactory;
-import Model.BankAccount;
-import Model.CardInfo;
-import Model.Customer;
-import Model.Person;
+import Model.*;
 import Repository.*;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IMBankServiceImpl implements IMBankService {
 
@@ -94,5 +96,40 @@ public class IMBankServiceImpl implements IMBankService {
         if(bankAccountCredentials == null) { return false; }
         return (bankAccountCredentials.getBankAccountNumberID() == bankAccountNumberID &&
                 bankAccountCredentials.getCardPIN() == cardPIN);
+    }
+
+    @Override
+    public int createTransaction(String transactionType ,String selectedBank, int amount) throws SQLException {
+        Transaction transactionRequest = new Transaction();
+        transactionRequest.setBankAccountNumberID(bankAccountNumberID);
+        int bankID = affiliatedBankRepository.getAffiliatedBankID(selectedBank);
+        transactionRequest.setAffiliatedBankID(bankID);
+        transactionRequest.setTransactionType(transactionType);
+        transactionRequest.setAmount(amount);
+        transactionRequest.setTransactionDateTime(Date.valueOf(LocalDate.now()));
+        transactionRequest.setRequestStatus("Pending");
+        transactionRequest.setOTP(String.valueOf(generateOTP()));
+
+        int rowsAffected = transactionRepository.createTransactionRequest(transactionRequest);
+        if(rowsAffected > 0) {
+            return Integer.parseInt(transactionRequest.getOTP());
+        } else {
+            throw new SQLException("Transaction could not be created");
+        }
+    }
+
+    @Override
+    public List<Transaction> getTransactions() throws SQLException{
+        List<Transaction> transactions = transactionRepository.getAllTransactions(bankAccountNumberID);
+
+        if(transactions == null) {
+            throw new SQLException("Transaction could not be retrieved");
+        }
+        return transactions;
+    }
+
+    @Override
+    public int generateOTP() {
+        return (int) (Math.random() * 900000) + 100000;
     }
 }

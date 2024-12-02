@@ -1,5 +1,6 @@
 package Model;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 public class Transaction {
@@ -8,13 +9,13 @@ public class Transaction {
     private int affiliatedBankID;
     private String transactionType;
     private float amount;
-    private LocalDateTime transactionDateTime;
+    private Date transactionDateTime;
     private String requestStatus;
     private String OTP;
 
     public Transaction(){}
 
-    public Transaction(int transactionID, int bankAccountNumberID, int affiliatedBankID, String transactionType, float amount, LocalDateTime transactionDateTime, String requestStatus, String OTP) {
+    public Transaction(int transactionID, int bankAccountNumberID, int affiliatedBankID, String transactionType, float amount, Date transactionDateTime, String requestStatus, String OTP) {
         this.transactionID = transactionID;
         this.bankAccountNumberID = bankAccountNumberID;
         this.affiliatedBankID = affiliatedBankID;
@@ -65,11 +66,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public LocalDateTime getTransactionDateTime() {
+    public Date getTransactionDateTime() {
         return transactionDateTime;
     }
 
-    public void setTransactionDateTime(LocalDateTime transactionDateTime) {
+    public void setTransactionDateTime(Date transactionDateTime) {
         this.transactionDateTime = transactionDateTime;
     }
 
@@ -86,6 +87,6 @@ public class Transaction {
     }
 
     public void setOTP(String OTP) {
-        this.OTP = OTP;
+        this.OTP = OTP ;
     }
 }

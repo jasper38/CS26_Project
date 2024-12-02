@@ -54,7 +54,7 @@ public class IMBankController {
         SwingWorker<LogInResult, Void> worker = new SwingWorker<>() {
             @Override
             protected LogInResult doInBackground() throws Exception {
-                Thread.sleep(40);
+                Thread.sleep(100);
                 return bankService.verifyLogIn(logInRequest);
             }
 
@@ -163,6 +163,7 @@ public class IMBankController {
                 }
             }
         };
+        worker.execute();
     }
 
     public void showLoginWindow() {

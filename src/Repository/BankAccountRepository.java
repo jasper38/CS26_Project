@@ -19,8 +19,10 @@ public class BankAccountRepository {
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
+                System.out.println("Successfull");
                 return getLastInsertedID(ps);
             } else {
+                System.out.println("Failed to register Bank Account; no rows affected.");
                 throw new SQLException("Failed to register Bank Account; no rows affected.");
             }
         }

@@ -23,6 +23,7 @@ public class CustomerRepository {
             if (rowsAffected > 0) {
                 return getLastInsertedID(ps);
             } else {
+
                 throw new SQLException("Failed to insert Customer; no rows affected.");
             }
         }

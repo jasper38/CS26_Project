@@ -328,4 +328,8 @@ public class ATM {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
     }
+
+    public static void main(String[] args) {
+        ATM atm = new ATM();
+    }
 }

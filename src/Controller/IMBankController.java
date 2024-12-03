@@ -41,8 +41,11 @@ public class IMBankController {
                     if (registrationSuccessful) {
                         showLoginWindow();
                         ViewUtility.showMessage("Registration Successful! Please claim your ATM Card at the Bank.");
+                    }else {
+                        throw new Exception("ambot naunsa ni tabang");
                     }
                 } catch (Exception se) {
+
                     ViewUtility.showMessage("An Error occured during registration.");
                 }
             }

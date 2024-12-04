@@ -259,20 +259,21 @@ public class MainWindow {
         scrollPane.setBorder(null);
 
         JTableHeader header = table.getTableHeader();
-        header.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
+        header.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
         header.setBackground(new Color(35, 35, 77));
         header.setForeground(Color.WHITE);
         header.setReorderingAllowed(false);
-        header.setBorder(null);
+        header.setBorder(BorderFactory.createEmptyBorder());
         //header.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
 
-        table.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
+        table.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
         table.setRowHeight(30);
         table.setBackground(new Color(240, 240, 255));
         table.setForeground(new Color(35, 35, 77));
         table.setGridColor(new Color(200, 200, 200));
         table.setSelectionBackground(new Color(173, 216, 230));
         table.setSelectionForeground(Color.BLACK);
+        table.setShowHorizontalLines(false);
 
 
         transactionHistoryPanel.add(transactionHistoryLbl);

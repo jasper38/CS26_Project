@@ -1,9 +1,6 @@
 package Service;
 
-import DTO.LogInRequestDTO;
-import DTO.LogInResult;
-import DTO.RegistrationRequestDTO;
-import DTO.RegistrationRequestFactory;
+import DTO.*;
 import Model.*;
 import Repository.*;
 
@@ -121,12 +118,14 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
-    public List<Transaction> getTransactions() throws SQLException{
-        List<Transaction> transactions = transactionRepository.getAllTransactions(bankAccountNumberID);
-
+    public List<TransactionHistoryDTO> getTransactions() throws SQLException{
+        List<TransactionHistoryDTO> transactions = transactionRepository.getAllTransactions(bankAccountNumberID);
         if(transactions == null) {
             throw new SQLException("Transaction could not be retrieved");
         }
+        System.out.println("Transactions retrieved: " + transactions.size());
+        System.out.println(transactions.get(0).toString());
+
         return transactions;
     }
 

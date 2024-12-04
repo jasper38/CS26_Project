@@ -24,4 +24,21 @@ public class AffiliatedBankRepository {
         }
         return bankID;
     }
+
+    public String getAffiliatedBankName(int bankID) throws SQLException {
+        String sql = "SELECT Bank_Name FROM Affiliated_Banks WHERE Bank_ID = ?";
+        String affiliatedBankName = "";
+        try(Connection conn = IMBankConnectionManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1, bankID);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                affiliatedBankName = rs.getString("Bank_Name");
+                System.out.println(affiliatedBankName);
+            } else {
+                throw new SQLException("ID not found");
+            }
+            return affiliatedBankName;
+        }
+    }
 }

@@ -1,30 +1,18 @@
-package Model;
+package DTO;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
-public class Transaction {
+public class TransactionHistoryDTO {
     private int transactionID;
     private int bankAccountNumberID;
-    private int affiliatedBankID;
+    private String bankName;
     private String transactionType;
     private float amount;
     private Date transactionDateTime;
     private String requestStatus;
     private String OTP;
 
-    public Transaction(){}
-
-    public Transaction(int transactionID, int bankAccountNumberID, int affiliatedBankID, String transactionType, float amount, Date transactionDateTime, String requestStatus, String OTP) {
-        this.transactionID = transactionID;
-        this.bankAccountNumberID = bankAccountNumberID;
-        this.affiliatedBankID = affiliatedBankID;
-        this.transactionType = transactionType;
-        this.amount = amount;
-        this.transactionDateTime = transactionDateTime;
-        this.requestStatus = requestStatus;
-        this.OTP = OTP;
-    }
+    public TransactionHistoryDTO() {}
 
     public int getTransactionID() {
         return transactionID;
@@ -42,12 +30,12 @@ public class Transaction {
         this.bankAccountNumberID = bankAccountNumberID;
     }
 
-    public int getAffiliatedBankID() {
-        return affiliatedBankID;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setAffiliatedBankID(int affiliatedBankID) {
-        this.affiliatedBankID = affiliatedBankID;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public String getTransactionType() {
@@ -87,15 +75,15 @@ public class Transaction {
     }
 
     public void setOTP(String OTP) {
-        this.OTP = OTP ;
+        this.OTP = OTP;
     }
 
     @Override
     public String toString() {
-        return "Transaction{" +
+        return "TransactionHistoryDTO{" +
                 "transactionID=" + transactionID +
                 ", bankAccountNumberID=" + bankAccountNumberID +
-                ", affiliatedBankID=" + affiliatedBankID +
+                ", bankName='" + bankName + '\'' +
                 ", transactionType='" + transactionType + '\'' +
                 ", amount=" + amount +
                 ", transactionDateTime=" + transactionDateTime +

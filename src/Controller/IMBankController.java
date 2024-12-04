@@ -3,6 +3,7 @@ package Controller;
 import DTO.LogInRequestDTO;
 import DTO.LogInResult;
 import DTO.RegistrationRequestDTO;
+import DTO.TransactionHistoryDTO;
 import Model.Transaction;
 import Service.IMBankServiceImpl;
 import Utility.ViewUtility;
@@ -152,17 +153,23 @@ public class IMBankController {
     }
 
     public void getTransactionHistory(){
-        SwingWorker<List<Transaction>, Transaction> worker = new SwingWorker<List<Transaction>, Transaction>() {
+        SwingWorker<List<TransactionHistoryDTO>, Void> worker = new SwingWorker<List<TransactionHistoryDTO>, Void>() {
             @Override
-            protected List<Transaction> doInBackground() throws Exception {
+            protected List<TransactionHistoryDTO> doInBackground() throws Exception {
+                System.out.println("Invoked1");
+
                 return bankService.getTransactions();
             }
+
             @Override
             protected void done() {
                 try{
-
+                    List<TransactionHistoryDTO> transactions = get();
+                    for(TransactionHistoryDTO transaction : transactions){
+                        mainWindow.udpateTransactionHistoryTable(transaction);
+                    }
                 } catch (Exception e){
-
+                    ViewUtility.showMessage(e.getMessage());
                 }
             }
         };
@@ -170,20 +177,20 @@ public class IMBankController {
     }
 
     public void showLoginWindow() {
-        ViewUtility.hide(registerWindow.getRegisterFrame());
         ViewUtility.show(logInWindow.getLoginFrame());
+        ViewUtility.hide(registerWindow.getRegisterFrame());
         ViewUtility.hide(mainWindow.getMainFrame());
     }
 
     public void showRegisterWindow() {
-        ViewUtility.hide(logInWindow.getLoginFrame());
         ViewUtility.show(registerWindow.getRegisterFrame());
+        ViewUtility.hide(logInWindow.getLoginFrame());
         ViewUtility.hide(mainWindow.getMainFrame());
     }
 
     public void showMainWindow() {
-        ViewUtility.hide(logInWindow.getLoginFrame());
         ViewUtility.show(mainWindow.getMainFrame());
+        ViewUtility.hide(logInWindow.getLoginFrame());
         ViewUtility.hide(registerWindow.getRegisterFrame());
     }
 }

@@ -1,6 +1,8 @@
 package View;
 
 import Controller.IMBankController;
+import DTO.TransactionHistoryDTO;
+import Model.Transaction;
 import Utility.ViewUtility;
 
 import java.awt.Color;
@@ -169,7 +171,7 @@ public class MainWindow {
                         "Amount", "Transaction DateTime", "Request Status", "OTP"
                 };
 
-        tableModel = new DefaultTableModel(columnNames, 8);
+        tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(0, 0, 598, 498);
@@ -383,6 +385,23 @@ public class MainWindow {
         popUpFrame2.dispose();
         depositBtn.setEnabled(true);
         withdrawBtn.setEnabled(true);
+    }
+
+    public void udpateTransactionHistoryTable(TransactionHistoryDTO transactionHistory) {
+        System.out.println("invoked");
+        tableModel.addRow(new Object[]{
+                transactionHistory.getTransactionID(),
+                transactionHistory.getBankAccountNumberID(),
+                transactionHistory.getBankName(),
+                transactionHistory.getTransactionType(),
+                transactionHistory.getAmount(),
+                transactionHistory.getTransactionDateTime(),
+                transactionHistory.getRequestStatus(),
+                transactionHistory.getOTP()
+        });
+        tableModel.fireTableDataChanged();
+        table.revalidate();
+        table.repaint();
     }
 
     // Getters/Setters

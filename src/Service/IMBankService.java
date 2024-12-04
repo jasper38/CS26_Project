@@ -3,6 +3,7 @@ package Service;
 import DTO.LogInRequestDTO;
 import DTO.LogInResult;
 import DTO.RegistrationRequestDTO;
+import DTO.TransactionHistoryDTO;
 import Model.Transaction;
 
 import java.sql.SQLException;
@@ -14,6 +15,6 @@ public interface IMBankService {
     float getBankAccountBalance() throws SQLException;
     boolean verifyBankAccountCredentials(int bankAccountNumberID, int cardPIN) throws SQLException;
     int createTransaction(String transactionType, String selectedBank, int amount) throws SQLException;
-    List<Transaction> getTransactions() throws SQLException;
+    List<TransactionHistoryDTO> getTransactions() throws SQLException;
     int generateOTP();
 }

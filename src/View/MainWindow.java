@@ -54,7 +54,7 @@ public class MainWindow {
     private JSeparator verticalSeparator;
 
     //dimensions
-    private int frameheight = 800;
+    private int frameheight = 700;
     private int framewidth = 1200;
 
     private JPanel[] panels = new JPanel[3];
@@ -161,7 +161,7 @@ public class MainWindow {
 
         logoutBtn = new JButton("Logout");
         logoutBtn.setFocusable(false);
-        logoutBtn.setBounds(0, 570, 300, 70);
+        logoutBtn.setBounds(0, 510, 300, 70);
         logoutBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
         logoutBtn.setForeground(new java.awt.Color(224, 224, 231));
         logoutBtn.setBackground(new java.awt.Color(35, 35, 77));
@@ -181,6 +181,16 @@ public class MainWindow {
         homePanel.setBounds(300, 80, 900, 1110);
 
         //homePanel.setBackground(Color.GREEN);
+
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(new Color(255,255,255));
+        //topPanel.setSize(680,150);
+        topPanel.setBounds(50,125,760,140);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setBackground(new Color(255,255,255));
+        //topPanel.setSize(680,150);
+        bottomPanel.setBounds(50,300,760,170);
 
         balanceLbl = new JLabel("Current Account Balance:");
         balanceLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
@@ -217,13 +227,14 @@ public class MainWindow {
         withdrawBtn.setBorderPainted(false);
         withdrawBtn.addActionListener(this::withdrawBtnActionPerformed);
 
-
         homePanel.add(headerPanel);
         homePanel.add(choiceLbl);
         homePanel.add(balanceLbl);
         homePanel.add(displayBalanceField);
         homePanel.add(depositBtn);
         homePanel.add(withdrawBtn);
+        homePanel.add(topPanel);
+        homePanel.add(bottomPanel);
 
         panels[0] = homePanel;
 
@@ -234,7 +245,7 @@ public class MainWindow {
         transactionHistoryPanel = new JPanel();
         transactionHistoryPanel.setLayout(null);
         transactionHistoryPanel.setBounds(300, 80, 900, 810);
-        transactionHistoryPanel.setBackground(Color.GREEN);
+        //transactionHistoryPanel.setBackground(Color.GREEN);
 
         columnNames = new String[]{
                 "<html>Transaction<br>ID</html>",
@@ -255,7 +266,7 @@ public class MainWindow {
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 80, 870, 498);
+        scrollPane.setBounds(10, 80, 870, 480);
         scrollPane.setBorder(null);
 
         JTableHeader header = table.getTableHeader();
@@ -268,13 +279,13 @@ public class MainWindow {
 
         table.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
         table.setRowHeight(30);
-        table.setBackground(new Color(240, 240, 255));
+        table.setBackground(new Color(255, 255, 255));
         table.setForeground(new Color(35, 35, 77));
         table.setGridColor(new Color(200, 200, 200));
         table.setSelectionBackground(new Color(173, 216, 230));
         table.setSelectionForeground(Color.BLACK);
-        table.setShowHorizontalLines(false);
 
+        table.setShowVerticalLines(false);
 
         transactionHistoryPanel.add(transactionHistoryLbl);
         transactionHistoryPanel.add(scrollPane);
@@ -289,6 +300,10 @@ public class MainWindow {
         profilePanel = new JPanel();
         profilePanel.setLayout(null);
         profilePanel.setBackground(Color.MAGENTA);
+
+        panels[2] =profilePanel;
+
+        ViewUtility.setEnabledPanelAndComponents(panels[2], false);
 
     }
 

@@ -5,13 +5,13 @@ import DTO.TransactionHistoryDTO;
 import Model.Transaction;
 import Utility.ViewUtility;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 
 public class MainWindow {
@@ -21,6 +21,8 @@ public class MainWindow {
     // Header panel and its components
     private JPanel headerPanel;
     private JLabel headerLbl;
+    private JPanel bannerPanel;
+    private JLabel bannerLbl;
 
     // Left Side Navigation Bar Panel and its components
     private JPanel navPanel;
@@ -44,11 +46,16 @@ public class MainWindow {
     private JTable table;
     private JScrollPane scrollPane;
 
+    //Profile panel and its components
     private JPanel profilePanel;
 
     // Main window components
     private JSeparator horizontalSeparator;
     private JSeparator verticalSeparator;
+
+    //dimensions
+    private int frameheight = 800;
+    private int framewidth = 1200;
 
     private JPanel[] panels = new JPanel[3];
     private final IMBankController bankController;
@@ -59,10 +66,22 @@ public class MainWindow {
     }
 
     private void initMainWindowComponents() {
-        mainFrame = ViewFactory.createFrame("IM Bank: Main", 800, 600);
+        mainFrame = ViewFactory.createFrame("IM Bank: Main", framewidth, frameheight);
 
         initHeaderPanel();
         initNavPanel();
+
+        bannerPanel = new JPanel();
+        bannerPanel.setLayout(null);
+        bannerPanel.setBounds(0,0,framewidth,90);
+        bannerPanel.setBackground(new Color(35, 35, 77));
+
+        bannerLbl = new JLabel();
+        bannerLbl.setText("IMBANK");
+        bannerLbl.setBounds(500,10,300,60);
+        bannerLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 55));
+        bannerLbl.setForeground(Color.WHITE);
+        bannerPanel.add(bannerLbl);
 
         horizontalSeparator = new JSeparator(SwingConstants.HORIZONTAL);
         horizontalSeparator.setBounds(0, 80, 800, 2);
@@ -76,10 +95,13 @@ public class MainWindow {
         initTransactionHistoryPanel();
         initProfilePanel();
 
-        mainFrame.getContentPane().add(headerPanel);
+
+        mainFrame.getContentPane().add(bannerPanel);
+        //mainFrame.getContentPane().add(headerPanel);
         mainFrame.getContentPane().add(navPanel);
         mainFrame.getContentPane().add(homePanel);
         mainFrame.getContentPane().add(transactionHistoryPanel);
+        mainFrame.getContentPane().add(profilePanel);
         mainFrame.getContentPane().add(horizontalSeparator);
         mainFrame.getContentPane().add(verticalSeparator);
 
@@ -89,37 +111,62 @@ public class MainWindow {
     private void initHeaderPanel() {
         headerPanel = new JPanel();
         headerPanel.setLayout(null);
-        headerPanel.setBounds(0, 0, 800, 80);
+        headerPanel.setBounds(0, 0, 900, 80);
+        //headerPanel.setBackground(Color.CYAN);
 
-        headerLbl = new JLabel("Welcome [Name of Person]");
-        headerLbl.setFont(new Font("Nimbus", Font.BOLD, 20));
-        headerLbl.setBounds(270, 0, 260, 50);
+        headerLbl = new JLabel("Welcome [Name of Person],");
+        headerLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 28));
+        headerLbl.setForeground(new java.awt.Color(35, 35, 77));
+        headerLbl.setBounds(30, 30, 400, 50);
 
         headerPanel.add(headerLbl);
     }
 
+
     private void initNavPanel() {
         navPanel = new JPanel();
         navPanel.setLayout(null);
-        navPanel.setBounds(0, 82, 200, 498);
+        navPanel.setBounds(0, 82, 300, frameheight);
+        navPanel.setBackground(Color.PINK);
 
         homeBtn = new JButton("Home");
         homeBtn.setFocusable(false);
-        homeBtn.setBounds(0, 0, 200, 50);
+        homeBtn.setBounds(0, 10, 300, 70); //+50
+        homeBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+        homeBtn.setForeground(new java.awt.Color(224, 224, 231));
+        homeBtn.setBackground(new java.awt.Color(35, 35, 77));
+        homeBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+        homeBtn.setBorderPainted(false);
         homeBtn.addActionListener(this::homeBtnActionPerformed);
 
         transactionHistoryBtn = new JButton("Transaction History");
         transactionHistoryBtn.setFocusable(false);
-        transactionHistoryBtn.setBounds(0, 50, 200, 50);
+        transactionHistoryBtn.setBounds(0, 83, 300, 70);
+        transactionHistoryBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+        transactionHistoryBtn.setForeground(new java.awt.Color(224, 224, 231));
+        transactionHistoryBtn.setBackground(new java.awt.Color(35, 35, 77));
+        transactionHistoryBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+        transactionHistoryBtn.setBorderPainted(false);
         transactionHistoryBtn.addActionListener(this::transactionHistoryBtnActionPerformed);
 
         profileBtn = new JButton("Profile");
         profileBtn.setFocusable(false);
-        profileBtn.setBounds(0, 100, 200, 50);
+        profileBtn.setBounds(0, 156, 300, 70);
+        profileBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+        profileBtn.setForeground(new java.awt.Color(224, 224, 231));
+        profileBtn.setBackground(new java.awt.Color(35, 35, 77));
+        profileBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+        profileBtn.setBorderPainted(false);
+        profileBtn.addActionListener(this::profileBtnActionPerformed);
 
         logoutBtn = new JButton("Logout");
         logoutBtn.setFocusable(false);
-        logoutBtn.setBounds(0, 430, 200, 50);
+        logoutBtn.setBounds(0, 570, 300, 70);
+        logoutBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+        logoutBtn.setForeground(new java.awt.Color(224, 224, 231));
+        logoutBtn.setBackground(new java.awt.Color(35, 35, 77));
+        logoutBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+        logoutBtn.setBorderPainted(false);
         logoutBtn.addActionListener(this::logoutBtnActionPerformed);
 
         navPanel.add(homeBtn);
@@ -131,26 +178,48 @@ public class MainWindow {
     private void initHomePanelAndComponents() {
         homePanel = new JPanel();
         homePanel.setLayout(null);
-        homePanel.setBounds(202, 82, 598, 498);
+        homePanel.setBounds(300, 80, 900, 1110);
+
+        //homePanel.setBackground(Color.GREEN);
 
         balanceLbl = new JLabel("Current Account Balance:");
-        balanceLbl.setFont(new Font("Nimbus Sans", Font.PLAIN, 20));
-        balanceLbl.setBounds(0, 0, 250, 30);
+        balanceLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
+        balanceLbl.setBounds(240, 140, 450, 40);
 
         displayBalanceField = new JTextField();
         displayBalanceField.setEditable(false);
-        displayBalanceField.setBounds(30, 40, 150, 30);
+        displayBalanceField.setFont(new java.awt.Font("MS UI Gothic", 1, 24));
+        displayBalanceField.setBounds(330, 200, 230, 45);
+
+        JLabel choiceLbl = new JLabel("Select a transaction type below:");
+        choiceLbl.setFont(new Font("MS UI Gothic", 1, 35));
+        choiceLbl.setForeground(new java.awt.Color(35, 35, 77));
+        choiceLbl.setBounds(180,320,550,40);
 
         depositBtn = new JButton("Deposit");
         depositBtn.setFocusable(false);
-        depositBtn.setBounds(40, 100, 100, 30);
+        depositBtn.setBounds(200, 400, 200, 45);
+        depositBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+        depositBtn.setForeground(new java.awt.Color(224, 224, 231));
+        depositBtn.setBackground(new java.awt.Color(35, 35, 77));
+        //depositBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+        depositBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+        depositBtn.setBorderPainted(false);
         depositBtn.addActionListener(this::depositBtnActionPerformed);
 
         withdrawBtn = new JButton("Withdraw");
         withdrawBtn.setFocusable(false);
-        withdrawBtn.setBounds(160, 100, 100, 30);
+        withdrawBtn.setBounds(430, 400, 200, 45);
+        withdrawBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+        withdrawBtn.setForeground(new java.awt.Color(224, 224, 231));
+        withdrawBtn.setBackground(new java.awt.Color(35, 35, 77));
+        withdrawBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+        withdrawBtn.setBorderPainted(false);
         withdrawBtn.addActionListener(this::withdrawBtnActionPerformed);
 
+
+        homePanel.add(headerPanel);
+        homePanel.add(choiceLbl);
         homePanel.add(balanceLbl);
         homePanel.add(displayBalanceField);
         homePanel.add(depositBtn);
@@ -164,18 +233,49 @@ public class MainWindow {
     private void initTransactionHistoryPanel() {
         transactionHistoryPanel = new JPanel();
         transactionHistoryPanel.setLayout(null);
-        transactionHistoryPanel.setBounds(202, 82, 598, 498);
+        transactionHistoryPanel.setBounds(300, 80, 900, 810);
+        transactionHistoryPanel.setBackground(Color.GREEN);
 
-        columnNames = new String[]
-                {"Transaction ID", "Bank Account Number ID", "Bank Name", "Transaction Type",
-                        "Amount", "Transaction DateTime", "Request Status", "OTP"
-                };
+        columnNames = new String[]{
+                "<html>Transaction<br>ID</html>",
+                "<html>Bank Account<br>Number ID</html>",
+                "<html>Bank<br>Name</html>",
+                "<html>Transaction<br>Type</html>",
+                "<html>Amount</html>",
+                "<html>Transaction<br>DateTime</html>",
+                "<html>Request<br>Status</html>",
+                "<html>OTP</html>"
+        };
+
+        JLabel transactionHistoryLbl = new JLabel("Transaction History");
+        transactionHistoryLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
+        transactionHistoryLbl.setForeground(new java.awt.Color(35, 35, 77));
+        transactionHistoryLbl.setBounds(310,20,400,50);
 
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(0, 0, 598, 498);
+        scrollPane.setBounds(10, 80, 870, 498);
+        scrollPane.setBorder(null);
 
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
+        header.setBackground(new Color(35, 35, 77));
+        header.setForeground(Color.WHITE);
+        header.setReorderingAllowed(false);
+        header.setBorder(null);
+        //header.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+
+        table.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
+        table.setRowHeight(30);
+        table.setBackground(new Color(240, 240, 255));
+        table.setForeground(new Color(35, 35, 77));
+        table.setGridColor(new Color(200, 200, 200));
+        table.setSelectionBackground(new Color(173, 216, 230));
+        table.setSelectionForeground(Color.BLACK);
+
+
+        transactionHistoryPanel.add(transactionHistoryLbl);
         transactionHistoryPanel.add(scrollPane);
 
         panels[1] = transactionHistoryPanel;
@@ -184,6 +284,10 @@ public class MainWindow {
     }
 
     private void initProfilePanel() {
+
+        profilePanel = new JPanel();
+        profilePanel.setLayout(null);
+        profilePanel.setBackground(Color.MAGENTA);
 
     }
 
@@ -319,17 +423,35 @@ public class MainWindow {
     private void homeBtnActionPerformed(ActionEvent ae) {
         ViewUtility.setEnabledPanelAndComponents(panels[0], true);
         ViewUtility.setEnabledPanelAndComponents(panels[1], false);
+        ViewUtility.setEnabledPanelAndComponents(panels[2],false);
         bankController.getAccountBalance();
     }
 
     private void transactionHistoryBtnActionPerformed(ActionEvent ae) {
         ViewUtility.setEnabledPanelAndComponents(panels[0], false);
         ViewUtility.setEnabledPanelAndComponents(panels[1], true);
+        ViewUtility.setEnabledPanelAndComponents(panels[2], false);
         bankController.getTransactionHistory();
     }
 
+    private void profileBtnActionPerformed(ActionEvent actionEvent) {
+        ViewUtility.setEnabledPanelAndComponents(panels[0], false);
+        ViewUtility.setEnabledPanelAndComponents(panels[1], false);
+        ViewUtility.setEnabledPanelAndComponents(panels[2], true);
+    }
+
     private void logoutBtnActionPerformed(ActionEvent ae) {
-        bankController.showLoginWindow();
+        int response = JOptionPane.showConfirmDialog(
+                this.getMainFrame(),
+                "Are you sure you want to log out?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (response == JOptionPane.YES_OPTION) {
+            bankController.showLoginWindow();
+        }
     }
 
     // Transaction buttons here

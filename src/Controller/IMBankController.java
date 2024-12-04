@@ -4,7 +4,6 @@ import DTO.LogInRequestDTO;
 import DTO.LogInResult;
 import DTO.RegistrationRequestDTO;
 import DTO.TransactionHistoryDTO;
-import Model.Transaction;
 import Service.IMBankServiceImpl;
 import Utility.ViewUtility;
 import View.LogInWindow;
@@ -43,10 +42,9 @@ public class IMBankController {
                         showLoginWindow();
                         ViewUtility.showMessage("Registration Successful! Please claim your ATM Card at the Bank.");
                     }else {
-                        throw new Exception("ambot naunsa ni tabang");
+                        throw new Exception();
                     }
-                } catch (Exception se) {
-
+                } catch (Exception e) {
                     ViewUtility.showMessage("An Error occured during registration.");
                 }
             }
@@ -156,8 +154,6 @@ public class IMBankController {
         SwingWorker<List<TransactionHistoryDTO>, Void> worker = new SwingWorker<List<TransactionHistoryDTO>, Void>() {
             @Override
             protected List<TransactionHistoryDTO> doInBackground() throws Exception {
-                System.out.println("Invoked1");
-
                 return bankService.getTransactions();
             }
 
@@ -175,6 +171,9 @@ public class IMBankController {
         };
         worker.execute();
     }
+
+    //TO DO: profile panel
+    //logout validation securely method here
 
     public void showLoginWindow() {
         ViewUtility.show(logInWindow.getLoginFrame());

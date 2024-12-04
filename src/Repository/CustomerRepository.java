@@ -23,7 +23,6 @@ public class CustomerRepository {
             if (rowsAffected > 0) {
                 return getLastInsertedID(ps);
             } else {
-
                 throw new SQLException("Failed to insert Customer; no rows affected.");
             }
         }
@@ -46,12 +45,12 @@ public class CustomerRepository {
 
             ps.setString(1, logInRequestDTO.getUsername());
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) { // Expecting only one result
+                if (rs.next()) {
                     String username = rs.getString("Username");
                     String password = rs.getString("Password");
                     return new LogInRequestDTO(username, password);
                 } else {
-                    return null; // No match found
+                    return null;
                 }
             }
         }
@@ -69,7 +68,7 @@ public class CustomerRepository {
             while(rs.next()) {
                 ID = rs.getInt("Customer_ID");
             }
+            return ID;
         }
-        return ID;
     }
 }

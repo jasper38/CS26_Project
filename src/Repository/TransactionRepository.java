@@ -47,8 +47,10 @@ public class TransactionRepository {
                      "ORDER BY t.Transaction_DateTime DESC";
         try(Connection conn = IMBankConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setInt(1, bankAccountNumberID);
             ResultSet rs = ps.executeQuery();
+
             List<TransactionHistoryDTO> transactions = new ArrayList<>();
             while(rs.next()) {
                 TransactionHistoryDTO transaction = new TransactionHistoryDTO();

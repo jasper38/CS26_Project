@@ -19,10 +19,8 @@ public class BankAccountRepository {
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Successfull");
                 return getLastInsertedID(ps);
             } else {
-                System.out.println("Failed to register Bank Account; no rows affected.");
                 throw new SQLException("Failed to register Bank Account; no rows affected.");
             }
         }
@@ -43,14 +41,13 @@ public class BankAccountRepository {
                    + "FROM Bank_Accounts "
                    + "WHERE Bank_Account_Number_ID = ?";
 
-        float bankAccountBalance = 0;
-        DatabaseMetaData BankConnectionManager;
         try (Connection conn = IMBankConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, bankAccountNumberID);
             ResultSet rs = ps.executeQuery();
 
+            float bankAccountBalance = 0;
             while (rs.next()) {
                 bankAccountBalance = rs.getFloat("Bank_Account_Balance");
             }
@@ -63,13 +60,13 @@ public class BankAccountRepository {
                      "FROM Bank_Accounts ba " +
                      "INNER JOIN Customers c ON ba.Customer_ID = c.Customer_ID " +
                      "WHERE c.Username = ?";
-        int bankAccountID = 0;
         try (Connection conn = IMBankConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
+            int bankAccountID = 0;
             while (rs.next()) {
                 bankAccountID = rs.getInt("Bank_Account_Number_ID");
             }

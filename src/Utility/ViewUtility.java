@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public final class ViewUtility {
+
     public static void setEnabledPanelAndComponents(Container container, boolean isEnabled) {
         for (Component component : container.getComponents()) {
             component.setEnabled(isEnabled);

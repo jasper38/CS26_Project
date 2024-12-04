@@ -25,12 +25,14 @@ public class CardInfoRepository {
                      "FROM Card_Info ci " +
                      "INNER JOIN Bank_Accounts ba ON ci.Bank_Account_Number_ID = ba.Bank_Account_Number_ID " +
                      "WHERE ci.Bank_Account_Number_ID = ? AND ci.Card_PIN = ?";
-        CardInfo cardInfo;
+
         try (Connection conn = IMBankConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, bankAccountNumberID);
             ps.setInt(2, cardPIN);
             ResultSet rs = ps.executeQuery();
+
+            CardInfo cardInfo;
             if (rs.next()) {
                 cardInfo = new CardInfo();
                 cardInfo.setBankAccountNumberID(rs.getInt("Bank_Account_Number_ID"));

@@ -25,15 +25,12 @@ public class PersonRepository {
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        System.out.println("Successfulll");
                         return generatedKeys.getInt(1);
                     } else {
-                        System.out.println("ID not found");
                         throw new SQLException("ID not found");
                     }
                 }
             } else {
-                System.out.println("Insert failed, no rows affected");
                 throw new SQLException("Insert failed, no rows affected");
             }
 

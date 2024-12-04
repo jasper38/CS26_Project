@@ -21,23 +21,6 @@ public class RegistrationRequestDTO {
         super();
     }
 
-    public RegistrationRequestDTO(String firstName, String lastName, int age, String sex, Date birthdate, String phoneNo,
-                                  String address, String username, String password, String email, String bankAccountType, float bankAccountBalance) {
-        super();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.sex = sex;
-        this.birthdate = birthdate;
-        this.phoneNo = phoneNo;
-        this.address = address;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.bankAccountType = bankAccountType;
-        this.bankAccountBalance = bankAccountBalance;
-    }
-
     public String getFirstName() {
         return firstName;
     }

@@ -160,6 +160,7 @@ public class IMBankController {
             @Override
             protected void done() {
                 try{
+                    mainWindow.getTableModel().setNumRows(0);
                     List<TransactionHistoryDTO> transactions = get();
                     for(TransactionHistoryDTO transaction : transactions){
                         mainWindow.udpateTransactionHistoryTable(transaction);

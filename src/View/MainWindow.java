@@ -264,7 +264,11 @@ public class MainWindow {
         transactionHistoryLbl.setBounds(310,20,400,50);
 
         tableModel = new DefaultTableModel(columnNames, 0);
-        table = new JTable(tableModel);
+        table = new JTable(tableModel){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 80, 870, 480);
         scrollPane.setBorder(null);
@@ -526,7 +530,6 @@ public class MainWindow {
     }
 
     public void udpateTransactionHistoryTable(TransactionHistoryDTO transactionHistory) {
-        System.out.println("invoked");
         tableModel.addRow(new Object[]{
                 transactionHistory.getTransactionID(),
                 transactionHistory.getBankAccountNumberID(),
@@ -554,4 +557,6 @@ public class MainWindow {
     public JFrame getMainFrame() {
         return mainFrame;
     }
+
+    public DefaultTableModel getTableModel() { return tableModel; }
 }

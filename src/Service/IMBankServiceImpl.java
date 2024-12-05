@@ -123,9 +123,6 @@ public class IMBankServiceImpl implements IMBankService {
         if(transactions == null) {
             throw new SQLException("Transaction could not be retrieved");
         }
-        System.out.println("Transactions retrieved: " + transactions.size());
-        System.out.println(transactions.get(0).toString());
-
         return transactions;
     }
 

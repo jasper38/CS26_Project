@@ -44,7 +44,7 @@ public class TransactionRepository {
                      "FROM Transaction t " +
                      "INNER JOIN Affiliated_banks ab ON t.Bank_ID = ab.Bank_ID " +
                      "WHERE Bank_Account_Number_ID = ? " +
-                     "ORDER BY t.Transaction_DateTime DESC";
+                     "ORDER BY t.Transaction_ID DESC";
         try(Connection conn = IMBankConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
 

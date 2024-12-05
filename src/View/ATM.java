@@ -8,230 +8,235 @@ import java.awt.event.ActionListener;
 public class ATM {
 
     public ATM() {
+        initATMGuiComponents();
+    }
+
+    private void initATMGuiComponents() {
         JFrame frame = new JFrame("ATM Machine");
         frame.setSize(900, 600);
         frame.setLocationRelativeTo(null);
 
-        JPanel logopanel = new JPanel();
-        logopanel.setBackground(Color.white);
-        logopanel.setLayout(null);
-        logopanel.setBounds(0, 0, 900, 100);
+        JPanel logoPanel = new JPanel();
+        logoPanel.setBackground(Color.white);
+        logoPanel.setLayout(null);
+        logoPanel.setBounds(0, 0, 900, 100);
 
-        JLabel IMBanklabel = new JLabel("I.M Bank");
-        IMBanklabel.setForeground(new Color(0x23234D));
-        IMBanklabel.setFont(new Font("Helvetica", Font.BOLD, 40));
-        IMBanklabel.setBounds(20, 25, 180, 40);
+        JLabel IMBankLabel = new JLabel("I.M Bank");
+        IMBankLabel.setForeground(new Color(0x23234D));
+        IMBankLabel.setFont(new Font("Helvetica", Font.BOLD, 40));
+        IMBankLabel.setBounds(20, 25, 180, 40);
 
-        JLabel reminderlabel = new JLabel("<html> You are currently transacting through <br>a cardless method</html>");
-        reminderlabel.setForeground(new Color(0x23234D));
-        reminderlabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        reminderlabel.setBounds(700, 15, 180, 70);
+        JLabel reminderLabel = new JLabel("<html> You are currently transacting through <br>a cardless method</html>");
+        reminderLabel.setForeground(new Color(0x23234D));
+        reminderLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        reminderLabel.setBounds(700, 15, 180, 70);
 
-        logopanel.add(IMBanklabel);
-        logopanel.add(reminderlabel);
+        logoPanel.add(IMBankLabel);
+        logoPanel.add(reminderLabel);
 
-        JPanel mainpanel = new JPanel();
-        mainpanel.setLayout(null);
-        mainpanel.setBackground(new Color(0x223345));
-        mainpanel.setBounds(0, 100, 900, 500);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBackground(new Color(0x223345));
+        mainPanel.setBounds(0, 100, 900, 500);
 
-        JLabel otplabel = new JLabel("Enter your OTP:");
-        otplabel.setForeground(Color.white);
-        otplabel.setFont(new Font("Arial", Font.BOLD, 30));
-        otplabel.setBounds(330, 130, 300, 50);
+        JLabel otpLabel = new JLabel("Enter your OTP:");
+        otpLabel.setForeground(Color.white);
+        otpLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        otpLabel.setBounds(330, 130, 300, 50);
 
-        JTextField otpfield = new JTextField();
-        otpfield.setBounds(360, 190, 150, 50);
-        otpfield.setForeground(new Color(0x223345));
-        otpfield.setFont(new Font("Arial", Font.BOLD, 30));
-        otpfield.setHorizontalAlignment(JTextField.CENTER);
+        JTextField otpField = new JTextField();
+        otpField.setBounds(360, 190, 150, 50);
+        otpField.setForeground(new Color(0x223345));
+        otpField.setFont(new Font("Arial", Font.BOLD, 30));
+        otpField.setHorizontalAlignment(JTextField.CENTER);
+        
 
-        JLabel pinlabel = new JLabel("Enter your 4-digit PIN:");
-        pinlabel.setForeground(Color.white);
-        pinlabel.setFont(new Font("Arial", Font.BOLD, 30));
-        pinlabel.setBounds(290, 280, 500, 50);
+        JLabel pinLabel = new JLabel("Enter your 4-digit PIN:");
+        pinLabel.setForeground(Color.white);
+        pinLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        pinLabel.setBounds(290, 280, 500, 50);
 
-        JPasswordField pinfield = new JPasswordField();
-        pinfield.setBounds(360, 340, 150, 50);
-        pinfield.setForeground(new Color(0x223345));
-        pinfield.setFont(new Font("Arial", Font.BOLD, 30));
-        pinfield.setHorizontalAlignment(JPasswordField.CENTER);
+        JPasswordField pinField = new JPasswordField();
+        pinField.setBounds(360, 340, 150, 50);
+        pinField.setForeground(new Color(0x223345));
+        pinField.setFont(new Font("Arial", Font.BOLD, 30));
+        pinField.setHorizontalAlignment(JPasswordField.CENTER);
 
-        JButton enterbutton = new JButton("Enter");
-        enterbutton.setForeground(new Color(0x223345));
-        enterbutton.setFont(new Font("Arial", Font.BOLD, 30));
-        enterbutton.setFocusable(false);
-        enterbutton.setBounds(340, 480, 190, 40);
-        enterbutton.addActionListener(new ActionListener() {
+        JButton enterButton = new JButton("Enter");
+        enterButton.setForeground(new Color(0x223345));
+        enterButton.setFont(new Font("Arial", Font.BOLD, 30));
+        enterButton.setFocusable(false);
+        enterButton.setBounds(340, 480, 190, 40);
+        enterButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.remove(mainpanel);
+                frame.remove(mainPanel);
 
-                JPanel confirmationpanel = new JPanel();
-                confirmationpanel.setLayout(null);
-                confirmationpanel.setBackground(new Color(0x223345));
-                confirmationpanel.setBounds(0, 100, 900, 500);
+                JPanel confirmationPanel = new JPanel();
+                confirmationPanel.setLayout(null);
+                confirmationPanel.setBackground(new Color(0x223345));
+                confirmationPanel.setBounds(0, 100, 900, 500);
 
-                JLabel withdrawalamountlabel = new JLabel("<html> Confirm your (transaction type) <br>amount (In Php):</html>");
-                withdrawalamountlabel.setForeground(Color.white);
-                withdrawalamountlabel.setFont(new Font("Arial", Font.BOLD, 30));
-                withdrawalamountlabel.setBounds(210, 150, 500, 110);
+                JLabel withdrawalAmountLabel = new JLabel("<html> Confirm your (transaction type) <br>amount (In Php):</html>");
+                withdrawalAmountLabel.setForeground(Color.white);
+                withdrawalAmountLabel.setFont(new Font("Arial", Font.BOLD, 30));
+                withdrawalAmountLabel.setBounds(210, 150, 500, 110);
 
-                JTextField withdrawalamountfield = new JTextField();
-                withdrawalamountfield.setBounds(300, 280, 300, 50);
-                withdrawalamountfield.setForeground(new Color(0x223345));
-                withdrawalamountfield.setFont(new Font("Arial", Font.BOLD, 30));
+                JTextField withdrawalAmountField = new JTextField();
+                withdrawalAmountField.setBounds(300, 280, 300, 50);
+                withdrawalAmountField.setForeground(new Color(0x223345));
+                withdrawalAmountField.setFont(new Font("Arial", Font.BOLD, 30));
 
-                JButton backbutton = new JButton("Back");
-                backbutton.setForeground(new Color(0x223345));
-                backbutton.setFont(new Font("Arial", Font.BOLD, 20));
-                backbutton.setFocusable(false);
-                backbutton.setBounds(50, 480, 190, 40);
-                backbutton.addActionListener(new ActionListener() {
+                JButton backButton = new JButton("Back");
+                backButton.setForeground(new Color(0x223345));
+                backButton.setFont(new Font("Arial", Font.BOLD, 20));
+                backButton.setFocusable(false);
+                backButton.setBounds(50, 480, 190, 40);
+                backButton.addActionListener(new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        frame.remove(confirmationpanel);
-                        frame.add(mainpanel);
+                        frame.remove(confirmationPanel);
+                        frame.add(mainPanel);
                         frame.revalidate();
                         frame.repaint();
                     }
                 });
 
-                JButton proceedbutton = new JButton("Proceed");
-                proceedbutton.setForeground(new Color(0x223345));
-                proceedbutton.setFont(new Font("Arial", Font.BOLD, 20));
-                proceedbutton.setFocusable(false);
-                proceedbutton.setBounds(650, 480, 190, 40);
-                proceedbutton.addActionListener(new ActionListener() {
+                JButton proceedButton = new JButton("Proceed");
+                proceedButton.setForeground(new Color(0x223345));
+                proceedButton.setFont(new Font("Arial", Font.BOLD, 20));
+                proceedButton.setFocusable(false);
+                proceedButton.setBounds(650, 480, 190, 40);
+                proceedButton.addActionListener(new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        confirmationpanel.remove(withdrawalamountlabel);
-                        confirmationpanel.remove(withdrawalamountfield);
-                        confirmationpanel.remove(backbutton);
-                        confirmationpanel.remove(proceedbutton);
+                        confirmationPanel.remove(withdrawalAmountLabel);
+                        confirmationPanel.remove(withdrawalAmountField);
+                        confirmationPanel.remove(backButton);
+                        confirmationPanel.remove(proceedButton);
 
-                        JLabel closinglabel = new JLabel("Thank you for transacting!");
-                        closinglabel.setForeground(Color.white);
-                        closinglabel.setFont(new Font("Arial", Font.BOLD, 30));
-                        closinglabel.setBounds(250, 160, 700, 80);
+                        JLabel closingLabel = new JLabel("Thank you for transacting!");
+                        closingLabel.setForeground(Color.white);
+                        closingLabel.setFont(new Font("Arial", Font.BOLD, 30));
+                        closingLabel.setBounds(250, 160, 700, 80);
 
-                        JLabel askreceiptlabel=new JLabel("Would you like to print your receipt?");
-                        askreceiptlabel.setForeground(Color.white);
-                        askreceiptlabel.setFont(new Font("Arial", Font.BOLD, 30));
-                        askreceiptlabel.setBounds(180, 200, 700, 80);
+                        JLabel askReceiptLabel=new JLabel("Would you like to print your receipt?");
+                        askReceiptLabel.setForeground(Color.white);
+                        askReceiptLabel.setFont(new Font("Arial", Font.BOLD, 30));
+                        askReceiptLabel.setBounds(180, 200, 700, 80);
 
-                        JButton yesbutton=new JButton("Yes");
-                        yesbutton.setForeground(new Color(0x223345));
-                        yesbutton.setFont(new Font("Arial", Font.BOLD, 20));
-                        yesbutton.setFocusable(false);
-                        yesbutton.setBounds(210, 340, 190, 40);
-                        yesbutton.addActionListener(new ActionListener() {
+                        JButton yesButton=new JButton("Yes");
+                        yesButton.setForeground(new Color(0x223345));
+                        yesButton.setFont(new Font("Arial", Font.BOLD, 20));
+                        yesButton.setFocusable(false);
+                        yesButton.setBounds(210, 340, 190, 40);
+                        yesButton.addActionListener(new ActionListener() {
 
                             @Override
                             public void actionPerformed(ActionEvent e) {
 
-                                frame.remove(confirmationpanel);
+                                frame.remove(confirmationPanel);
 
-                                JPanel bgpanel=new JPanel();
-                                bgpanel.setLayout(null);
-                                bgpanel.setBackground(new Color(0x223345));
-                                bgpanel.setBounds(0, 100, 900, 500);
+                                JPanel bgPanel=new JPanel();
+                                bgPanel.setLayout(null);
+                                bgPanel.setBackground(new Color(0x223345));
+                                bgPanel.setBounds(0, 100, 900, 500);
 
-                                JPanel receiptpanel=new JPanel();
-                                receiptpanel.setLayout(null);
-                                receiptpanel.setBackground(Color.white);
-                                receiptpanel.setBounds(200, 130, 450, 400);
+                                JPanel receiptPanel=new JPanel();
+                                receiptPanel.setLayout(null);
+                                receiptPanel.setBackground(Color.white);
+                                receiptPanel.setBounds(200, 130, 450, 400);
 
-                                JLabel logolabel=new JLabel("I.M Bank");
-                                logolabel.setForeground(new Color(0x23234D));
-                                logolabel.setFont(new Font("Helvetica", Font.BOLD, 30));
-                                logolabel.setBounds(165,10, 150, 40);
+                                JLabel logoLabel=new JLabel("I.M Bank");
+                                logoLabel.setForeground(new Color(0x23234D));
+                                logoLabel.setFont(new Font("Helvetica", Font.BOLD, 30));
+                                logoLabel.setBounds(165,10, 150, 40);
 
-                                JLabel brokenlinelabel=new JLabel("-------------------------------------------------");
-                                brokenlinelabel.setForeground(Color.black);
-                                brokenlinelabel.setFont(new Font("Arial", Font.PLAIN, 25));
-                                brokenlinelabel.setBounds(10,40, 450, 30);
+                                JLabel brokenLineLabel=new JLabel("-------------------------------------------------");
+                                brokenLineLabel.setForeground(Color.black);
+                                brokenLineLabel.setFont(new Font("Arial", Font.PLAIN, 25));
+                                brokenLineLabel.setBounds(10,40, 450, 30);
 
-                                JLabel datelabel=new JLabel("DATE");
-                                datelabel.setForeground(Color.black);
-                                datelabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                datelabel.setBounds(20,70, 60, 20);
-                                JLabel timelabel=new JLabel("TIME");
-                                timelabel.setForeground(Color.black);
-                                timelabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                timelabel.setBounds(120,70, 60, 20);
-                                JLabel transactionnumlabel=new JLabel("<html>TRANSACTION<br>NUMBER</html>");
-                                transactionnumlabel.setForeground(Color.black);
-                                transactionnumlabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                transactionnumlabel.setBounds(210,70, 450, 40);
-                                JLabel atmidlabel=new JLabel("ATM ID");
-                                atmidlabel.setForeground(Color.black);
-                                atmidlabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                atmidlabel.setBounds(370,70, 80, 20);
-                                JLabel addresslabel=new JLabel("Davao City, 8000, Philippines");
-                                addresslabel.setForeground(Color.black);
-                                addresslabel.setFont(new Font("Arial", Font.BOLD, 15));
-                                addresslabel.setBounds(20,145, 225, 20);
-                                JLabel cardnumlabel=new JLabel("Card number:");
-                                cardnumlabel.setForeground(Color.black);
-                                cardnumlabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                cardnumlabel.setBounds(20,170, 100, 20);
-                                JLabel acctypelabel=new JLabel("(transaction type) from: ");
-                                acctypelabel.setForeground(Color.black);
-                                acctypelabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                acctypelabel.setBounds(20,195, 200, 20);
-                                JLabel amountlabel=new JLabel("Amount:");
-                                amountlabel.setForeground(Color.black);
-                                amountlabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                amountlabel.setBounds(20,220, 80, 20);
-                                JLabel chargefeelabel=new JLabel("Charge fee:");
-                                chargefeelabel.setForeground(Color.black);
-                                chargefeelabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                chargefeelabel.setBounds(20,245, 90, 20);
-                                JLabel totallabel=new JLabel("Total:");
-                                totallabel.setForeground(Color.black);
-                                totallabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                totallabel.setBounds(20,270, 80, 20);
-                                JLabel accbalancelabel=new JLabel("Account Balance: ");
-                                accbalancelabel.setForeground(Color.black);
-                                accbalancelabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                accbalancelabel.setBounds(20,295, 130, 20);
-                                JLabel asterisklabel1=new JLabel("******************************************");
-                                asterisklabel1.setForeground(Color.black);
-                                asterisklabel1.setFont(new Font("Arial", Font.PLAIN, 25));
-                                asterisklabel1.setBounds(10,320, 420, 30);
-                                JLabel disposelabel=new JLabel("PLEASE RETAIN OR DISPOSE OF THOUGHTFULLY.");
-                                disposelabel.setForeground(Color.black);
-                                disposelabel.setFont(new Font("Arial", Font.BOLD, 15));
-                                disposelabel.setBounds(30,340, 390, 20);
-                                JLabel asterisklabel2=new JLabel("******************************************");
-                                asterisklabel2.setForeground(Color.black);
-                                asterisklabel2.setFont(new Font("Arial", Font.PLAIN, 25));
-                                asterisklabel2.setBounds(10,365, 420, 30);
+                                JLabel dateLabel=new JLabel("DATE");
+                                dateLabel.setForeground(Color.black);
+                                dateLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                dateLabel.setBounds(20,70, 60, 20);
+                                JLabel timeLabel=new JLabel("TIME");
+                                timeLabel.setForeground(Color.black);
+                                timeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                timeLabel.setBounds(120,70, 60, 20);
+                                JLabel transactionNumLabel=new JLabel("<html>TRANSACTION<br>NUMBER</html>");
+                                transactionNumLabel.setForeground(Color.black);
+                                transactionNumLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                transactionNumLabel.setBounds(210,70, 450, 40);
+                                JLabel atmIdLabel=new JLabel("ATM ID");
+                                atmIdLabel.setForeground(Color.black);
+                                atmIdLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                atmIdLabel.setBounds(370,70, 80, 20);
+                                JLabel addressLabel=new JLabel("Davao City, 8000, Philippines");
+                                addressLabel.setForeground(Color.black);
+                                addressLabel.setFont(new Font("Arial", Font.BOLD, 15));
+                                addressLabel.setBounds(20,145, 225, 20);
+                                JLabel cardNumLabel=new JLabel("Card number:");
+                                cardNumLabel.setForeground(Color.black);
+                                cardNumLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                cardNumLabel.setBounds(20,170, 100, 20);
+                                JLabel accTypeLabel=new JLabel("(transaction type) from: ");
+                                accTypeLabel.setForeground(Color.black);
+                                accTypeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                accTypeLabel.setBounds(20,195, 200, 20);
+                                JLabel amountLabel=new JLabel("Amount:");
+                                amountLabel.setForeground(Color.black);
+                                amountLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                amountLabel.setBounds(20,220, 80, 20);
+                                JLabel chargeFeeLabel=new JLabel("Charge fee:");
+                                chargeFeeLabel.setForeground(Color.black);
+                                chargeFeeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                chargeFeeLabel.setBounds(20,245, 90, 20);
+                                JLabel totalLabel=new JLabel("Total:");
+                                totalLabel.setForeground(Color.black);
+                                totalLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                totalLabel.setBounds(20,270, 80, 20);
+                                JLabel accBalanceLabel=new JLabel("Account Balance: ");
+                                accBalanceLabel.setForeground(Color.black);
+                                accBalanceLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                                accBalanceLabel.setBounds(20,295, 130, 20);
+                                JLabel asteriskLabel1=new JLabel("******************************************");
+                                asteriskLabel1.setForeground(Color.black);
+                                asteriskLabel1.setFont(new Font("Arial", Font.PLAIN, 25));
+                                asteriskLabel1.setBounds(10,320, 420, 30);
+                                JLabel disposeLabel=new JLabel("PLEASE RETAIN OR DISPOSE OF THOUGHTFULLY.");
+                                disposeLabel.setForeground(Color.black);
+                                disposeLabel.setFont(new Font("Arial", Font.BOLD, 15));
+                                disposeLabel.setBounds(30,340, 390, 20);
+                                JLabel asteriskLabel2=new JLabel("******************************************");
+                                asteriskLabel2.setForeground(Color.black);
+                                asteriskLabel2.setFont(new Font("Arial", Font.PLAIN, 25));
+                                asteriskLabel2.setBounds(10,365, 420, 30);
 
-                                receiptpanel.add(logolabel);
-                                receiptpanel.add(brokenlinelabel);
-                                receiptpanel.add(datelabel);
-                                receiptpanel.add(timelabel);
-                                receiptpanel.add(transactionnumlabel);
-                                receiptpanel.add(atmidlabel);
-                                receiptpanel.add(addresslabel);
-                                receiptpanel.add(cardnumlabel);
-                                receiptpanel.add(acctypelabel);
-                                receiptpanel.add(amountlabel);
-                                receiptpanel.add(chargefeelabel);
-                                receiptpanel.add(totallabel);
-                                receiptpanel.add(accbalancelabel);
-                                receiptpanel.add(asterisklabel1);
-                                receiptpanel.add(disposelabel);
-                                receiptpanel.add(asterisklabel2);
+                                receiptPanel.add(logoLabel);
+                                receiptPanel.add(brokenLineLabel);
+                                receiptPanel.add(dateLabel);
+                                receiptPanel.add(timeLabel);
+                                receiptPanel.add(transactionNumLabel);
+                                receiptPanel.add(atmIdLabel);
+                                receiptPanel.add(addressLabel);
+                                receiptPanel.add(cardNumLabel);
+                                receiptPanel.add(accTypeLabel);
+                                receiptPanel.add(amountLabel);
+                                receiptPanel.add(chargeFeeLabel);
+                                receiptPanel.add(totalLabel);
+                                receiptPanel.add(accBalanceLabel);
+                                receiptPanel.add(asteriskLabel1);
+                                receiptPanel.add(disposeLabel);
+                                receiptPanel.add(asteriskLabel2);
 
-                                bgpanel.add(receiptpanel);
+                                bgPanel.add(receiptPanel);
 
-                                frame.add(bgpanel);
+                                frame.add(bgPanel);
                                 frame.revalidate();
                                 frame.repaint();
 
@@ -239,10 +244,10 @@ public class ATM {
 
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
-                                        frame.remove(bgpanel);
-                                        otpfield.setText("");
-                                        pinfield.setText("");
-                                        frame.add(mainpanel);
+                                        frame.remove(bgPanel);
+                                        otpField.setText("");
+                                        pinField.setText("");
+                                        frame.add(mainPanel);
                                         frame.revalidate();
                                         frame.repaint();
 
@@ -253,28 +258,28 @@ public class ATM {
                             }
                         });
 
-                        JButton nobutton=new JButton("No");
-                        nobutton.setForeground(new Color(0x223345));
-                        nobutton.setFont(new Font("Arial", Font.BOLD, 20));
-                        nobutton.setFocusable(false);
-                        nobutton.setBounds(470, 340, 190, 40);
-                        nobutton.addActionListener(new ActionListener() {
+                        JButton noButton=new JButton("No");
+                        noButton.setForeground(new Color(0x223345));
+                        noButton.setFont(new Font("Arial", Font.BOLD, 20));
+                        noButton.setFocusable(false);
+                        noButton.setBounds(470, 340, 190, 40);
+                        noButton.addActionListener(new ActionListener() {
 
                             @Override
                             public void actionPerformed(ActionEvent e) {
 
-                                confirmationpanel.remove(closinglabel);
-                                confirmationpanel.remove(askreceiptlabel);
-                                confirmationpanel.remove(yesbutton);
-                                confirmationpanel.remove(nobutton);
+                                confirmationPanel.remove(closingLabel);
+                                confirmationPanel.remove(askReceiptLabel);
+                                confirmationPanel.remove(yesButton);
+                                confirmationPanel.remove(noButton);
 
-                                JLabel closinglabel2 = new JLabel("<html>Thank you for transacting with I.M Bank.<br> &nbsp &nbsp &nbsp &nbsp &nbsp "
+                                JLabel closingLabel2 = new JLabel("<html>Thank you for transacting with I.M Bank.<br> &nbsp &nbsp &nbsp &nbsp &nbsp "
                                         + "&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Come Again!</html>");
-                                closinglabel2.setForeground(Color.white);
-                                closinglabel2.setFont(new Font("Arial", Font.BOLD, 30));
-                                closinglabel2.setBounds(150, 270, 700, 80);
+                                closingLabel2.setForeground(Color.white);
+                                closingLabel2.setFont(new Font("Arial", Font.BOLD, 30));
+                                closingLabel2.setBounds(150, 270, 700, 80);
 
-                                confirmationpanel.add(closinglabel2);
+                                confirmationPanel.add(closingLabel2);
 
                                 frame.revalidate();
                                 frame.repaint();
@@ -282,10 +287,10 @@ public class ATM {
                                 Timer timer = new Timer(2500, new ActionListener(){
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
-                                        frame.remove(confirmationpanel);
-                                        otpfield.setText("");
-                                        pinfield.setText("");
-                                        frame.add(mainpanel);
+                                        frame.remove(confirmationPanel);
+                                        otpField.setText("");
+                                        pinField.setText("");
+                                        frame.add(mainPanel);
                                         frame.revalidate();
                                         frame.repaint();
 
@@ -296,40 +301,40 @@ public class ATM {
                             }
                         });
 
-                        confirmationpanel.add(closinglabel);
-                        confirmationpanel.add(askreceiptlabel);
-                        confirmationpanel.add(yesbutton);
-                        confirmationpanel.add(nobutton);
+                        confirmationPanel.add(closingLabel);
+                        confirmationPanel.add(askReceiptLabel);
+                        confirmationPanel.add(yesButton);
+                        confirmationPanel.add(noButton);
 
                         frame.revalidate();
                         frame.repaint();
                     }
                 });
 
-                confirmationpanel.add(withdrawalamountlabel);
-                confirmationpanel.add(withdrawalamountfield);
-                confirmationpanel.add(backbutton);
-                confirmationpanel.add(proceedbutton);
+                confirmationPanel.add(withdrawalAmountLabel);
+                confirmationPanel.add(withdrawalAmountField);
+                confirmationPanel.add(backButton);
+                confirmationPanel.add(proceedButton);
 
-                frame.add(confirmationpanel);
+                frame.add(confirmationPanel);
                 frame.revalidate();
                 frame.repaint();
             }
         });
 
-        mainpanel.add(otplabel);
-        mainpanel.add(otpfield);
-        mainpanel.add(pinlabel);
-        mainpanel.add(pinfield);
-        mainpanel.add(enterbutton);
+        mainPanel.add(otpLabel);
+        mainPanel.add(otpField);
+        mainPanel.add(pinLabel);
+        mainPanel.add(pinField);
+        mainPanel.add(enterButton);
 
-        frame.add(logopanel);
-        frame.add(mainpanel);
+        frame.add(logoPanel);
+        frame.add(mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
     }
 
     public static void main(String[] args) {
-        ATM atm = new ATM();
+        SwingUtilities.invokeLater(ATM::new);
     }
 }

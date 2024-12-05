@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -285,6 +288,7 @@ public class ATM {
                                                                     frame.revalidate();
                                                                     frame.repaint();
 
+
                                                                     Timer timer = new Timer(2500, new ActionListener() {
 
                                                                         @Override
@@ -439,6 +443,17 @@ public class ATM {
             ps.setInt(2, transactionID);
 
             return ps.executeUpdate();
+        }
+    }
+
+    private void writeToFileReceipt(ATM_DTO atm_dto) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("Receipt.txt"))){
+            writer.write("---------------------------------------------------------------");
+            writer.write(
+                    String.format("%10s", "IM Bank")
+            );
+        } catch (IOException e){
+            ViewUtility.showMessage("Error writing receipt file");
         }
     }
 

@@ -1,7 +1,8 @@
 package Model;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 public class Transaction {
     private int transactionID;
@@ -9,13 +10,13 @@ public class Transaction {
     private int affiliatedBankID;
     private String transactionType;
     private float amount;
-    private Date transactionDateTime;
+    private Timestamp transactionDateTime;
     private String requestStatus;
     private String OTP;
 
     public Transaction(){}
 
-    public Transaction(int transactionID, int bankAccountNumberID, int affiliatedBankID, String transactionType, float amount, Date transactionDateTime, String requestStatus, String OTP) {
+    public Transaction(int transactionID, int bankAccountNumberID, int affiliatedBankID, String transactionType, float amount, Timestamp transactionDateTime, String requestStatus, String OTP) {
         this.transactionID = transactionID;
         this.bankAccountNumberID = bankAccountNumberID;
         this.affiliatedBankID = affiliatedBankID;
@@ -66,11 +67,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Date getTransactionDateTime() {
+    public Timestamp getTransactionDateTime() {
         return transactionDateTime;
     }
 
-    public void setTransactionDateTime(Date transactionDateTime) {
+    public void setTransactionDateTime(Timestamp transactionDateTime) {
         this.transactionDateTime = transactionDateTime;
     }
 
@@ -88,19 +89,5 @@ public class Transaction {
 
     public void setOTP(String OTP) {
         this.OTP = OTP ;
-    }
-
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "transactionID=" + transactionID +
-                ", bankAccountNumberID=" + bankAccountNumberID +
-                ", affiliatedBankID=" + affiliatedBankID +
-                ", transactionType='" + transactionType + '\'' +
-                ", amount=" + amount +
-                ", transactionDateTime=" + transactionDateTime +
-                ", requestStatus='" + requestStatus + '\'' +
-                ", OTP='" + OTP + '\'' +
-                '}';
     }
 }

@@ -10,6 +10,7 @@ public class IMBankConnectionManager {
                                     //"jdbc:mysql://localhost:8080/bankingsystem"
                                     //jdbc:mysql://localhost:3306/bankingsystem
     private static final String USERNAME = "root";
+
     private static final String PASSWORD = "Nening123!";
                                     //password nimo dri fion
                                     //Nening123!

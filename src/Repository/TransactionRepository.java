@@ -24,7 +24,7 @@ public class TransactionRepository {
             ps.setInt(2, transaction.getAffiliatedBankID());
             ps.setString(3, transaction.getTransactionType());
             ps.setDouble(4, transaction.getAmount());
-            ps.setDate(5, transaction.getTransactionDateTime());
+            ps.setTimestamp(5, transaction.getTransactionDateTime());
             ps.setString(6, transaction.getRequestStatus());
             ps.setString(7, transaction.getOTP());
 
@@ -59,7 +59,7 @@ public class TransactionRepository {
                 transaction.setBankName(rs.getString("Bank_Name"));
                 transaction.setTransactionType(rs.getString("Transaction_Type"));
                 transaction.setAmount(rs.getInt("Amount"));
-                transaction.setTransactionDateTime(rs.getDate("Transaction_DateTime"));
+                transaction.setTransactionDateTime(rs.getTimestamp("Transaction_DateTime"));
                 transaction.setRequestStatus(rs.getString("Request_Status"));
                 transaction.setOTP(rs.getString("OTP"));
                 transactions.add(transaction);

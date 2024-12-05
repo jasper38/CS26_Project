@@ -1,6 +1,7 @@
 package DTO;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class TransactionHistoryDTO {
     private int transactionID;
@@ -8,7 +9,7 @@ public class TransactionHistoryDTO {
     private String bankName;
     private String transactionType;
     private float amount;
-    private Date transactionDateTime;
+    private Timestamp transactionDateTime;
     private String requestStatus;
     private String OTP;
 
@@ -54,11 +55,11 @@ public class TransactionHistoryDTO {
         this.amount = amount;
     }
 
-    public Date getTransactionDateTime() {
+    public Timestamp getTransactionDateTime() {
         return transactionDateTime;
     }
 
-    public void setTransactionDateTime(Date transactionDateTime) {
+    public void setTransactionDateTime(Timestamp transactionDateTime) {
         this.transactionDateTime = transactionDateTime;
     }
 
@@ -76,19 +77,5 @@ public class TransactionHistoryDTO {
 
     public void setOTP(String OTP) {
         this.OTP = OTP;
-    }
-
-    @Override
-    public String toString() {
-        return "TransactionHistoryDTO{" +
-                "transactionID=" + transactionID +
-                ", bankAccountNumberID=" + bankAccountNumberID +
-                ", bankName='" + bankName + '\'' +
-                ", transactionType='" + transactionType + '\'' +
-                ", amount=" + amount +
-                ", transactionDateTime=" + transactionDateTime +
-                ", requestStatus='" + requestStatus + '\'' +
-                ", OTP='" + OTP + '\'' +
-                '}';
     }
 }

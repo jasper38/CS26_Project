@@ -6,6 +6,7 @@ import Repository.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class IMBankServiceImpl implements IMBankService {
         transactionRequest.setAffiliatedBankID(bankID);
         transactionRequest.setTransactionType(transactionType);
         transactionRequest.setAmount(amount);
-        transactionRequest.setTransactionDateTime(Date.valueOf(LocalDate.now()));
+        transactionRequest.setTransactionDateTime(new Timestamp(System.currentTimeMillis()));
         transactionRequest.setRequestStatus("Pending");
         transactionRequest.setOTP(String.valueOf(generateOTP()));
 

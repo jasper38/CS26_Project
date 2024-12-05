@@ -90,7 +90,7 @@ public class ATM {
 
                     @Override
                     protected ATM_DTO doInBackground() throws Exception {
-                        Thread.sleep(100);
+                        Thread.sleep(50);
                         return verifyOTPAndPIN(Integer.parseInt(
                                 otpField.getText()),
                                 Integer.parseInt(String.valueOf(pinField.getPassword()))
@@ -435,8 +435,8 @@ public class ATM {
         try(Connection conn = IMBankConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
 
-            ps.setInt(1, transactionID);
-            ps.setString(2, "Completed");
+            ps.setString(1, "Complete");
+            ps.setInt(2, transactionID);
 
             return ps.executeUpdate();
         }

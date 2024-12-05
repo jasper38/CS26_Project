@@ -38,7 +38,6 @@ public class MainWindow {
     private JButton depositBtn;
     private JButton withdrawBtn;
 
-
     // Transaction history panel and its components
     private JPanel transactionHistoryPanel;
     private String[] columnNames;
@@ -60,6 +59,7 @@ public class MainWindow {
     private JPanel[] panels = new JPanel[3];
     private final IMBankController bankController;
 
+    // Constructor
     public MainWindow(IMBankController bankController) {
         this.bankController = bankController;
         initMainWindowComponents();
@@ -68,33 +68,32 @@ public class MainWindow {
     private void initMainWindowComponents() {
         mainFrame = ViewFactory.createFrame("IM Bank: Main", framewidth, frameheight);
 
-        initHeaderPanel();
-        initNavPanel();
+            initHeaderPanel();
+            initNavPanel();
 
-        bannerPanel = new JPanel();
-        bannerPanel.setLayout(null);
-        bannerPanel.setBounds(0,0,framewidth,90);
-        bannerPanel.setBackground(new Color(35, 35, 77));
+            bannerPanel = new JPanel();
+            bannerPanel.setLayout(null);
+            bannerPanel.setBounds(0,0,framewidth,90);
+            bannerPanel.setBackground(new Color(35, 35, 77));
 
-        bannerLbl = new JLabel();
-        bannerLbl.setText("IMBANK");
-        bannerLbl.setBounds(500,10,300,60);
-        bannerLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 55));
-        bannerLbl.setForeground(Color.WHITE);
-        bannerPanel.add(bannerLbl);
+            bannerLbl = new JLabel();
+            bannerLbl.setText("IMBANK");
+            bannerLbl.setBounds(500,10,300,60);
+            bannerLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 55));
+            bannerLbl.setForeground(Color.WHITE);
+            bannerPanel.add(bannerLbl);
 
-        horizontalSeparator = new JSeparator(SwingConstants.HORIZONTAL);
-        horizontalSeparator.setBounds(0, 80, 800, 2);
-        horizontalSeparator.setForeground(Color.BLACK);
+            horizontalSeparator = new JSeparator(SwingConstants.HORIZONTAL);
+            horizontalSeparator.setBounds(0, 80, 800, 2);
+            horizontalSeparator.setForeground(Color.BLACK);
 
-        verticalSeparator = new JSeparator(SwingConstants.VERTICAL);
-        verticalSeparator.setBounds(200, 80, 2 , 498);
-        verticalSeparator.setForeground(Color.BLACK);
+            verticalSeparator = new JSeparator(SwingConstants.VERTICAL);
+            verticalSeparator.setBounds(200, 80, 2 , 498);
+            verticalSeparator.setForeground(Color.BLACK);
 
-        initHomePanelAndComponents();
-        initTransactionHistoryPanel();
-        initProfilePanel();
-
+            initHomePanelAndComponents();
+            initTransactionHistoryPanel();
+            initProfilePanel();
 
         mainFrame.getContentPane().add(bannerPanel);
         //mainFrame.getContentPane().add(headerPanel);
@@ -114,10 +113,10 @@ public class MainWindow {
         headerPanel.setBounds(0, 0, 900, 80);
         //headerPanel.setBackground(Color.CYAN);
 
-        headerLbl = new JLabel("Welcome [Name of Person],");
-        headerLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 28));
-        headerLbl.setForeground(new java.awt.Color(35, 35, 77));
-        headerLbl.setBounds(30, 30, 400, 50);
+            headerLbl = new JLabel("Welcome [Name of Person],");
+            headerLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 28));
+            headerLbl.setForeground(new java.awt.Color(35, 35, 77));
+            headerLbl.setBounds(30, 30, 400, 50);
 
         headerPanel.add(headerLbl);
     }
@@ -129,45 +128,45 @@ public class MainWindow {
         navPanel.setBounds(0, 82, 300, frameheight);
         navPanel.setBackground(Color.PINK);
 
-        homeBtn = new JButton("Home");
-        homeBtn.setFocusable(false);
-        homeBtn.setBounds(0, 10, 300, 70); //+50
-        homeBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-        homeBtn.setForeground(new java.awt.Color(224, 224, 231));
-        homeBtn.setBackground(new java.awt.Color(35, 35, 77));
-        homeBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        homeBtn.setBorderPainted(false);
-        homeBtn.addActionListener(this::homeBtnActionPerformed);
+            homeBtn = new JButton("Home");
+            homeBtn.setFocusable(false);
+            homeBtn.setBounds(0, 10, 300, 70); //+50
+            homeBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+            homeBtn.setForeground(new java.awt.Color(224, 224, 231));
+            homeBtn.setBackground(new java.awt.Color(35, 35, 77));
+            homeBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+            homeBtn.setBorderPainted(false);
+            homeBtn.addActionListener(this::homeBtnActionPerformed);
 
-        transactionHistoryBtn = new JButton("Transaction History");
-        transactionHistoryBtn.setFocusable(false);
-        transactionHistoryBtn.setBounds(0, 83, 300, 70);
-        transactionHistoryBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-        transactionHistoryBtn.setForeground(new java.awt.Color(224, 224, 231));
-        transactionHistoryBtn.setBackground(new java.awt.Color(35, 35, 77));
-        transactionHistoryBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        transactionHistoryBtn.setBorderPainted(false);
-        transactionHistoryBtn.addActionListener(this::transactionHistoryBtnActionPerformed);
+            transactionHistoryBtn = new JButton("Transaction History");
+            transactionHistoryBtn.setFocusable(false);
+            transactionHistoryBtn.setBounds(0, 83, 300, 70);
+            transactionHistoryBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+            transactionHistoryBtn.setForeground(new java.awt.Color(224, 224, 231));
+            transactionHistoryBtn.setBackground(new java.awt.Color(35, 35, 77));
+            transactionHistoryBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+            transactionHistoryBtn.setBorderPainted(false);
+            transactionHistoryBtn.addActionListener(this::transactionHistoryBtnActionPerformed);
 
-        profileBtn = new JButton("Profile");
-        profileBtn.setFocusable(false);
-        profileBtn.setBounds(0, 156, 300, 70);
-        profileBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-        profileBtn.setForeground(new java.awt.Color(224, 224, 231));
-        profileBtn.setBackground(new java.awt.Color(35, 35, 77));
-        profileBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        profileBtn.setBorderPainted(false);
-        profileBtn.addActionListener(this::profileBtnActionPerformed);
+            profileBtn = new JButton("Profile");
+            profileBtn.setFocusable(false);
+            profileBtn.setBounds(0, 156, 300, 70);
+            profileBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+            profileBtn.setForeground(new java.awt.Color(224, 224, 231));
+            profileBtn.setBackground(new java.awt.Color(35, 35, 77));
+            profileBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+            profileBtn.setBorderPainted(false);
+            profileBtn.addActionListener(this::profileBtnActionPerformed);
 
-        logoutBtn = new JButton("Logout");
-        logoutBtn.setFocusable(false);
-        logoutBtn.setBounds(0, 510, 300, 70);
-        logoutBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-        logoutBtn.setForeground(new java.awt.Color(224, 224, 231));
-        logoutBtn.setBackground(new java.awt.Color(35, 35, 77));
-        logoutBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        logoutBtn.setBorderPainted(false);
-        logoutBtn.addActionListener(this::logoutBtnActionPerformed);
+            logoutBtn = new JButton("Logout");
+            logoutBtn.setFocusable(false);
+            logoutBtn.setBounds(0, 510, 300, 70);
+            logoutBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+            logoutBtn.setForeground(new java.awt.Color(224, 224, 231));
+            logoutBtn.setBackground(new java.awt.Color(35, 35, 77));
+            logoutBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+            logoutBtn.setBorderPainted(false);
+            logoutBtn.addActionListener(this::logoutBtnActionPerformed);
 
         navPanel.add(homeBtn);
         navPanel.add(transactionHistoryBtn);
@@ -192,49 +191,49 @@ public class MainWindow {
         //topPanel.setSize(680,150);
         bottomPanel.setBounds(50,300,760,170);
 
-        balanceLbl = new JLabel("Current Account Balance:");
-        balanceLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
-        balanceLbl.setBounds(240, 140, 450, 40);
+            balanceLbl = new JLabel("Current Account Balance:");
+            balanceLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
+            balanceLbl.setBounds(240, 140, 450, 40);
 
-        displayBalanceField = new JTextField();
-        displayBalanceField.setEditable(false);
-        displayBalanceField.setFont(new java.awt.Font("MS UI Gothic", 1, 24));
-        displayBalanceField.setBounds(330, 200, 230, 45);
+            displayBalanceField = new JTextField();
+            displayBalanceField.setEditable(false);
+            displayBalanceField.setFont(new java.awt.Font("MS UI Gothic", 1, 24));
+            displayBalanceField.setBounds(330, 200, 230, 45);
 
-        JLabel choiceLbl = new JLabel("Select a transaction type below:");
-        choiceLbl.setFont(new Font("MS UI Gothic", 1, 35));
-        choiceLbl.setForeground(new java.awt.Color(35, 35, 77));
-        choiceLbl.setBounds(180,320,550,40);
+            JLabel choiceLbl = new JLabel("Select a transaction type below:");
+            choiceLbl.setFont(new Font("MS UI Gothic", 1, 35));
+            choiceLbl.setForeground(new java.awt.Color(35, 35, 77));
+            choiceLbl.setBounds(180,320,550,40);
 
-        depositBtn = new JButton("Deposit");
-        depositBtn.setFocusable(false);
-        depositBtn.setBounds(200, 400, 200, 45);
-        depositBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-        depositBtn.setForeground(new java.awt.Color(224, 224, 231));
-        depositBtn.setBackground(new java.awt.Color(35, 35, 77));
-        //depositBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        depositBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-        depositBtn.setBorderPainted(false);
-        depositBtn.addActionListener(this::depositBtnActionPerformed);
+            depositBtn = new JButton("Deposit");
+            depositBtn.setFocusable(false);
+            depositBtn.setBounds(200, 400, 200, 45);
+            depositBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+            depositBtn.setForeground(new java.awt.Color(224, 224, 231));
+            depositBtn.setBackground(new java.awt.Color(35, 35, 77));
+            //depositBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+            depositBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+            depositBtn.setBorderPainted(false);
+            depositBtn.addActionListener(this::depositBtnActionPerformed);
 
-        withdrawBtn = new JButton("Withdraw");
-        withdrawBtn.setFocusable(false);
-        withdrawBtn.setBounds(430, 400, 200, 45);
-        withdrawBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-        withdrawBtn.setForeground(new java.awt.Color(224, 224, 231));
-        withdrawBtn.setBackground(new java.awt.Color(35, 35, 77));
-        withdrawBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        withdrawBtn.setBorderPainted(false);
-        withdrawBtn.addActionListener(this::withdrawBtnActionPerformed);
+            withdrawBtn = new JButton("Withdraw");
+            withdrawBtn.setFocusable(false);
+            withdrawBtn.setBounds(430, 400, 200, 45);
+            withdrawBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
+            withdrawBtn.setForeground(new java.awt.Color(224, 224, 231));
+            withdrawBtn.setBackground(new java.awt.Color(35, 35, 77));
+            withdrawBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+            withdrawBtn.setBorderPainted(false);
+            withdrawBtn.addActionListener(this::withdrawBtnActionPerformed);
 
-        homePanel.add(headerPanel);
-        homePanel.add(choiceLbl);
-        homePanel.add(balanceLbl);
-        homePanel.add(displayBalanceField);
-        homePanel.add(depositBtn);
-        homePanel.add(withdrawBtn);
-        homePanel.add(topPanel);
-        homePanel.add(bottomPanel);
+            homePanel.add(headerPanel);
+            homePanel.add(choiceLbl);
+            homePanel.add(balanceLbl);
+            homePanel.add(displayBalanceField);
+            homePanel.add(depositBtn);
+            homePanel.add(withdrawBtn);
+            homePanel.add(topPanel);
+            homePanel.add(bottomPanel);
 
         panels[0] = homePanel;
 
@@ -247,49 +246,49 @@ public class MainWindow {
         transactionHistoryPanel.setBounds(300, 80, 900, 810);
         //transactionHistoryPanel.setBackground(Color.GREEN);
 
-        columnNames = new String[]{
-                "<html>Transaction<br>ID</html>",
-                "<html>Bank Account<br>Number ID</html>",
-                "<html>Bank<br>Name</html>",
-                "<html>Transaction<br>Type</html>",
-                "<html>Amount</html>",
-                "<html>Transaction<br>DateTime</html>",
-                "<html>Request<br>Status</html>",
-                "<html>OTP</html>"
-        };
+            columnNames = new String[]{
+                    "<html>Transaction<br>ID</html>",
+                    "<html>Bank Account<br>Number ID</html>",
+                    "<html>Bank<br>Name</html>",
+                    "<html>Transaction<br>Type</html>",
+                    "<html>Amount</html>",
+                    "<html>Transaction<br>DateTime</html>",
+                    "<html>Request<br>Status</html>",
+                    "<html>OTP</html>"
+            };
 
-        JLabel transactionHistoryLbl = new JLabel("Transaction History");
-        transactionHistoryLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
-        transactionHistoryLbl.setForeground(new java.awt.Color(35, 35, 77));
-        transactionHistoryLbl.setBounds(310,20,400,50);
+            JLabel transactionHistoryLbl = new JLabel("Transaction History");
+            transactionHistoryLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
+            transactionHistoryLbl.setForeground(new java.awt.Color(35, 35, 77));
+            transactionHistoryLbl.setBounds(310,20,400,50);
 
-        tableModel = new DefaultTableModel(columnNames, 0);
-        table = new JTable(tableModel){
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-        };
-        scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 80, 870, 480);
-        scrollPane.setBorder(null);
+            tableModel = new DefaultTableModel(columnNames, 0);
+            table = new JTable(tableModel){
+                public boolean isCellEditable(int row, int column){
+                    return false;
+                }
+            };
+            scrollPane = new JScrollPane(table);
+            scrollPane.setBounds(10, 80, 870, 480);
+            scrollPane.setBorder(null);
 
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
-        header.setBackground(new Color(35, 35, 77));
-        header.setForeground(Color.WHITE);
-        header.setReorderingAllowed(false);
-        header.setBorder(BorderFactory.createEmptyBorder());
-        //header.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+            JTableHeader header = table.getTableHeader();
+            header.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
+            header.setBackground(new Color(35, 35, 77));
+            header.setForeground(Color.WHITE);
+            header.setReorderingAllowed(false);
+            header.setBorder(BorderFactory.createEmptyBorder());
+            //header.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
 
-        table.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
-        table.setRowHeight(30);
-        table.setBackground(new Color(255, 255, 255));
-        table.setForeground(new Color(35, 35, 77));
-        table.setGridColor(new Color(200, 200, 200));
-        table.setSelectionBackground(new Color(173, 216, 230));
-        table.setSelectionForeground(Color.BLACK);
+            table.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
+            table.setRowHeight(30);
+            table.setBackground(new Color(255, 255, 255));
+            table.setForeground(new Color(35, 35, 77));
+            table.setGridColor(new Color(200, 200, 200));
+            table.setSelectionBackground(new Color(173, 216, 230));
+            table.setSelectionForeground(Color.BLACK);
 
-        table.setShowVerticalLines(false);
+            table.setShowVerticalLines(false);
 
         transactionHistoryPanel.add(transactionHistoryLbl);
         transactionHistoryPanel.add(scrollPane);
@@ -327,29 +326,29 @@ public class MainWindow {
         popUpFrame1.setSize(240, 300);
         popUpFrame1.setLocationRelativeTo(mainFrame);
 
-        bankAccountNumLbl = new JLabel("Enter Bank Account Number:");
-        bankAccountNumLbl.setBounds(10, 10, 200, 30);
+            bankAccountNumLbl = new JLabel("Enter Bank Account Number:");
+            bankAccountNumLbl.setBounds(10, 10, 200, 30);
 
-        cardPINLbl = new JLabel("Enter Card PIN");
-        cardPINLbl.setBounds(10, 70, 200, 30);
+            cardPINLbl = new JLabel("Enter Card PIN");
+            cardPINLbl.setBounds(10, 70, 200, 30);
 
-        bankAccountNumField = new JTextField();
-        bankAccountNumField.setBounds(10, 45, 200, 25);
-        bankAccountNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
+            bankAccountNumField = new JTextField();
+            bankAccountNumField.setBounds(10, 45, 200, 25);
+            bankAccountNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
-        cardPINField = new JTextField();
-        cardPINField.setBounds(10, 105, 200, 25);
-        cardPINField.addKeyListener(ViewUtility.addNumberInputKeyListener());
+            cardPINField = new JTextField();
+            cardPINField.setBounds(10, 105, 200, 25);
+            cardPINField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
-        cancelBtn = new JButton("Cancel");
-        cancelBtn.setFocusable(false);
-        cancelBtn.setBounds(10, 140, 100, 25);
-        cancelBtn.addActionListener(this::cancelBtnActionPerformed);
+            cancelBtn = new JButton("Cancel");
+            cancelBtn.setFocusable(false);
+            cancelBtn.setBounds(10, 140, 100, 25);
+            cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
-        enterBtn = new JButton("Enter");
-        enterBtn.setFocusable(false);
-        enterBtn.setBounds(110, 140, 100, 25);
-        enterBtn.addActionListener(this::enterBtnActionPerformed);
+            enterBtn = new JButton("Enter");
+            enterBtn.setFocusable(false);
+            enterBtn.setBounds(110, 140, 100, 25);
+            enterBtn.addActionListener(this::enterBtnActionPerformed);
 
         popUpFrame1.add(bankAccountNumLbl);
         popUpFrame1.add(cardPINLbl);
@@ -383,51 +382,51 @@ public class MainWindow {
         popUpFrame2.setSize(314, 300);
         popUpFrame2.setLocationRelativeTo(mainFrame);
 
-        chooseLbl = new JLabel("Choose Bank:");
-        chooseLbl.setBounds(0, 0, 100, 30);
+            chooseLbl = new JLabel("Choose Bank:");
+            chooseLbl.setBounds(0, 0, 100, 30);
 
-        bank1Btn = ViewFactory.createToggleButton(popUpFrame2 ,"IMBank", 0, 40);
-        bank2Btn = ViewFactory.createToggleButton(popUpFrame2 ,"BDO", 100, 40);
-        bank3Btn = ViewFactory.createToggleButton(popUpFrame2 ,"LandBank", 200, 40);
-        bank4Btn = ViewFactory.createToggleButton(popUpFrame2 ,"MetroBank", 0, 70);
-        bank5Btn = ViewFactory.createToggleButton(popUpFrame2 ,"BPI", 100, 70);
-        bank6Btn = ViewFactory.createToggleButton(popUpFrame2 ,"RCBC", 200, 70);
+            bank1Btn = ViewFactory.createToggleButton(popUpFrame2 ,"IMBank", 0, 40);
+            bank2Btn = ViewFactory.createToggleButton(popUpFrame2 ,"BDO", 100, 40);
+            bank3Btn = ViewFactory.createToggleButton(popUpFrame2 ,"LandBank", 200, 40);
+            bank4Btn = ViewFactory.createToggleButton(popUpFrame2 ,"MetroBank", 0, 70);
+            bank5Btn = ViewFactory.createToggleButton(popUpFrame2 ,"BPI", 100, 70);
+            bank6Btn = ViewFactory.createToggleButton(popUpFrame2 ,"RCBC", 200, 70);
 
-        bankGroup = new ButtonGroup();
-        bankGroup.add(bank1Btn);
-        bankGroup.add(bank2Btn);
-        bankGroup.add(bank3Btn);
-        bankGroup.add(bank4Btn);
-        bankGroup.add(bank5Btn);
-        bankGroup.add(bank6Btn);
+            bankGroup = new ButtonGroup();
+            bankGroup.add(bank1Btn);
+            bankGroup.add(bank2Btn);
+            bankGroup.add(bank3Btn);
+            bankGroup.add(bank4Btn);
+            bankGroup.add(bank5Btn);
+            bankGroup.add(bank6Btn);
 
-        ActionListener toggleListener = e ->{
-            selectedBank = getSelectedBank((JToggleButton) e.getSource());
-        };
+            ActionListener toggleListener = e ->{
+                selectedBank = getSelectedBank((JToggleButton) e.getSource());
+            };
 
-        bank1Btn.addActionListener(toggleListener);
-        bank2Btn.addActionListener(toggleListener);
-        bank3Btn.addActionListener(toggleListener);
-        bank4Btn.addActionListener(toggleListener);
-        bank5Btn.addActionListener(toggleListener);
-        bank6Btn.addActionListener(toggleListener);
+            bank1Btn.addActionListener(toggleListener);
+            bank2Btn.addActionListener(toggleListener);
+            bank3Btn.addActionListener(toggleListener);
+            bank4Btn.addActionListener(toggleListener);
+            bank5Btn.addActionListener(toggleListener);
+            bank6Btn.addActionListener(toggleListener);
 
-        amountLbl = new JLabel("Enter Amount:");
-        amountLbl.setBounds(0, 100, 100, 30);
+            amountLbl = new JLabel("Enter Amount:");
+            amountLbl.setBounds(0, 100, 100, 30);
 
-        amountField = new JTextField();
-        amountField.setBounds(0, 130, 120, 25);
-        amountField.addKeyListener(ViewUtility.addNumberInputKeyListener());
+            amountField = new JTextField();
+            amountField.setBounds(0, 130, 120, 25);
+            amountField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
-        cancelBtn = new JButton("Cancel");
-        cancelBtn.setFocusable(false);
-        cancelBtn.setBounds(10, 190, 100, 25);
-        cancelBtn.addActionListener(this::cancelBtnActionPerformed);
+            cancelBtn = new JButton("Cancel");
+            cancelBtn.setFocusable(false);
+            cancelBtn.setBounds(10, 190, 100, 25);
+            cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
-        submitBtn = new JButton("Submit");
-        submitBtn.setFocusable(false);
-        submitBtn.setBounds(110, 190, 100, 25);
-        submitBtn.addActionListener(this::submitTransactionRequestBtnActionPerformed);
+            submitBtn = new JButton("Submit");
+            submitBtn.setFocusable(false);
+            submitBtn.setBounds(110, 190, 100, 25);
+            submitBtn.addActionListener(this::submitTransactionRequestBtnActionPerformed);
 
         popUpFrame2.add(chooseLbl);
         popUpFrame2.add(amountLbl);
@@ -550,13 +549,13 @@ public class MainWindow {
         return tb.getText();
     }
 
-    public void setDisplayBalanceField(String bankAccountBalance) {
-        this.displayBalanceField.setText(bankAccountBalance);;
-    }
-
     public JFrame getMainFrame() {
         return mainFrame;
     }
 
     public DefaultTableModel getTableModel() { return tableModel; }
+
+    public void setDisplayBalanceField(String bankAccountBalance) {
+        this.displayBalanceField.setText(bankAccountBalance);;
+    }
 }

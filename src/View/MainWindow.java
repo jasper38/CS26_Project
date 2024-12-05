@@ -48,6 +48,7 @@ public class MainWindow {
 
     //Profile panel and its components
     private JPanel profilePanel;
+    private JLabel fnameLbl,lnameLbl,ageLbl, bdayLbl,addressLbl,genderLbl;
 
     // Main window components
     private JSeparator horizontalSeparator;
@@ -303,7 +304,119 @@ public class MainWindow {
 
         profilePanel = new JPanel();
         profilePanel.setLayout(null);
-        profilePanel.setBackground(Color.MAGENTA);
+        //profilePanel.setBackground(Color.MAGENTA);
+        profilePanel.setBounds(300, 80, 900, 1110);
+
+        JLabel profileLbl = new JLabel("User Information");
+        profileLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
+        profileLbl.setForeground(new java.awt.Color(35, 35, 77));
+        profileLbl.setBounds(350,20,600,50);
+
+        JButton editBtn = new JButton("Edit");
+        editBtn.setFocusable(false);
+        editBtn.setBounds(40, 80, 100, 40);
+        editBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
+        editBtn.setForeground(new java.awt.Color(224, 224, 231));
+        editBtn.setBackground(new java.awt.Color(35, 35, 77));
+        editBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+        editBtn.setBorderPainted(false);
+
+
+        //Left Panel, Personal Information
+
+        JLabel personInfoLbl = new JLabel("Personal Information");
+        personInfoLbl.setFont(new Font("MS UI Gothic",1,28));
+        personInfoLbl.setBounds(80,130,400,40);
+        personInfoLbl.setForeground(new Color(35, 35, 77));
+
+        fnameLbl = new JLabel("Full Name: ");
+        fnameLbl.setFont(new Font("MS UI Gothic", 1, 24));
+        fnameLbl.setForeground(new java.awt.Color(35, 35, 77));
+        fnameLbl.setBounds(50,180,150,30);
+
+        bdayLbl = new JLabel("Birthdate: ");
+        bdayLbl.setFont(new Font("MS UI Gothic", 1, 24));
+        bdayLbl.setForeground(new java.awt.Color(35, 35, 77));
+        bdayLbl.setBounds(50,230,150,30);
+
+        ageLbl = new JLabel("Age: ");
+        ageLbl.setFont(new Font("MS UI Gothic", 1, 24));
+        ageLbl.setForeground(new java.awt.Color(35, 35, 77));
+        ageLbl.setBounds(50,280,150,30);
+
+        genderLbl = new JLabel("Gender: ");
+        genderLbl.setFont(new Font("MS UI Gothic", 1, 24));
+        genderLbl.setForeground(new java.awt.Color(35, 35, 77));
+        genderLbl.setBounds(50,330,150,30);
+
+        //Right Panel, Account Information
+
+        JLabel usernameLbl, bankAccIDNoLbl,contactNoLbl,emailLbl,accInfoLbl;
+        JTextField changePassTF, confirmpassTF;
+
+        accInfoLbl = new JLabel("Account Information");
+        accInfoLbl.setFont(new Font("MS UI Gothic",1,28));
+        accInfoLbl.setForeground(new Color(35, 35, 77));
+        accInfoLbl.setBounds(470,130,400,30);
+
+        usernameLbl = new JLabel("Username: ");
+        usernameLbl.setFont(new Font("MS UI Gothic", 1, 24));
+        usernameLbl.setForeground(new java.awt.Color(35, 35, 77));
+        usernameLbl.setBounds(450,180,150,30);
+
+        bankAccIDNoLbl = new JLabel("Bank Account ID NO.: ");
+        bankAccIDNoLbl.setFont(new Font("MS UI Gothic", 1, 24));
+        bankAccIDNoLbl.setForeground(new java.awt.Color(35, 35, 77));
+        bankAccIDNoLbl.setBounds(450,230,300,30);
+
+        contactNoLbl = new JLabel("Contact No: ");
+        contactNoLbl.setFont(new Font("MS UI Gothic", 1, 24));
+        contactNoLbl.setForeground(new java.awt.Color(35, 35, 77));
+        contactNoLbl.setBounds(450,280,150,30);
+
+        emailLbl = new JLabel("Email: ");
+        emailLbl.setFont(new Font("MS UI Gothic", 1, 24));
+        emailLbl.setForeground(new java.awt.Color(35, 35, 77));
+        emailLbl.setBounds(450,330,150,30);
+
+        JButton changePassBtn = new JButton("Change Password");
+        changePassBtn.setFocusable(false);
+        changePassBtn.setBounds(450, 500, 400, 40);
+        changePassBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
+        changePassBtn.setForeground(new java.awt.Color(224, 224, 231));
+        changePassBtn.setBackground(new java.awt.Color(35, 35, 77));
+        changePassBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+        changePassBtn.setBorderPainted(false);
+
+
+        changePassTF = new JTextField();
+        changePassTF.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
+        changePassTF.setBounds(450,400,400,30);
+        changePassTF.setForeground(new Color(35, 35, 77));
+
+        confirmpassTF = new JTextField();
+        confirmpassTF.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
+        confirmpassTF.setBounds(450,450,400,30);
+        confirmpassTF.setForeground(new Color(35, 35, 77));
+
+
+
+        profilePanel.add(personInfoLbl);
+        profilePanel.add(changePassBtn);
+        profilePanel.add(confirmpassTF);
+        profilePanel.add(changePassTF);
+        profilePanel.add(profileLbl);
+        profilePanel.add(editBtn);
+        profilePanel.add(fnameLbl);
+        profilePanel.add(bdayLbl);
+        profilePanel.add(ageLbl);
+        profilePanel.add(genderLbl);
+        profilePanel.add(usernameLbl);
+        profilePanel.add(accInfoLbl);
+        profilePanel.add(usernameLbl);
+        profilePanel.add(bankAccIDNoLbl);
+        profilePanel.add(contactNoLbl);
+        profilePanel.add(emailLbl);
 
         panels[2] =profilePanel;
 

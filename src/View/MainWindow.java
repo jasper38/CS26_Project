@@ -720,10 +720,9 @@ public class MainWindow {
         }
         if (popUpFrame2 == null || !popUpFrame2.isVisible()) {
             try{
-                bankController.authenticateBankCredentials(
-                        Integer.parseInt(bankAccountNumField.getText()),
-                        Integer.parseInt(cardPINField.getText())
-                );
+                bankController.checkForPendingTransactions();
+                depositBtn.setEnabled(true);
+                withdrawBtn.setEnabled(true);
             } catch (NumberFormatException ex){
                 ViewUtility.showMessage("Please enter fields.");
             }
@@ -785,6 +784,13 @@ public class MainWindow {
         bankAccIDNoLbl.setText("Bank Account Number: " + userProfile.getBankAccountNumberID());
         contactNoLbl.setText("Contact Number: " + userProfile.getContactNumber());
         emailLbl.setText("Email: " + userProfile.getEmail());
+    }
+
+    public void proceedTransaction(){
+        bankController.authenticateBankCredentials(
+                Integer.parseInt(bankAccountNumField.getText()),
+                Integer.parseInt(cardPINField.getText())
+        );
     }
 
     // Getters/Setters

@@ -137,6 +137,15 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
+    public int getTransactionID() throws SQLException {
+        int transactionID = transactionRepository.getPendingTransactions(bankAccountNumberID);
+        if(transactionID > 0) {
+            return 1;
+        }
+        return transactionID;
+    }
+
+    @Override
     public int generateOTP() {
         return (int) (Math.random() * 900000) + 100000;
     }

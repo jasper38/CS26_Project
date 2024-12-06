@@ -126,11 +126,7 @@ public class IMBankController {
         SwingWorker<Integer, Void> worker = new SwingWorker<>() {
             @Override
             protected Integer doInBackground() throws Exception {
-                try{
-                    return bankService.createTransaction(transactionType ,selectedBank, amount);
-                } catch (Exception e){
-                    throw new Exception(e.getMessage());
-                }
+                return bankService.createTransaction(transactionType ,selectedBank, amount);
             }
             @Override
             protected void done() {
@@ -138,8 +134,32 @@ public class IMBankController {
                     int OTP = get();
                     if (OTP > 0) {
                         ViewUtility.showMessage("Transaction Created. OTP: " + OTP);
+                    } else {
+                        throw new Exception("Transaction could not be created");
                     }
                 } catch (Exception e) {
+                    ViewUtility.showMessage(e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    public void checkForPendingTransactions(){
+        SwingWorker<Integer, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Integer doInBackground() throws Exception {
+                return bankService.getTransactionID();
+            }
+            @Override
+            protected void done() {
+                try{
+                    int transactionID = get();
+                    if(transactionID > 0) {
+                        throw new Exception("You have a pending transaction. Please complete them first.");
+                    }
+                    mainWindow.proceedTransaction();
+                } catch (Exception e){
                     ViewUtility.showMessage(e.getMessage());
                 }
             }

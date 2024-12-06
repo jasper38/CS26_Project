@@ -13,5 +13,6 @@ public interface IMBankService {
     int createTransaction(String transactionType, String selectedBank, int amount) throws SQLException;
     List<TransactionHistoryDTO> getTransactions() throws SQLException;
     UserProfileDTO getUserProfile() throws SQLException;
+    int getTransactionID() throws SQLException;
     int generateOTP();
 }

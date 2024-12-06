@@ -67,4 +67,20 @@ public class TransactionRepository {
             return transactions;
         }
     }
+
+    public int getPendingTransactions(int bankAccountNumberID) throws SQLException {
+        String sql = "SELECT Transaction_ID " +
+                     "FROM Transaction " +
+                     "WHERE Bank_Account_Number_ID = ? AND Request_Status = 'Pending'";
+        try(Connection conn = IMBankConnectionManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bankAccountNumberID);
+            ResultSet rs = ps.executeQuery();
+            int transactionID = 0;
+            if(rs.next()) {
+                transactionID = rs.getInt("Transaction_ID");
+            }
+            return transactionID;
+        }
+    }
 }

@@ -153,4 +153,12 @@ public class LogInWindow {
     public JFrame getLoginFrame() {
         return loginFrame;
     }
+
+    public JTextField getUserNameField() {
+        return userNameField;
+    }
+
+    public JPasswordField getPassField() {
+        return passField;
+    }
 }

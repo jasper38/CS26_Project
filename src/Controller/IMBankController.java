@@ -55,7 +55,7 @@ public class IMBankController {
         SwingWorker<LogInResult, Void> worker = new SwingWorker<>() {
             @Override
             protected LogInResult doInBackground() throws Exception {
-                Thread.sleep(100);
+                Thread.sleep(50);
                 return bankService.verifyLogIn(logInRequest);
             }
 
@@ -243,7 +243,13 @@ public class IMBankController {
         };
         worker.execute();
     }
-    //logout validation securely method here
+
+    public void logoutUserSession(){
+        SwingUtilities.invokeLater(() -> {
+            logInWindow.getUserNameField().setText("");
+            logInWindow.getPassField().setText("");
+        });
+    }
 
     public void showLoginWindow() {
         ViewUtility.show(logInWindow.getLoginFrame());

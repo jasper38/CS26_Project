@@ -692,6 +692,7 @@ public class MainWindow {
     }
 
     private void logoutBtnActionPerformed(ActionEvent ae) {
+        bankController.logoutUserSession();
         int response = JOptionPane.showConfirmDialog(
                 this.getMainFrame(),
                 "Are you sure you want to log out?",

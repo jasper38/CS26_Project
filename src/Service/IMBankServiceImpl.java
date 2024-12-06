@@ -151,6 +151,16 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
+    public boolean logoutUserSession() {
+        if(!sessionUsername.isEmpty() && bankAccountNumberID != 0){
+            sessionUsername = null;
+            bankAccountNumberID = 0;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public int generateOTP() {
         return (int) (Math.random() * 900000) + 100000;
     }

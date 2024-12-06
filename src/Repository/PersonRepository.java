@@ -1,5 +1,6 @@
 package Repository;
 
+import DTO.UserProfileDTO;
 import DatabaseConnectionManager.IMBankConnectionManager;
 import Model.Person;
 
@@ -33,9 +34,44 @@ public class PersonRepository {
             } else {
                 throw new SQLException("Insert failed, no rows affected");
             }
-
         } catch (SQLException se) {
             return -1;
+        }
+    }
+
+    public UserProfileDTO getUserProfile(int bankAccount_NumberID) throws SQLException {
+        String sql = "SELECT CONCAT(p.First_Name, ' ', p.Last_Name) AS fullName, " +
+                     "p.Birthdate AS birthdate, " +
+                     "YEAR(CURDATE()) - YEAR(p.Birthdate) AS age, " +
+                     "p.Sex AS sex, " +
+                     "c.Username AS username, " +
+                     "p.Phone_No AS contactNumber, " +
+                     "c.Email AS email, " +
+                     "b.Bank_Account_Number_ID AS bankAccountNumberID " +
+                     "FROM Person p " +
+                     "JOIN Customers c ON p.Person_ID = c.Person_ID " +
+                     "JOIN Bank_Accounts b ON c.Customer_ID = b.Customer_ID " +
+                     "WHERE b.Bank_Account_Number_ID = ?";
+        try (Connection conn = IMBankConnectionManager.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, bankAccount_NumberID);
+
+            UserProfileDTO userProfileDTO = null;
+            ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    userProfileDTO = new UserProfileDTO();
+                    userProfileDTO.setFullName(rs.getString("fullName"));
+                    userProfileDTO.setBirthDate(rs.getString("birthdate"));
+                    userProfileDTO.setAge(rs.getInt("age"));
+                    userProfileDTO.setSex(rs.getString("sex"));
+                    userProfileDTO.setUsername(rs.getString("username"));
+                    userProfileDTO.setContactNumber(rs.getString("contactNumber"));
+                    userProfileDTO.setEmail(rs.getString("email"));
+                    userProfileDTO.setBankAccountNumberID(rs.getInt("bankAccountNumberID"));
+                }
+            System.out.println("Checked Repository");
+            return userProfileDTO;
         }
     }
 }

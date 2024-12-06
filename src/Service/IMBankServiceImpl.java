@@ -128,6 +128,16 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
+    public UserProfileDTO getUserProfile() throws SQLException {
+        UserProfileDTO userProfileDTO = personRepository.getUserProfile(bankAccountNumberID);
+        if(userProfileDTO == null) {
+            throw new SQLException("User profile could not be retrieved");
+        }
+        System.out.println("Service Layer invoked");
+        return userProfileDTO;
+    }
+
+    @Override
     public int generateOTP() {
         return (int) (Math.random() * 900000) + 100000;
     }

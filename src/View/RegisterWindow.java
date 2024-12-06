@@ -108,6 +108,7 @@ public class RegisterWindow {
         registerFrame.setLayout(null);
         registerFrame.setSize(width, height);
         registerFrame.setLocationRelativeTo(null);
+        registerFrame.addWindowListener(ViewUtility.getWindowAdapter());
 
         initStep1PanelComponents();
         initStep2PanelComponents();

@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public final class ViewUtility {
 
@@ -15,6 +17,15 @@ public final class ViewUtility {
             }
         }
         container.setVisible(isEnabled);
+    }
+
+    public static WindowAdapter getWindowAdapter() {
+        return new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we){
+                System.exit(0);
+            }
+        };
     }
 
     public static KeyAdapter addNumberInputKeyListener() {

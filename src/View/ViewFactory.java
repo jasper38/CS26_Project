@@ -1,5 +1,7 @@
 package View;
 
+import Utility.ViewUtility;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,6 +23,7 @@ public final class ViewFactory {
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        frame.addWindowListener(ViewUtility.getWindowAdapter());
         return frame;
     }
 

@@ -448,10 +448,33 @@ public class ATM {
 
     private void writeToFileReceipt(ATM_DTO atm_dto) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter("Receipt.txt"))){
-            writer.write("---------------------------------------------------------------");
-            writer.write(
-                    String.format("%10s", "IM Bank")
-            );
+            // Header Section
+            writer.write(String.format("%-45s\n", "                   I.M Bank"));
+            writer.write("-------------------------------------------------\n");
+
+            // Transaction Details
+            writer.write(String.format("%-20s: %s\n", "DATE", java.time.LocalDate.now()));
+            writer.write(String.format("%-20s: %s\n", "TIME", java.time.LocalTime.now().withNano(0)));
+            writer.write(String.format("%-20s: %s\n", "TRANSACTION NUMBER", "XXXX-XXXX-XXXX"));
+            writer.write("\n");
+
+            // Location and Card Info
+            writer.write(String.format("%-45s\n", "Davao City, 8000, Philippines"));
+            writer.write(String.format("%-20s: %s\n", "Card number", "XXXX-XXXX-XXXX-1234"));
+            writer.write(String.format("%-20s: %s\n", "Transaction type", "(withdrawal)"));
+            writer.write("\n");
+
+            // Amount Details
+            writer.write(String.format("%-20s: %s\n", "Amount", "Php 10,000.00"));
+            writer.write(String.format("%-20s: %s\n", "Charge fee", "Php 50.00"));
+            writer.write(String.format("%-20s: %s\n", "Total", "Php 10,050.00"));
+            writer.write(String.format("%-20s: %s\n", "Account Balance", "Php 90,000.00"));
+            writer.write("\n");
+
+            // Footer Section
+            writer.write("***********************************************\n");
+            writer.write(" PLEASE RETAIN OR DISPOSE OF THOUGHTFULLY.     \n");
+            writer.write("***********************************************\n");
         } catch (IOException e){
             ViewUtility.showMessage("Error writing receipt file");
         }

@@ -80,6 +80,7 @@ public class LogInWindow {
                 passField.setFont(new java.awt.Font("MS UI Gothic", 0, 24));
                 passField.setForeground(new java.awt.Color(102, 102, 102));
                 passField.setBounds(110, 230, 362, 45);
+                passField.setEchoChar('*');
 
                 showPass = new JCheckBox("Show password");
                 showPass.setFont(new java.awt.Font("MS UI Gothic", 0, 15));

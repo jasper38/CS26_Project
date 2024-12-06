@@ -1,9 +1,6 @@
 package Controller;
 
-import DTO.LogInRequestDTO;
-import DTO.LogInResult;
-import DTO.RegistrationRequestDTO;
-import DTO.TransactionHistoryDTO;
+import DTO.*;
 import Service.IMBankServiceImpl;
 import Utility.ViewUtility;
 import View.LogInWindow;
@@ -173,7 +170,30 @@ public class IMBankController {
         worker.execute();
     }
 
-    //TO DO: profile panel
+    public void getUserProfile(){
+        SwingWorker<UserProfileDTO, Void> worker = new SwingWorker<>() {
+            @Override
+            protected UserProfileDTO doInBackground() throws Exception {
+                System.out.println("Layer 1 check");
+                return bankService.getUserProfile();
+            }
+            @Override
+            protected void done() {
+                try{
+                    UserProfileDTO profile = get();
+                    if(profile != null){
+                        System.out.println("Updated");
+                        mainWindow.displayUserProfile(profile);
+                    } else {
+                        throw new Exception("Could not retrieve user profile");
+                    }
+                } catch (Exception e){
+                    ViewUtility.showMessage(e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
     //logout validation securely method here
 
     public void showLoginWindow() {

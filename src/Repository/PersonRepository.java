@@ -70,7 +70,6 @@ public class PersonRepository {
                     userProfileDTO.setEmail(rs.getString("email"));
                     userProfileDTO.setBankAccountNumberID(rs.getInt("bankAccountNumberID"));
                 }
-            System.out.println("Checked Repository");
             return userProfileDTO;
         }
     }

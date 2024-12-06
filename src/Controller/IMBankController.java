@@ -174,7 +174,6 @@ public class IMBankController {
         SwingWorker<UserProfileDTO, Void> worker = new SwingWorker<>() {
             @Override
             protected UserProfileDTO doInBackground() throws Exception {
-                System.out.println("Layer 1 check");
                 return bankService.getUserProfile();
             }
             @Override
@@ -182,7 +181,6 @@ public class IMBankController {
                 try{
                     UserProfileDTO profile = get();
                     if(profile != null){
-                        System.out.println("Updated");
                         mainWindow.displayUserProfile(profile);
                     } else {
                         throw new Exception("Could not retrieve user profile");

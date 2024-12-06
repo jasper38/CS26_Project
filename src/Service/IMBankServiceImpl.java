@@ -133,7 +133,6 @@ public class IMBankServiceImpl implements IMBankService {
         if(userProfileDTO == null) {
             throw new SQLException("User profile could not be retrieved");
         }
-        System.out.println("Service Layer invoked");
         return userProfileDTO;
     }
 

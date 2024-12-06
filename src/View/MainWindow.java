@@ -335,22 +335,22 @@ public class MainWindow {
             fnameLbl = new JLabel("Full Name: ");
             fnameLbl.setFont(new Font("MS UI Gothic", 1, 24));
             fnameLbl.setForeground(new java.awt.Color(35, 35, 77));
-            fnameLbl.setBounds(50,180,150,30);
+            fnameLbl.setBounds(50,180,400,30);
 
             bdayLbl = new JLabel("Birthdate: ");
             bdayLbl.setFont(new Font("MS UI Gothic", 1, 24));
             bdayLbl.setForeground(new java.awt.Color(35, 35, 77));
-            bdayLbl.setBounds(50,230,150,30);
+            bdayLbl.setBounds(50,230,400,30);
 
             ageLbl = new JLabel("Age: ");
             ageLbl.setFont(new Font("MS UI Gothic", 1, 24));
             ageLbl.setForeground(new java.awt.Color(35, 35, 77));
-            ageLbl.setBounds(50,280,150,30);
+            ageLbl.setBounds(50,280,400,30);
 
             genderLbl = new JLabel("Sex: ");
             genderLbl.setFont(new Font("MS UI Gothic", 1, 24));
             genderLbl.setForeground(new java.awt.Color(35, 35, 77));
-            genderLbl.setBounds(50,330,150,30);
+            genderLbl.setBounds(50,330,400,30);
 
             //Right Panel, Account Information
             accInfoLbl = new JLabel("Account Information");
@@ -361,22 +361,22 @@ public class MainWindow {
             usernameLbl = new JLabel("Username: ");
             usernameLbl.setFont(new Font("MS UI Gothic", 1, 24));
             usernameLbl.setForeground(new java.awt.Color(35, 35, 77));
-            usernameLbl.setBounds(450,180,150,30);
+            usernameLbl.setBounds(450,180,400,30);
 
             bankAccIDNoLbl = new JLabel("Bank Account ID NO.: ");
             bankAccIDNoLbl.setFont(new Font("MS UI Gothic", 1, 24));
             bankAccIDNoLbl.setForeground(new java.awt.Color(35, 35, 77));
-            bankAccIDNoLbl.setBounds(450,230,300,30);
+            bankAccIDNoLbl.setBounds(450,230,400,30);
 
             contactNoLbl = new JLabel("Contact No: ");
             contactNoLbl.setFont(new Font("MS UI Gothic", 1, 24));
             contactNoLbl.setForeground(new java.awt.Color(35, 35, 77));
-            contactNoLbl.setBounds(450,280,150,30);
+            contactNoLbl.setBounds(450,280,400,30);
 
             emailLbl = new JLabel("Email: ");
             emailLbl.setFont(new Font("MS UI Gothic", 1, 24));
             emailLbl.setForeground(new java.awt.Color(35, 35, 77));
-            emailLbl.setBounds(450,330,150,30);
+            emailLbl.setBounds(450,330,400,30);
 
             changePassBtn = new JButton("Change Password");
             changePassBtn.setFocusable(false);

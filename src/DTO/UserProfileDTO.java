@@ -83,7 +83,6 @@ public class UserProfileDTO {
                 "fullName='" + fullName + '\'' +
                 ", birthDate='" + birthDate + '\'' +
                 ", age=" + age +
-                ", address='" + address + '\'' +
                 ", sex='" + sex + '\'' +
                 ", username='" + username + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +

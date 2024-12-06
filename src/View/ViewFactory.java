@@ -23,7 +23,6 @@ public final class ViewFactory {
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.addWindowListener(ViewUtility.getWindowAdapter());
         return frame;
     }
 

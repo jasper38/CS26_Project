@@ -83,4 +83,18 @@ public class TransactionRepository {
             return transactionID;
         }
     }
+
+    public int updatePendingStatusIfDurationExceedsHour(int bankAccountNumberID) throws SQLException {
+        String sql = "UPDATE Transaction t "
+                   + "INNER JOIN Bank_Accounts ba ON t.Bank_Account_Number_ID = ba.Bank_Account_Number_ID "
+                   + "SET t.Request_Status = 'Cancelled', t.OTP = '------' "
+                   + "WHERE ba.Bank_Account_Number_ID = ? "
+                   + "AND t.Request_Status = 'Pending'";
+        try(Connection conn = IMBankConnectionManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, bankAccountNumberID);
+            return ps.executeUpdate();
+        }
+    }
 }

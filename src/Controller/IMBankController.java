@@ -8,6 +8,8 @@ import View.MainWindow;
 import View.RegisterWindow;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -134,6 +136,14 @@ public class IMBankController {
                     int OTP = get();
                     if (OTP > 0) {
                         ViewUtility.showMessage("Transaction Created. OTP: " + OTP);
+                            Timer timer = new Timer(60000, new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    cancelTransaction();
+                                }
+                            });
+                            timer.setRepeats(false);
+                            timer.start();
                     } else {
                         throw new Exception("Transaction could not be created");
                     }
@@ -205,6 +215,27 @@ public class IMBankController {
                     } else {
                         throw new Exception("Could not retrieve user profile");
                     }
+                } catch (Exception e){
+                    ViewUtility.showMessage(e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    private void cancelTransaction(){
+        SwingWorker<Integer, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Integer doInBackground() throws Exception {
+                return bankService.cancelPendingTransaction();
+            }
+            @Override
+            protected void done() {
+                try{
+                  int pendingTransactionID = get();
+                  if(pendingTransactionID > 0) {
+                      ViewUtility.showMessage("Transaction cancelled.");
+                  }
                 } catch (Exception e){
                     ViewUtility.showMessage(e.getMessage());
                 }

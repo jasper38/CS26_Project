@@ -14,5 +14,6 @@ public interface IMBankService {
     List<TransactionHistoryDTO> getTransactions() throws SQLException;
     UserProfileDTO getUserProfile() throws SQLException;
     int getTransactionID() throws SQLException;
+    int cancelPendingTransaction() throws SQLException;
     int generateOTP();
 }

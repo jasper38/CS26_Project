@@ -76,18 +76,4 @@ public class UserProfileDTO {
     public void setBankAccountNumberID(int bankAccountNumberID) {
         this.bankAccountNumberID = bankAccountNumberID;
     }
-
-    @Override
-    public String toString() {
-        return "UserProfileDTO{" +
-                "fullName='" + fullName + '\'' +
-                ", birthDate='" + birthDate + '\'' +
-                ", age=" + age +
-                ", sex='" + sex + '\'' +
-                ", username='" + username + '\'' +
-                ", contactNumber='" + contactNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", bankAccountNumberID=" + bankAccountNumberID +
-                '}';
-    }
 }

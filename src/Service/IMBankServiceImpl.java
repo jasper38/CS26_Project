@@ -146,6 +146,11 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
+    public int cancelPendingTransaction() throws SQLException {
+        return transactionRepository.updatePendingStatusIfDurationExceedsHour(bankAccountNumberID);
+    }
+
+    @Override
     public int generateOTP() {
         return (int) (Math.random() * 900000) + 100000;
     }

@@ -18,6 +18,8 @@ import java.sql.SQLException;
 
 public class ATM {
 
+    private JTextArea receiptTextArea;
+
     public ATM() {
         initATMGuiComponents();
     }
@@ -171,7 +173,7 @@ public class ATM {
                                                             closingLabel.setFont(new Font("Arial", Font.BOLD, 30));
                                                             closingLabel.setBounds(250, 160, 700, 80);
 
-                                                            JLabel askReceiptLabel=new JLabel("Would you like to print your receipt?");
+                                                            JLabel askReceiptLabel=new JLabel("Would you like to see your receipt?");
                                                             askReceiptLabel.setForeground(Color.white);
                                                             askReceiptLabel.setFont(new Font("Arial", Font.BOLD, 30));
                                                             askReceiptLabel.setBounds(180, 200, 700, 80);
@@ -182,129 +184,72 @@ public class ATM {
                                                             yesButton.setFocusable(false);
                                                             yesButton.setBounds(210, 340, 190, 40);
                                                             yesButton.addActionListener(new ActionListener() {
-
                                                                 @Override
                                                                 public void actionPerformed(ActionEvent e) {
-
                                                                     frame.remove(confirmationPanel);
 
-                                                                    JPanel bgPanel=new JPanel();
+                                                                    JPanel bgPanel = new JPanel();
                                                                     bgPanel.setLayout(null);
                                                                     bgPanel.setBackground(new Color(0x223345));
                                                                     bgPanel.setBounds(0, 100, 900, 500);
 
-                                                                    JPanel receiptPanel=new JPanel();
+                                                                    JPanel receiptPanel = new JPanel();
                                                                     receiptPanel.setLayout(null);
                                                                     receiptPanel.setBackground(Color.white);
                                                                     receiptPanel.setBounds(200, 130, 450, 400);
 
-                                                                    JLabel logoLabel=new JLabel("I.M Bank");
-                                                                    logoLabel.setForeground(new Color(0x23234D));
-                                                                    logoLabel.setFont(new Font("Helvetica", Font.BOLD, 30));
-                                                                    logoLabel.setBounds(165,10, 150, 40);
+                                                                    // Create a JTextArea for the receipt
+                                                                    receiptTextArea = new JTextArea();
+                                                                    receiptTextArea.setText(
+                                                                            "          I.M BANK\n" +
+                                                                                    "--------------------------------------------\n" +
+                                                                                    "DATE                 TIME                 TRANSACTION NUMBER     ATM ID\n" +
+                                                                                    "Davao City, 8000, Philippines\n\n" +
+                                                                                    "Card number: ********************\n" +
+                                                                                    "(Transaction type) from: ******\n" +
+                                                                                    "Amount: ***********\n" +
+                                                                                    "Charge fee: ********\n" +
+                                                                                    "Total: ************\n" +
+                                                                                    "Account Balance: **************\n\n" +
+                                                                                    "******************************************\n" +
+                                                                                    "PLEASE RETAIN OR DISPOSE OF THOUGHTFULLY.\n" +
+                                                                                    "******************************************"
+                                                                    );
+                                                                    receiptTextArea.setEditable(false); // Make the text area read-only
+                                                                    receiptTextArea.setFont(new Font("Arial", Font.PLAIN, 15));
+                                                                    receiptTextArea.setBounds(10, 10, 430, 380);
+                                                                    receiptTextArea.setForeground(Color.black);
+                                                                    receiptTextArea.setBackground(Color.white);
+                                                                    receiptTextArea.setLineWrap(true);
+                                                                    receiptTextArea.setWrapStyleWord(true);
 
-                                                                    JLabel brokenLineLabel=new JLabel("-------------------------------------------------");
-                                                                    brokenLineLabel.setForeground(Color.black);
-                                                                    brokenLineLabel.setFont(new Font("Arial", Font.PLAIN, 25));
-                                                                    brokenLineLabel.setBounds(10,40, 450, 30);
-
-                                                                    JLabel dateLabel=new JLabel("DATE");
-                                                                    dateLabel.setForeground(Color.black);
-                                                                    dateLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    dateLabel.setBounds(20,70, 60, 20);
-                                                                    JLabel timeLabel=new JLabel("TIME");
-                                                                    timeLabel.setForeground(Color.black);
-                                                                    timeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    timeLabel.setBounds(120,70, 60, 20);
-                                                                    JLabel transactionNumLabel=new JLabel("<html>TRANSACTION<br>NUMBER</html>");
-                                                                    transactionNumLabel.setForeground(Color.black);
-                                                                    transactionNumLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    transactionNumLabel.setBounds(210,70, 450, 40);
-                                                                    JLabel atmIdLabel=new JLabel("ATM ID");
-                                                                    atmIdLabel.setForeground(Color.black);
-                                                                    atmIdLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    atmIdLabel.setBounds(370,70, 80, 20);
-                                                                    JLabel addressLabel=new JLabel("Davao City, 8000, Philippines");
-                                                                    addressLabel.setForeground(Color.black);
-                                                                    addressLabel.setFont(new Font("Arial", Font.BOLD, 15));
-                                                                    addressLabel.setBounds(20,145, 225, 20);
-                                                                    JLabel cardNumLabel=new JLabel("Card number:");
-                                                                    cardNumLabel.setForeground(Color.black);
-                                                                    cardNumLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    cardNumLabel.setBounds(20,170, 100, 20);
-                                                                    JLabel accTypeLabel=new JLabel("(transaction type) from: ");
-                                                                    accTypeLabel.setForeground(Color.black);
-                                                                    accTypeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    accTypeLabel.setBounds(20,195, 200, 20);
-                                                                    JLabel amountLabel=new JLabel("Amount:");
-                                                                    amountLabel.setForeground(Color.black);
-                                                                    amountLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    amountLabel.setBounds(20,220, 80, 20);
-                                                                    JLabel chargeFeeLabel=new JLabel("Charge fee:");
-                                                                    chargeFeeLabel.setForeground(Color.black);
-                                                                    chargeFeeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    chargeFeeLabel.setBounds(20,245, 90, 20);
-                                                                    JLabel totalLabel=new JLabel("Total:");
-                                                                    totalLabel.setForeground(Color.black);
-                                                                    totalLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    totalLabel.setBounds(20,270, 80, 20);
-                                                                    JLabel accBalanceLabel=new JLabel("Account Balance: ");
-                                                                    accBalanceLabel.setForeground(Color.black);
-                                                                    accBalanceLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    accBalanceLabel.setBounds(20,295, 130, 20);
-                                                                    JLabel asteriskLabel1=new JLabel("******************************************");
-                                                                    asteriskLabel1.setForeground(Color.black);
-                                                                    asteriskLabel1.setFont(new Font("Arial", Font.PLAIN, 25));
-                                                                    asteriskLabel1.setBounds(10,320, 420, 30);
-                                                                    JLabel disposeLabel=new JLabel("PLEASE RETAIN OR DISPOSE OF THOUGHTFULLY.");
-                                                                    disposeLabel.setForeground(Color.black);
-                                                                    disposeLabel.setFont(new Font("Arial", Font.BOLD, 15));
-                                                                    disposeLabel.setBounds(30,340, 390, 20);
-                                                                    JLabel asteriskLabel2=new JLabel("******************************************");
-                                                                    asteriskLabel2.setForeground(Color.black);
-                                                                    asteriskLabel2.setFont(new Font("Arial", Font.PLAIN, 25));
-                                                                    asteriskLabel2.setBounds(10,365, 420, 30);
-
-                                                                    receiptPanel.add(logoLabel);
-                                                                    receiptPanel.add(brokenLineLabel);
-                                                                    receiptPanel.add(dateLabel);
-                                                                    receiptPanel.add(timeLabel);
-                                                                    receiptPanel.add(transactionNumLabel);
-                                                                    receiptPanel.add(atmIdLabel);
-                                                                    receiptPanel.add(addressLabel);
-                                                                    receiptPanel.add(cardNumLabel);
-                                                                    receiptPanel.add(accTypeLabel);
-                                                                    receiptPanel.add(amountLabel);
-                                                                    receiptPanel.add(chargeFeeLabel);
-                                                                    receiptPanel.add(totalLabel);
-                                                                    receiptPanel.add(accBalanceLabel);
-                                                                    receiptPanel.add(asteriskLabel1);
-                                                                    receiptPanel.add(disposeLabel);
-                                                                    receiptPanel.add(asteriskLabel2);
+                                                                    // Add the text area to the receipt panel
+                                                                    receiptPanel.add(receiptTextArea);
 
                                                                     bgPanel.add(receiptPanel);
 
                                                                     frame.add(bgPanel);
                                                                     frame.revalidate();
                                                                     frame.repaint();
-
-
-                                                                    Timer timer = new Timer(2500, new ActionListener() {
-
-                                                                        @Override
-                                                                        public void actionPerformed(ActionEvent e) {
-                                                                            frame.remove(bgPanel);
-                                                                            otpField.setText("");
-                                                                            pinField.setText("");
-                                                                            frame.add(mainPanel);
-                                                                            frame.revalidate();
-                                                                            frame.repaint();
-                                                                        }
-                                                                    });
-                                                                    timer.setRepeats(false);
-                                                                    timer.start();
                                                                 }
                                                             });
+
+//                                                                    Timer timer = new Timer(2500, new ActionListener() {
+//
+//                                                                        @Override
+//                                                                        public void actionPerformed(ActionEvent e) {
+//                                                                            frame.remove(bgPanel);
+//                                                                            otpField.setText("");
+//                                                                            pinField.setText("");
+//                                                                            frame.add(mainPanel);
+//                                                                            frame.revalidate();
+//                                                                            frame.repaint();
+//                                                                        }
+//                                                                    });
+//                                                                    timer.setRepeats(false);
+//                                                                    timer.start();
+
+
 
                                                             JButton noButton=new JButton("No");
                                                             noButton.setForeground(new Color(0x223345));
@@ -479,6 +424,7 @@ public class ATM {
             ViewUtility.showMessage("Error writing receipt file");
         }
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

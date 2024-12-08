@@ -8,6 +8,8 @@ import View.MainWindow;
 import View.RegisterWindow;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class IMBankController {
         SwingWorker<LogInResult, Void> worker = new SwingWorker<>() {
             @Override
             protected LogInResult doInBackground() throws Exception {
-                Thread.sleep(100);
+                Thread.sleep(50);
                 return bankService.verifyLogIn(logInRequest);
             }
 
@@ -134,6 +136,14 @@ public class IMBankController {
                     int OTP = get();
                     if (OTP > 0) {
                         ViewUtility.showMessage("Transaction Created. OTP: " + OTP);
+                            Timer timer = new Timer(60000, new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    cancelTransaction();
+                                }
+                            });
+                            timer.setRepeats(false);
+                            timer.start();
                     } else {
                         throw new Exception("Transaction could not be created");
                     }
@@ -212,7 +222,34 @@ public class IMBankController {
         };
         worker.execute();
     }
-    //logout validation securely method here
+
+    private void cancelTransaction(){
+        SwingWorker<Integer, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Integer doInBackground() throws Exception {
+                return bankService.cancelPendingTransaction();
+            }
+            @Override
+            protected void done() {
+                try{
+                  int pendingTransactionID = get();
+                  if(pendingTransactionID > 0) {
+                      ViewUtility.showMessage("Transaction cancelled.");
+                  }
+                } catch (Exception e){
+                    ViewUtility.showMessage(e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    public void logoutUserSession(){
+        SwingUtilities.invokeLater(() -> {
+            logInWindow.getUserNameField().setText("");
+            logInWindow.getPassField().setText("");
+        });
+    }
 
     public void showLoginWindow() {
         ViewUtility.show(logInWindow.getLoginFrame());

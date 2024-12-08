@@ -41,6 +41,7 @@ public class LogInWindow {
     private void initComponents() {
         // Frame settings
         loginFrame = ViewFactory.createFrame("IM Bank Log In", 650, 480);
+        loginFrame.addWindowListener(ViewUtility.getWindowAdapter());
 
             // Main panel
             loginPanel = new JPanel();
@@ -70,7 +71,7 @@ public class LogInWindow {
                 passwordLbl.setBounds(110, 190, 150, 30);
 
                 // Username field
-                userNameField = new JTextField("Type your Username");
+                userNameField = new JTextField();
                 userNameField.setFont(new java.awt.Font("MS UI Gothic", 0, 24));
                 userNameField.setForeground(new java.awt.Color(102, 102, 102));
                 userNameField.setBounds(110, 136, 362, 45);
@@ -151,5 +152,13 @@ public class LogInWindow {
 
     public JFrame getLoginFrame() {
         return loginFrame;
+    }
+
+    public JTextField getUserNameField() {
+        return userNameField;
+    }
+
+    public JPasswordField getPassField() {
+        return passField;
     }
 }

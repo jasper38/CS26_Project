@@ -190,6 +190,8 @@ public class ATM {
                                                                 public void actionPerformed(ActionEvent e) {
                                                                     frame.remove(confirmationPanel);
 
+                                                                    writeToFileReceipt(dto);
+
                                                                     JPanel bgPanel = new JPanel();
                                                                     bgPanel.setLayout(null);
                                                                     bgPanel.setBackground(new Color(0x223345));
@@ -288,10 +290,29 @@ public class ATM {
                                                                     bgPanel.add(printButton);
                                                                     bgPanel.add(backButton);
 
+
                                                                     bgPanel.add(receiptPanel);
+
+                                                                    Timer timer = new Timer(2500, new ActionListener() {
+
+                                                                        @Override
+                                                                        public void actionPerformed(ActionEvent e) {
+                                                                            frame.remove(bgPanel);
+                                                                            otpField.setText("");
+                                                                            pinField.setText("");
+                                                                            frame.add(mainPanel);
+                                                                            frame.revalidate();
+                                                                            frame.repaint();
+                                                                        }
+                                                                    });
+                                                                    timer.setRepeats(false);
+                                                                    timer.start();
+
+
                                                                     frame.add(bgPanel);
                                                                     frame.revalidate();
                                                                     frame.repaint();
+
                                                                 }
                                                             });
 
@@ -445,7 +466,7 @@ public class ATM {
             // Transaction Details
             writer.write(String.format("%-20s: %s\n", "DATE", java.time.LocalDate.now()));
             writer.write(String.format("%-20s: %s\n", "TIME", java.time.LocalTime.now().withNano(0)));
-            writer.write(String.format("%-20s: %s\n", "TRANSACTION NUMBER", "XXXX-XXXX-XXXX"));
+            writer.write(String.format("%-20s: %s\n", "TRANSACTION ID NUMBER", "XXXX-XXXX-XXXX"));
             writer.write("\n");
 
             // Location and Card Info

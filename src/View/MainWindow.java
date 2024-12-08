@@ -133,6 +133,7 @@ public class MainWindow {
         navPanel = new JPanel();
         navPanel.setLayout(null);
         navPanel.setBounds(0, 82, 300, frameheight);
+        //navPanel.setBackground(new Color(35,35,77));
         navPanel.setBackground(Color.PINK);
 
             homeBtn = new JButton("Home");
@@ -469,7 +470,7 @@ public class MainWindow {
 
         // Cancel Button
         cancelBtn = new JButton("Cancel");
-        cancelBtn.setBounds(100, 250, 200, 40);
+        cancelBtn.setBounds(100, 250, 150, 40);
         cancelBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
         cancelBtn.setForeground(new Color(224, 215, 231));
         cancelBtn.setBackground(new Color(35, 35, 77));
@@ -483,7 +484,7 @@ public class MainWindow {
         enterBtn = new JButton("Enter");
         enterBtn.setBounds(300, 250, 200, 40);
         enterBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-        enterBtn.setForeground(new Color(224, 215, 231));
+        enterBtn.setForeground(new Color(224, 150, 231));
         enterBtn.setBackground(new Color(35, 35, 77));
         enterBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
         enterBtn.setBorderPainted(false);

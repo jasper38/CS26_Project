@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.awt.print.*;
+
 
 public class ATM {
 
@@ -217,7 +219,7 @@ public class ATM {
                                                                     );
                                                                     receiptTextArea.setEditable(false); // Make the text area read-only
                                                                     receiptTextArea.setFont(new Font("Arial", Font.PLAIN, 15));
-                                                                    receiptTextArea.setBounds(10, 10, 430, 380);
+                                                                    receiptTextArea.setBounds(10, 10, 430, 300);
                                                                     receiptTextArea.setForeground(Color.black);
                                                                     receiptTextArea.setBackground(Color.white);
                                                                     receiptTextArea.setLineWrap(true);
@@ -226,8 +228,67 @@ public class ATM {
                                                                     // Add the text area to the receipt panel
                                                                     receiptPanel.add(receiptTextArea);
 
-                                                                    bgPanel.add(receiptPanel);
+                                                                    JButton printButton = new JButton("Print Receipt");
+                                                                    printButton.setForeground(new Color(0x223345));
+                                                                    printButton.setFont(new Font("Arial", Font.BOLD, 20));
+                                                                    printButton.setFocusable(false);
+                                                                    printButton.setBounds(670, 350, 190, 40);
+                                                                    printButton.addActionListener(new ActionListener() {
+                                                                        @Override
+                                                                        public void actionPerformed(ActionEvent e) {
+                                                                            PrinterJob printerJob = PrinterJob.getPrinterJob();
+                                                                            printerJob.setJobName("Receipt");
 
+                                                                            // Define the content to print
+                                                                            printerJob.setPrintable(new Printable() {
+                                                                                @Override
+                                                                                public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                                                                                    if (pageIndex > 0) {
+                                                                                        return NO_SUCH_PAGE;
+                                                                                    }
+
+                                                                                    Graphics2D g2d = (Graphics2D) graphics;
+                                                                                    g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+
+                                                                                    receiptPanel.paint(g2d);
+
+                                                                                    return PAGE_EXISTS;
+                                                                                }
+                                                                            });
+
+                                                                            if (printerJob.printDialog()) {
+                                                                                try {
+                                                                                    printerJob.print();
+                                                                                } catch (PrinterException ex) {
+                                                                                    ex.printStackTrace();
+                                                                                    JOptionPane.showMessageDialog(null, "Printing failed!", "Error", JOptionPane.ERROR_MESSAGE);
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    });
+
+                                                                    JButton backButton = new JButton("Back to Menu");
+                                                                    backButton.setForeground(new Color(0x223345));
+                                                                    backButton.setFont(new Font("Arial", Font.BOLD, 20));
+                                                                    backButton.setFocusable(false);
+                                                                    backButton.setBounds(670, 400, 190, 40);
+                                                                    backButton.addActionListener(new ActionListener() {
+                                                                        @Override
+                                                                        public void actionPerformed(ActionEvent e) {
+                                                                            frame.remove(bgPanel);
+                                                                            otpField.setText("");
+                                                                            pinField.setText("");
+                                                                            frame.add(mainPanel);
+                                                                            frame.revalidate();
+                                                                            frame.repaint();
+                                                                        }
+                                                                    });
+
+                                                                    // Add the buttons to the receipt panel
+                                                                    bgPanel.add(printButton);
+                                                                    bgPanel.add(backButton);
+
+                                                                    bgPanel.add(receiptPanel);
                                                                     frame.add(bgPanel);
                                                                     frame.revalidate();
                                                                     frame.repaint();

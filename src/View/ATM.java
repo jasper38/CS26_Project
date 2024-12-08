@@ -205,7 +205,7 @@ public class ATM {
                                                                     receiptTextArea.setText(
                                                                             "          I.M BANK\n" +
                                                                                     "--------------------------------------------\n" +
-                                                                                    "DATE                 TIME                 TRANSACTION NUMBER     ATM ID\n" +
+                                                                                    "DATE           TIME           TRANSACTION NUMBER     ATM ID\n" +
                                                                                     "Davao City, 8000, Philippines\n\n" +
                                                                                     "Card number: ********************\n" +
                                                                                     "(Transaction type) from: ******\n" +
@@ -294,22 +294,6 @@ public class ATM {
                                                                     frame.repaint();
                                                                 }
                                                             });
-
-//                                                                    Timer timer = new Timer(2500, new ActionListener() {
-//
-//                                                                        @Override
-//                                                                        public void actionPerformed(ActionEvent e) {
-//                                                                            frame.remove(bgPanel);
-//                                                                            otpField.setText("");
-//                                                                            pinField.setText("");
-//                                                                            frame.add(mainPanel);
-//                                                                            frame.revalidate();
-//                                                                            frame.repaint();
-//                                                                        }
-//                                                                    });
-//                                                                    timer.setRepeats(false);
-//                                                                    timer.start();
-
 
 
                                                             JButton noButton=new JButton("No");

@@ -293,21 +293,6 @@ public class ATM {
 
                                                                     bgPanel.add(receiptPanel);
 
-                                                                    Timer timer = new Timer(2500, new ActionListener() {
-
-                                                                        @Override
-                                                                        public void actionPerformed(ActionEvent e) {
-                                                                            frame.remove(bgPanel);
-                                                                            otpField.setText("");
-                                                                            pinField.setText("");
-                                                                            frame.add(mainPanel);
-                                                                            frame.revalidate();
-                                                                            frame.repaint();
-                                                                        }
-                                                                    });
-                                                                    timer.setRepeats(false);
-                                                                    timer.start();
-
 
                                                                     frame.add(bgPanel);
                                                                     frame.revalidate();

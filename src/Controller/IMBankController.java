@@ -140,6 +140,7 @@ public class IMBankController {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
                                     cancelTransaction();
+                                    mainWindow.getTransactionBtn().doClick();
                                 }
                             });
                             timer.setRepeats(false);
@@ -223,7 +224,7 @@ public class IMBankController {
         worker.execute();
     }
 
-    private void cancelTransaction(){
+    public void cancelTransaction(){
         SwingWorker<Integer, Void> worker = new SwingWorker<>() {
             @Override
             protected Integer doInBackground() throws Exception {

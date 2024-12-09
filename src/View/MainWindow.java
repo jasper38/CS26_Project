@@ -3,7 +3,6 @@ package View;
 import Controller.IMBankController;
 import DTO.TransactionHistoryDTO;
 import DTO.UserProfileDTO;
-import Model.Transaction;
 import Utility.ViewUtility;
 
 import java.awt.*;
@@ -50,7 +49,7 @@ public class MainWindow {
     private JPanel profilePanel;
     private JLabel fnameLbl,profileLbl,
                    personInfoLbl, ageLbl,
-                   bdayLbl, addressLbl,genderLbl;
+                   bdayLbl, genderLbl;
     private JLabel usernameLbl, bankAccIDNoLbl,contactNoLbl,emailLbl,accInfoLbl;
     private JTextField changePassTF, confirmpassTF;
     private JButton editBtn, changePassBtn;
@@ -134,8 +133,8 @@ public class MainWindow {
         navPanel = new JPanel();
         navPanel.setLayout(null);
         navPanel.setBounds(0, 82, 300, frameheight);
-        //navPanel.setBackground(new Color(35,35,77));
-        navPanel.setBackground(Color.PINK);
+
+        navPanel.setBackground(new Color(255, 255, 255));
 
             homeBtn = new JButton("Home");
             homeBtn.setFocusable(false);
@@ -314,19 +313,15 @@ public class MainWindow {
         //profilePanel.setBackground(Color.MAGENTA);
         profilePanel.setBounds(300, 80, 900, 1110);
 
+        JPanel whitePanel = new JPanel();
+        whitePanel.setLayout(null);
+
+
+
             profileLbl = new JLabel("User Information");
             profileLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
             profileLbl.setForeground(new java.awt.Color(35, 35, 77));
             profileLbl.setBounds(350,20,600,50);
-
-            editBtn = new JButton("Edit");
-            editBtn.setFocusable(false);
-            editBtn.setBounds(40, 80, 100, 40);
-            editBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
-            editBtn.setForeground(new java.awt.Color(224, 224, 231));
-            editBtn.setBackground(new java.awt.Color(35, 35, 77));
-            editBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            editBtn.setBorderPainted(false);
 
             //Left Panel, Personal Information
             personInfoLbl = new JLabel("Personal Information");
@@ -404,7 +399,7 @@ public class MainWindow {
         profilePanel.add(confirmpassTF);
         profilePanel.add(changePassTF);
         profilePanel.add(profileLbl);
-        profilePanel.add(editBtn);
+        //profilePanel.add(editBtn);
         profilePanel.add(fnameLbl);
         profilePanel.add(bdayLbl);
         profilePanel.add(ageLbl);
@@ -682,6 +677,7 @@ public class MainWindow {
         ViewUtility.setEnabledPanelAndComponents(panels[0], false);
         ViewUtility.setEnabledPanelAndComponents(panels[1], true);
         ViewUtility.setEnabledPanelAndComponents(panels[2], false);
+        //bankController.cancelTransaction();
         bankController.getTransactionHistory();
     }
 
@@ -723,11 +719,12 @@ public class MainWindow {
             popUpFrame1.dispose();
         }
         if (popUpFrame2 == null || !popUpFrame2.isVisible()) {
-            try{
-                bankController.checkForPendingTransactions();
-            } catch (NumberFormatException ex){
+            if(bankAccountNumField.getText().isEmpty() || cardPINField.getText().isEmpty()) {
+
                 ViewUtility.showMessage("Please enter fields.");
+                return;
             }
+            bankController.checkForPendingTransactions();
         } else {
             popUpFrame2.dispose();
         }
@@ -807,4 +804,9 @@ public class MainWindow {
     public void setDisplayBalanceField(String bankAccountBalance) {
         this.displayBalanceField.setText(bankAccountBalance);;
     }
+
+    public JButton getTransactionBtn(){
+        return transactionHistoryBtn;
+    }
 }
+

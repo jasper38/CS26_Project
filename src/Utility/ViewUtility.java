@@ -48,7 +48,12 @@ public final class ViewUtility {
         frame.setVisible(false);
     }
 
-    public static void showMessage(String msg) {
-        JOptionPane.showMessageDialog(null, msg);
+    public static void showErrorMessage(String msg) {
+        JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    public static void showInfoMessage(String msg) {
+        JOptionPane.showMessageDialog(null, msg, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+    // Add document filter here
 }

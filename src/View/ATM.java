@@ -262,8 +262,7 @@ public class ATM {
                                                                                 try {
                                                                                     printerJob.print();
                                                                                 } catch (PrinterException ex) {
-                                                                                    ex.printStackTrace();
-                                                                                    JOptionPane.showMessageDialog(null, "Printing failed!", "Error", JOptionPane.ERROR_MESSAGE);
+                                                                                    ViewUtility.showErrorMessage("Printing failed");
                                                                                 }
                                                                             }
                                                                         }
@@ -289,10 +288,7 @@ public class ATM {
                                                                     // Add the buttons to the receipt panel
                                                                     bgPanel.add(printButton);
                                                                     bgPanel.add(backButton);
-
-
                                                                     bgPanel.add(receiptPanel);
-
 
                                                                     frame.add(bgPanel);
                                                                     frame.revalidate();
@@ -300,7 +296,6 @@ public class ATM {
 
                                                                 }
                                                             });
-
 
                                                             JButton noButton=new JButton("No");
                                                             noButton.setForeground(new Color(0x223345));
@@ -356,7 +351,7 @@ public class ATM {
                                                             throw new Exception("An Error Occurred");
                                                         }
                                                     } catch (Exception e){
-                                                        ViewUtility.showMessage(e.getMessage());
+                                                        ViewUtility.showErrorMessage(e.getMessage());
                                                     }
                                                 }
                                             };
@@ -379,7 +374,7 @@ public class ATM {
                                 throw new Exception("Invalid OTP or Card PIn");
                             }
                         } catch (Exception e){
-                            ViewUtility.showMessage(e.getMessage());
+                            ViewUtility.showInfoMessage(e.getMessage());
                         }
                     }
                 };
@@ -472,7 +467,7 @@ public class ATM {
             writer.write(" PLEASE RETAIN OR DISPOSE OF THOUGHTFULLY.     \n");
             writer.write("***********************************************\n");
         } catch (IOException e){
-            ViewUtility.showMessage("Error writing receipt file");
+            ViewUtility.showErrorMessage("Error writing receipt file");
         }
     }
 

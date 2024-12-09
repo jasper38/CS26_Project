@@ -39,12 +39,12 @@ public class IMBankController {
                     boolean registrationSuccessful = get();
                     if (registrationSuccessful) {
                         showLoginWindow();
-                        ViewUtility.showMessage("Registration Successful! Please claim your ATM Card at the Bank.");
+                        ViewUtility.showInfoMessage("Registration Successful! Please claim your ATM Card at the Bank.");
                     }else {
                         throw new Exception();
                     }
                 } catch (Exception e) {
-                    ViewUtility.showMessage("An Error occured during registration.");
+                    ViewUtility.showErrorMessage("An Error occured during registration.");
                 }
             }
         };
@@ -67,10 +67,10 @@ public class IMBankController {
                         getAccountBalance();
                         showMainWindow();
                     } else {
-                        ViewUtility.showMessage(result.getMessage());
+                        ViewUtility.showInfoMessage(result.getMessage());
                     }
                 } catch (Exception e) {
-                    ViewUtility.showMessage("An unexpected error occurred: " + e.getMessage());
+                    ViewUtility.showErrorMessage("An unexpected error occurred: " + e.getMessage());
                 }
             }
         };
@@ -89,7 +89,7 @@ public class IMBankController {
                     float bankAccountBalance = get();
                     mainWindow.setDisplayBalanceField(String.valueOf(bankAccountBalance));
                 } catch (Exception e) {
-                    ViewUtility.showMessage("Failed to retrieve balance");
+                    ViewUtility.showInfoMessage("Failed to retrieve balance");
                 }
             }
         };
@@ -117,7 +117,7 @@ public class IMBankController {
                         throw new Exception("Invalid credentials");
                     }
                 } catch (Exception e) {
-                    ViewUtility.showMessage(e.getMessage());
+                    ViewUtility.showInfoMessage(e.getMessage());
                 }
             }
         };
@@ -135,7 +135,7 @@ public class IMBankController {
                 try{
                     int OTP = get();
                     if (OTP > 0) {
-                        ViewUtility.showMessage("Transaction Created. OTP: " + OTP);
+                        ViewUtility.showInfoMessage("Transaction Created. OTP: " + OTP);
                             Timer timer = new Timer(60000, new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
@@ -149,7 +149,7 @@ public class IMBankController {
                         throw new Exception("Transaction could not be created");
                     }
                 } catch (Exception e) {
-                    ViewUtility.showMessage(e.getMessage());
+                    ViewUtility.showInfoMessage(e.getMessage());
                 }
             }
         };
@@ -171,7 +171,7 @@ public class IMBankController {
                     }
                     mainWindow.proceedTransaction();
                 } catch (Exception e){
-                    ViewUtility.showMessage(e.getMessage());
+                    ViewUtility.showInfoMessage(e.getMessage());
                 }
             }
         };
@@ -194,7 +194,7 @@ public class IMBankController {
                         mainWindow.udpateTransactionHistoryTable(transaction);
                     }
                 } catch (Exception e){
-                    ViewUtility.showMessage(e.getMessage());
+                    ViewUtility.showErrorMessage(e.getMessage());
                 }
             }
         };
@@ -217,7 +217,7 @@ public class IMBankController {
                         throw new Exception("Could not retrieve user profile");
                     }
                 } catch (Exception e){
-                    ViewUtility.showMessage(e.getMessage());
+                    ViewUtility.showInfoMessage(e.getMessage());
                 }
             }
         };
@@ -235,10 +235,10 @@ public class IMBankController {
                 try{
                   int pendingTransactionID = get();
                   if(pendingTransactionID > 0) {
-                      ViewUtility.showMessage("Transaction cancelled.");
+                      ViewUtility.showInfoMessage("Transaction cancelled.");
                   }
                 } catch (Exception e){
-                    ViewUtility.showMessage(e.getMessage());
+                    ViewUtility.showErrorMessage(e.getMessage());
                 }
             }
         };

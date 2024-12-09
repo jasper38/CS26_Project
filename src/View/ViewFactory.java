@@ -75,4 +75,9 @@ public final class ViewFactory {
         JButton button = new JButton(label);
         return button;
     }
+
+    public static JPasswordField createPasswordField(Container container, String label, int x, int y) {
+        JPasswordField passwordField = new JPasswordField();
+        return passwordField;
+    }
 }

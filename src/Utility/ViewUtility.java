@@ -9,11 +9,11 @@ import java.awt.event.WindowEvent;
 
 public final class ViewUtility {
 
-    public static void setEnabledPanelAndComponents(Container container, boolean isEnabled) {
+    public static void enablePanelAndComponents(Container container, boolean isEnabled) {
         for (Component component : container.getComponents()) {
             component.setEnabled(isEnabled);
             if (component instanceof Container) {
-                setEnabledPanelAndComponents((Container) component, isEnabled);
+                enablePanelAndComponents((Container) component, isEnabled);
             }
         }
         container.setVisible(isEnabled);

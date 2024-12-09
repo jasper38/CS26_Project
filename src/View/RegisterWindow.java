@@ -1,23 +1,11 @@
 package View;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.sql.Date;
 import java.util.Calendar;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.text.View;
 
 import DTO.RegistrationRequestDTO;
@@ -36,12 +24,6 @@ public class RegisterWindow {
 
     // Personal Information panel and its components
     private JPanel step1Panel;
-    private JLabel mainLbl1;
-    private JLabel firstNameLbl;
-    private JLabel lastNameLbl;
-    private JLabel ageLbl;
-    private JLabel dtOfBirthLbl;
-    private JLabel genderLbl;
     private JTextField fNameField;
     private JTextField lNameField;
     private JTextField ageField;
@@ -53,12 +35,6 @@ public class RegisterWindow {
 
     // Contact Information panel and its components
     private JPanel step2Panel;
-    private JLabel mainLbl2;
-    private JLabel phoneNumLbl;
-    private JLabel addressLbl;
-    private JLabel cityLbl;
-    private JLabel provinceLbl;
-    private JLabel zipCodeLbl;
     private JTextField phoneNumField;
     private JTextField addressField;
     private JTextField cityField;
@@ -67,12 +43,6 @@ public class RegisterWindow {
 
     // Security panel and its components
     private JPanel step3Panel;
-    private JLabel mainLbl3;
-    private JLabel emailLbl;
-    private JLabel usernameLbl;
-    private JLabel passLbl;
-    private JLabel confirmPassLbl;
-    private JLabel bankAccountTypeLbl;
     private JTextField emailField;
     private JTextField usernameField;
     private JPasswordField passField;
@@ -107,283 +77,146 @@ public class RegisterWindow {
         registerFrame = ViewFactory.createFrame("IM Bank: Register", width, height);
         registerFrame.addWindowListener(ViewUtility.getWindowAdapter());
 
-        initStep1PanelComponents();
-        initStep2PanelComponents();
-        initStep3PanelComponents();
+        panels[0] = initStep1PanelComponents();
+        panels[1] = initStep2PanelComponents();
+        panels[2] = initStep3PanelComponents();
+
+        ViewUtility.enablePanelAndComponents(panels[0], true);
+        ViewUtility.enablePanelAndComponents(panels[1], false);
+        ViewUtility.enablePanelAndComponents(panels[2], false);
 
         registerFrame.getContentPane().add(step1Panel);
         registerFrame.getContentPane().add(step2Panel);
         registerFrame.getContentPane().add(step3Panel);
     }
 
-    private void initStep1PanelComponents() {
-        step1Panel = new JPanel();
-        step1Panel.setLayout(null);
-        step1Panel.setBounds(0, 0, width, height);
+    private JPanel initStep1PanelComponents() {
+        step1Panel = ViewFactory.createMultiStepPanel(registerFrame, width, height);
 
-        // Top banner panel
-        JPanel bannerPanel = new JPanel();
-        bannerPanel.setBackground(new Color(35, 35, 77));
-        bannerPanel.setBounds(0, 0, 650, 80);
+            initHeaderPanel(step1Panel);
 
-        JLabel mainLbl = new JLabel("IMBANK REGISTRATION");
-        mainLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 40));
-        mainLbl.setForeground(Color.WHITE);
-        bannerPanel.add(mainLbl);
+            ViewFactory.createMainLabel(step1Panel, "Personal Information", new ViewFactory.Bounds(100, 90, 300, 30));
+            ViewFactory.createFieldLabel(step1Panel, "First Name", new ViewFactory.Bounds(100, 140, 250, 30));
+            ViewFactory.createFieldLabel(step1Panel, "Last Name", new ViewFactory.Bounds(100, 190, 250, 30));
+            ViewFactory.createFieldLabel(step1Panel, "Age", new ViewFactory.Bounds(100, 240, 70, 30));
+            ViewFactory.createFieldLabel(step1Panel, "Date of Birth", new ViewFactory.Bounds(100, 290, 250, 30));
+            ViewFactory.createFieldLabel(step1Panel, "Gender", new ViewFactory.Bounds(100, 340, 150, 30));
 
-        mainLbl1 = ViewFactory.createLabel
-                (step1Panel, "Personal Information", new ViewFactory.Bounds(100, 90, 300, 30), 28);
-        firstNameLbl = ViewFactory.createLabel
-                (step1Panel, "First Name", new ViewFactory.Bounds(100, 140, 250, 30), 20);
-        lastNameLbl = ViewFactory.createLabel
-                (step1Panel, "Last Name", new ViewFactory.Bounds(100, 190, 250, 30), 20);
-        ageLbl = ViewFactory.createLabel
-                (step1Panel, "Age", new ViewFactory.Bounds(100, 240, 70, 30), 20);
-        dtOfBirthLbl = ViewFactory.createLabel
-                (step1Panel, "Date of Birth", new ViewFactory.Bounds(100, 290, 250, 30), 20);
-        genderLbl = ViewFactory.createLabel
-                (step1Panel, "Gender", new ViewFactory.Bounds(100, 340, 150, 30), 20);
+            fNameField = ViewFactory.createTextField(step1Panel, new ViewFactory.Bounds(250, 140, 200, 30));
+            lNameField = ViewFactory.createTextField(step1Panel, new ViewFactory.Bounds(250, 190, 200, 30));
+            ageField = ViewFactory.createTextField(step1Panel, new ViewFactory.Bounds(250, 240, 200, 30));
+                ageField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
-        fNameField = ViewFactory.createTextField
-                (step1Panel, new ViewFactory.Bounds(250, 140, 200, 30));
-        lNameField = ViewFactory.createTextField
-                (step1Panel, new ViewFactory.Bounds(250, 190, 200, 30));
-        ageField = ViewFactory.createTextField
-                (step1Panel, new ViewFactory.Bounds(250, 240, 200, 30));
-            ageField.addKeyListener(ViewUtility.addNumberInputKeyListener());
+            JDateComponentFactory fac = new JDateComponentFactory();
+            datePicker = (JDatePickerImpl) fac.createJDatePicker();
+            datePicker.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
+            datePicker.setBounds(250, 290, 200, 30);
 
-        JDateComponentFactory fac = new JDateComponentFactory();
-        datePicker = (JDatePickerImpl) fac.createJDatePicker();
-        datePicker.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        datePicker.setBounds(250, 290, 200, 30);
-
-        ItemListener genderListener = new ItemListener() {
-
-            @Override
-            public void itemStateChanged(ItemEvent e) {
+            ItemListener genderListener = e -> {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     selectedGenderRadioBtn = (JRadioButton) e.getItem();
                 }
-            }
-        };
+            };
 
-        maleRadioBtn = ViewFactory.createRadioButton
-                (step1Panel, "Male", new ViewFactory.Bounds(250, 350, 80, 30));
-        maleRadioBtn.addItemListener(genderListener);
+            maleRadioBtn = ViewFactory.createRadioButton(step1Panel, "Male", new ViewFactory.Bounds(250, 340, 80, 30));
+                maleRadioBtn.addItemListener(genderListener);
+            femaleRadioBtn = ViewFactory.createRadioButton(step1Panel, "Female", new ViewFactory.Bounds(340, 340, 100, 30));
+                femaleRadioBtn.addItemListener(genderListener);
 
-        femaleRadioBtn = ViewFactory.createRadioButton
-                (step1Panel, "Female", new ViewFactory.Bounds(340, 340, 100, 30));
-        femaleRadioBtn.addItemListener(genderListener);
+            genderBtnGroup = new ButtonGroup();
+            genderBtnGroup.add(maleRadioBtn);
+            genderBtnGroup.add(femaleRadioBtn);
 
-        genderBtnGroup = new ButtonGroup();
-        genderBtnGroup.add(maleRadioBtn);
-        genderBtnGroup.add(femaleRadioBtn);
+            initRepeatComponents1();
+            initRepeatComponents2();
 
-        initRepeatComponents1();
-        initRepeatComponents2();
-
-        step1Panel.add(bannerPanel);
         step1Panel.add(datePicker);
         step1Panel.add(nextBtn);
         step1Panel.add(confirmationLbl);
         step1Panel.add(logInBtn);
 
-        panels[0] = step1Panel;
-        ViewUtility.setEnabledPanelAndComponents(panels[0], true);
+        return step1Panel;
     }
 
-    private void initStep2PanelComponents() {
-        step2Panel = new JPanel();
-        step2Panel.setLayout(null);
-        step2Panel.setBounds(0, 0, width, height);
+    private JPanel initStep2PanelComponents() {
+        step2Panel = ViewFactory.createMultiStepPanel(registerFrame, width, height);
 
-        // Top banner panel
-        JPanel bannerPanel = new JPanel();
-        bannerPanel.setBackground(new Color(35, 35, 77));
-        bannerPanel.setBounds(0, 0, 650, 80);
+            initHeaderPanel(step2Panel);
 
-        JLabel mainLbl = new JLabel("IMBANK REGISTRATION");
-        mainLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 40));
-        mainLbl.setForeground(Color.WHITE);
-        bannerPanel.add(mainLbl);
+            ViewFactory.createMainLabel(step2Panel, "Contact Information", new ViewFactory.Bounds(100, 90, 300, 30));
+            ViewFactory.createFieldLabel(step2Panel, "Phone Number:", new ViewFactory.Bounds(100, 140, 250, 30));
+            ViewFactory.createFieldLabel(step2Panel, "Address:", new ViewFactory.Bounds(100, 190, 250, 30));
+            ViewFactory.createFieldLabel(step2Panel, "City:", new ViewFactory.Bounds(100, 240, 250, 30));
+            ViewFactory.createFieldLabel(step2Panel, "Province:", new ViewFactory.Bounds(100, 290, 250, 30));
+            ViewFactory.createFieldLabel(step2Panel, "Zip Code:", new ViewFactory.Bounds(100, 340, 250, 30));
 
-        mainLbl2 = new JLabel("Contact Information");
-        mainLbl2.setFont(new Font("MS UI Gothic", Font.BOLD, 28));
-        mainLbl2.setBounds(100, 90, 300, 30);
+            phoneNumField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 140, 200, 30));
+                phoneNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
+            addressField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 190, 200, 30));
+            cityField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 240, 200, 30));
+            provinceField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 290, 200, 30));
+            zipCodeField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 340, 200, 30));
+                zipCodeField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
-        phoneNumLbl = new JLabel("Phone Number:");
-        phoneNumLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        phoneNumLbl.setBounds(100, 140, 250, 30);
+            initRepeatComponents1();
+            initRepeatComponents2();
+            initRepeatComponents3();
 
-        addressLbl = new JLabel("Address:");
-        addressLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        addressLbl.setBounds(100, 190, 250, 30);
-
-        cityLbl = new JLabel("City:");
-        cityLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        cityLbl.setBounds(100, 240, 250, 30);
-
-        provinceLbl = new JLabel("Province");
-        provinceLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        provinceLbl.setBounds(100, 290, 250, 30);
-
-        zipCodeLbl = new JLabel("ZIP Code:");
-        zipCodeLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        zipCodeLbl.setBounds(100, 340, 250, 30);
-
-        phoneNumField = new JTextField(11);
-        phoneNumField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        phoneNumField.setBounds(250, 140, 200, 30);
-        phoneNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
-
-        addressField = new JTextField();
-        addressField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        addressField.setBounds(250, 190, 200, 30);
-
-        cityField = new JTextField();
-        cityField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        cityField.setBounds(250, 240, 200, 30);
-
-        provinceField = new JTextField();
-        provinceField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        provinceField.setBounds(250, 290, 200, 30);
-
-        zipCodeField = new JTextField(4);
-        zipCodeField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        zipCodeField.setBounds(250, 340, 200, 30);
-        zipCodeField.addKeyListener(ViewUtility.addNumberInputKeyListener());
-
-        initRepeatComponents1();
-        initRepeatComponents2();
-        initRepeatComponents3();
-
-        step2Panel.add(bannerPanel);
-        step2Panel.add(mainLbl2);
-        step2Panel.add(phoneNumLbl);
-        step2Panel.add(addressLbl);
-        step2Panel.add(cityLbl);
-        step2Panel.add(provinceLbl);
-        step2Panel.add(zipCodeLbl);
-        step2Panel.add(phoneNumField);
-        step2Panel.add(addressField);
-        step2Panel.add(cityField);
-        step2Panel.add(provinceField);
-        step2Panel.add(zipCodeField);
         step2Panel.add(backBtn);
         step2Panel.add(nextBtn);
         step2Panel.add(confirmationLbl);
         step2Panel.add(logInBtn);
 
-        panels[1] = step2Panel;
-
-        ViewUtility.setEnabledPanelAndComponents(panels[1], false);
+        return step2Panel;
     }
 
-    private void initStep3PanelComponents() {
-        step3Panel = new JPanel();
-        step3Panel.setLayout(null);
-        step3Panel.setBounds(0, 0, width, height);
+    private JPanel initStep3PanelComponents() {
+        step3Panel = ViewFactory.createMultiStepPanel(registerFrame, width, height);
 
-        // Top banner panel
-        JPanel bannerPanel = new JPanel();
-        bannerPanel.setBackground(new Color(35, 35, 77));
-        bannerPanel.setBounds(0, 0, 650, 80);
+            initHeaderPanel(step3Panel);
 
-        JLabel mainLbl = new JLabel("IMBANK REGISTRATION");
-        mainLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 40));
-        mainLbl.setForeground(Color.WHITE);
-        bannerPanel.add(mainLbl);
+            ViewFactory.createMainLabel(step3Panel, "Security", new ViewFactory.Bounds(100, 90, 300, 30));
+            ViewFactory.createFieldLabel(step3Panel, "Email:", new ViewFactory.Bounds(100, 140, 250, 30));
+            ViewFactory.createFieldLabel(step3Panel, "Username:", new ViewFactory.Bounds(100, 190, 250, 30));
+            ViewFactory.createFieldLabel(step3Panel, "Password:", new ViewFactory.Bounds(100, 240, 250, 30));
+            ViewFactory.createFieldLabel(step3Panel, "Confirm Password:", new ViewFactory.Bounds(100, 290, 250, 30));
+            ViewFactory.createFieldLabel(step3Panel, "Bank Account Type:", new ViewFactory.Bounds(100, 340, 150, 30));
 
-        mainLbl3 = new JLabel("Security");
-        mainLbl3.setFont(new Font("MS UI Gothic", Font.BOLD, 28));
-        mainLbl3.setBounds(100, 90, 300, 30);
+            emailField = ViewFactory.createTextField(step3Panel, new ViewFactory.Bounds(280, 140, 200, 30));
+            usernameField = ViewFactory.createTextField(step3Panel, new ViewFactory.Bounds(280, 190, 200, 30));
+            passField = ViewFactory.createPasswordField(step3Panel, new ViewFactory.Bounds(280, 240, 200, 30));
+            confirmPassField = ViewFactory.createPasswordField(step3Panel, new ViewFactory.Bounds(280, 290, 200, 30));
 
-        emailLbl = new JLabel("Email:");
-        emailLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        emailLbl.setBounds(100, 140, 250, 30);
-
-        usernameLbl = new JLabel("Username:");
-        usernameLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        usernameLbl.setBounds(100, 190, 250, 30);
-
-        passLbl = new JLabel("Password:");
-        passLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        passLbl.setBounds(100, 240, 250, 30);
-
-        confirmPassLbl = new JLabel("Confirm Password:");
-        confirmPassLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        confirmPassLbl.setBounds(100, 290, 250, 30);
-
-        bankAccountTypeLbl = new JLabel("Bank Account Type:");
-        bankAccountTypeLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        bankAccountTypeLbl.setBounds(100, 340, 250, 30);
-
-        emailField = new JTextField();
-        emailField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        emailField.setBounds(280, 140, 200, 30);
-
-        usernameField = new JTextField();
-        usernameField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        usernameField.setBounds(280, 190, 200, 30);
-
-        passField = new JPasswordField();
-        passField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        passField.setBounds(280, 240, 200, 30);
-
-        confirmPassField = new JPasswordField();
-        confirmPassField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        confirmPassField.setBounds(280, 290, 200, 30);
-
-        ItemListener bankAccountTypeListener = new ItemListener() {
-
-            @Override
-            public void itemStateChanged(ItemEvent e) {
+            ItemListener bankAccountTypeListener = e -> {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     selectedBankAccountTypeRadioBtn = (JRadioButton) e.getItem();
                 }
-            }
-        };
+            };
 
-        savingsRadioBtn = new JRadioButton("Savings");
-        savingsRadioBtn.setFocusable(false);
-        savingsRadioBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        savingsRadioBtn.setBounds(280, 340, 100, 30);
-        savingsRadioBtn.addItemListener(bankAccountTypeListener);
+            savingsRadioBtn = ViewFactory.createRadioButton(step3Panel, "Savings", new ViewFactory.Bounds(280, 340, 100, 30));
+                savingsRadioBtn.addItemListener(bankAccountTypeListener);
 
-        checkingsRadioBtn = new JRadioButton("Checkings");
-        checkingsRadioBtn.setFocusable(false);
-        checkingsRadioBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        checkingsRadioBtn.setBounds(380, 340, 120, 30);
-        checkingsRadioBtn.addItemListener(bankAccountTypeListener);
+            checkingsRadioBtn = ViewFactory.createRadioButton(step3Panel, "Checkings", new ViewFactory.Bounds(380, 340, 120, 30));
+                checkingsRadioBtn.addItemListener(bankAccountTypeListener);
 
-        bankAccountTypeBtnGroup = new ButtonGroup();
-        bankAccountTypeBtnGroup.add(savingsRadioBtn);
-        bankAccountTypeBtnGroup.add(checkingsRadioBtn);
+            bankAccountTypeBtnGroup = new ButtonGroup();
+            bankAccountTypeBtnGroup.add(savingsRadioBtn);
+            bankAccountTypeBtnGroup.add(checkingsRadioBtn);
 
-        submitBtn = new JButton("Submit");
-        submitBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
-        submitBtn.setForeground(new java.awt.Color(224, 224, 231));
-        submitBtn.setBackground(new java.awt.Color(35, 35, 77));
-        submitBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        submitBtn.setBorderPainted(false);
-        submitBtn.setFocusable(false);
-        submitBtn.setBounds(280, 400, 70, 25);
-        submitBtn.addActionListener(this::submitBtnActionPerformed);
+            submitBtn = new JButton("Submit");
+            submitBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
+            submitBtn.setForeground(new java.awt.Color(224, 224, 231));
+            submitBtn.setBackground(new java.awt.Color(35, 35, 77));
+            submitBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+            submitBtn.setBorderPainted(false);
+            submitBtn.setFocusable(false);
+            submitBtn.setBounds(280, 400, 70, 25);
+            submitBtn.addActionListener(this::submitBtnActionPerformed);
 
-        initRepeatComponents1();
-        initRepeatComponents3();
+            initRepeatComponents1();
+            initRepeatComponents3();
 
-        step3Panel.add(bannerPanel);
-        step3Panel.add(mainLbl3);
-        step3Panel.add(emailLbl);
-        step3Panel.add(usernameLbl);
-        step3Panel.add(passLbl);
-        step3Panel.add(confirmPassLbl);
-        step3Panel.add(bankAccountTypeLbl);
-        step3Panel.add(emailField);
-        step3Panel.add(usernameField);
-        step3Panel.add(passField);
-        step3Panel.add(confirmPassField);
+        //step3Panel.add(headerPanel);
         step3Panel.add(savingsRadioBtn);
         step3Panel.add(checkingsRadioBtn);
         step3Panel.add(backBtn);
@@ -391,9 +224,17 @@ public class RegisterWindow {
         step3Panel.add(confirmationLbl);
         step3Panel.add(logInBtn);
 
-        panels[2] = step3Panel;
+        return step3Panel;
+    }
 
-        ViewUtility.setEnabledPanelAndComponents(panels[2], false);
+    private void initHeaderPanel(JPanel panel){
+        JPanel bannerPanel = ViewFactory.createHeaderPanel(panel);
+        ViewFactory.createHeaderLabel(bannerPanel, "IMBANK REGISTRATION");
+    }
+
+    private JPanel initFooterPanel() {
+        JPanel footer = new JPanel();
+        return footer;
     }
 
     private void initRepeatComponents1() {
@@ -403,11 +244,12 @@ public class RegisterWindow {
 
         logInBtn = new JButton("Log In");
         logInBtn.setFocusable(false);
+        logInBtn.setBorderPainted(false);
         logInBtn.setBounds(290, 460, 90, 25);
         logInBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 15));
+        logInBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
         logInBtn.setForeground(new java.awt.Color(224, 224, 231));
         logInBtn.setBackground(new java.awt.Color(35, 35, 77));
-        logInBtn.setBorderPainted(false);
         logInBtn.addActionListener(this::logInBtnActionPerformed);
     }
 
@@ -450,21 +292,21 @@ public class RegisterWindow {
 
     private void nextBtnActionPerformed(ActionEvent ae) {
         if (panels[0].isVisible()) {
-            ViewUtility.setEnabledPanelAndComponents(panels[0], false);
-            ViewUtility.setEnabledPanelAndComponents(panels[1], true);
+            ViewUtility.enablePanelAndComponents(panels[0], false);
+            ViewUtility.enablePanelAndComponents(panels[1], true);
         } else if (panels[1].isVisible()) {
-            ViewUtility.setEnabledPanelAndComponents(panels[1], false);
-            ViewUtility.setEnabledPanelAndComponents(panels[2], true);
+            ViewUtility.enablePanelAndComponents(panels[1], false);
+            ViewUtility.enablePanelAndComponents(panels[2], true);
         }
     }
 
     private void backBtnActionPerformed(ActionEvent ae) {
         if (panels[2].isVisible()) {
-            ViewUtility.setEnabledPanelAndComponents(panels[2], false);
-            ViewUtility.setEnabledPanelAndComponents(panels[1], true);
+            ViewUtility.enablePanelAndComponents(panels[2], false);
+            ViewUtility.enablePanelAndComponents(panels[1], true);
         } else if (panels[1].isVisible()) {
-            ViewUtility.setEnabledPanelAndComponents(panels[1], false);
-            ViewUtility.setEnabledPanelAndComponents(panels[0], true);
+            ViewUtility.enablePanelAndComponents(panels[1], false);
+            ViewUtility.enablePanelAndComponents(panels[0], true);
         }
     }
 

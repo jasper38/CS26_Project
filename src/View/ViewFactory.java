@@ -1,21 +1,11 @@
 package View;
 
-import Utility.ViewUtility;
-
 import javax.swing.*;
 import java.awt.*;
 
 // Class responsible for creation of UI Containers and Components
 public final class ViewFactory {
 
-    /*
-    * Creates a JFrame container
-    *
-    * @param title  the title or name of the frame
-    * @param width  the specified width of the frame
-    * @param height the specified height of the frame
-    * @return the created frame/window
-    */
     public static JFrame createFrame(String title, int width, int height) {
         JFrame frame = new JFrame(title);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -26,40 +16,43 @@ public final class ViewFactory {
         return frame;
     }
 
-    /*
-    * Creates a JPanel with specified width, height, and coordinate
-    *
-    * @param container  the container to add said panel, i.e. frame
-    * @param x          the x-coordinate of the panel
-    * @param y          the y-coordinate of the panel
-    * @param width      the width of the panel
-    * @param height     the height of the panel
-    * @return the created panel
-    */
-    public static JPanel createPanel(Container container, int x, int y, int width, int height) {
+    public static JPanel createMultiStepPanel(Container container, int width, int height) {
         JPanel panel = new JPanel();
             panel.setLayout(null);
+            panel.setBounds(0, 0, width, height);
             JFrame frame = (JFrame) container;
             frame.getContentPane().add(panel);
         return panel;
     }
 
-    public static JLabel createLabel(Container container, String label, Bounds bounds, int fontSize) {
-        JLabel label1 = new JLabel(label);
-        label1.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
-        label1.setFont(new Font("MS UI Gothic", Font.BOLD, fontSize));
-        container.add(label1);
-        return label1;
+    public static JPanel createHeaderPanel(Container container) {
+        JPanel panel = new JPanel();
+            panel.setBackground(new Color(35, 35, 77));
+            panel.setBounds(0, 0, 650, 80);
+            container.add(panel);
+        return panel;
     }
-    /*
-    * Creates a JToggleButton with a specified label and position.
-    *
-    * @param container  the container to add said toggleButton
-    * @param label      the button label
-    * @param x          the x-coordinate of the button
-    * @param y          the y-coordinate of the button
-    * @return the created JToggleButton
-    */
+
+    public static void createHeaderLabel(Container container, String text) {
+        JLabel label = new JLabel(text);
+            label.setFont(new Font("MS UI Gothic", Font.BOLD, 40));
+            label.setForeground(Color.WHITE);
+            container.add(label);
+    }
+
+    public static void createMainLabel(Container container, String text, Bounds bounds) {
+        JLabel label = new JLabel(text);
+            label.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+            label.setFont(new Font("MS UI Gothic", Font.BOLD, 28));
+            container.add(label);
+    }
+    public static void createFieldLabel(Container container, String text, Bounds bounds) {
+        JLabel label1 = new JLabel(text);
+            label1.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+            label1.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
+            container.add(label1);
+    }
+
     public static JToggleButton createToggleButton(Container container, String label, int x, int y) {
         JToggleButton toggleButton = new JToggleButton(label);
             toggleButton.setFocusable(false);
@@ -68,9 +61,16 @@ public final class ViewFactory {
         return toggleButton;
     }
 
-    public static JButton createButton(Container container, String label, Bounds bounds) {
+    public static JButton createCustomButton1(Container container, String label, Bounds bounds) {
         JButton button = new JButton(label);
-
+        button.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
+        button.setForeground(new java.awt.Color(224, 224, 231));
+        button.setBackground(new java.awt.Color(35, 35, 77));
+        button.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
+        button.setBorderPainted(false);
+        button.setFocusable(false);
+        button.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+        container.add(button);
         return button;
     }
 
@@ -87,11 +87,15 @@ public final class ViewFactory {
         JTextField textField = new JTextField();
             textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
             textField.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+            container.add(textField);
         return textField;
     }
 
-    public static JPasswordField createPasswordField(Container container, String label, int x, int y) {
+    public static JPasswordField createPasswordField(Container container, Bounds bounds) {
         JPasswordField passwordField = new JPasswordField();
+        passwordField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
+        passwordField.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+        container.add(passwordField);
         return passwordField;
     }
 
@@ -108,36 +112,13 @@ public final class ViewFactory {
             this.setHeight(height);
         }
 
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
+        public int getX() { return x; }
+        public void setX(int x) { this.x = x; }
+        public int getY() { return y; }
+        public void setY(int y) { this.y = y; }
+        public int getWidth() { return width; }
+        public void setWidth(int width) { this.width = width; }
+        public int getHeight() { return height; }
+        public void setHeight(int height) { this.height = height; }
     }
 }

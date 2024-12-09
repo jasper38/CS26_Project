@@ -245,7 +245,7 @@ public class MainWindow {
 
         panels[0] = homePanel;
 
-        ViewUtility.setEnabledPanelAndComponents(panels[0], true);
+        ViewUtility.enablePanelAndComponents(panels[0], true);
     }
 
     private void initTransactionHistoryPanel() {
@@ -303,7 +303,7 @@ public class MainWindow {
 
         panels[1] = transactionHistoryPanel;
 
-        ViewUtility.setEnabledPanelAndComponents(panels[1], false);
+        ViewUtility.enablePanelAndComponents(panels[1], false);
     }
 
     private void initProfilePanel() {
@@ -413,7 +413,7 @@ public class MainWindow {
 
         panels[2] =profilePanel;
 
-        ViewUtility.setEnabledPanelAndComponents(panels[2], false);
+        ViewUtility.enablePanelAndComponents(panels[2], false);
     }
 
     // Pop-up window for transaction
@@ -667,24 +667,24 @@ public class MainWindow {
 
     // Navigation bar buttons here
     private void homeBtnActionPerformed(ActionEvent ae) {
-        ViewUtility.setEnabledPanelAndComponents(panels[0], true);
-        ViewUtility.setEnabledPanelAndComponents(panels[1], false);
-        ViewUtility.setEnabledPanelAndComponents(panels[2],false);
+        ViewUtility.enablePanelAndComponents(panels[0], true);
+        ViewUtility.enablePanelAndComponents(panels[1], false);
+        ViewUtility.enablePanelAndComponents(panels[2],false);
         bankController.getAccountBalance();
     }
 
     private void transactionHistoryBtnActionPerformed(ActionEvent ae) {
-        ViewUtility.setEnabledPanelAndComponents(panels[0], false);
-        ViewUtility.setEnabledPanelAndComponents(panels[1], true);
-        ViewUtility.setEnabledPanelAndComponents(panels[2], false);
+        ViewUtility.enablePanelAndComponents(panels[0], false);
+        ViewUtility.enablePanelAndComponents(panels[1], true);
+        ViewUtility.enablePanelAndComponents(panels[2], false);
         //bankController.cancelTransaction();
         bankController.getTransactionHistory();
     }
 
     private void profileBtnActionPerformed(ActionEvent actionEvent) {
-        ViewUtility.setEnabledPanelAndComponents(panels[0], false);
-        ViewUtility.setEnabledPanelAndComponents(panels[1], false);
-        ViewUtility.setEnabledPanelAndComponents(panels[2], true);
+        ViewUtility.enablePanelAndComponents(panels[0], false);
+        ViewUtility.enablePanelAndComponents(panels[1], false);
+        ViewUtility.enablePanelAndComponents(panels[2], true);
         bankController.getUserProfile();
     }
 

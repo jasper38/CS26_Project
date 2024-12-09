@@ -21,9 +21,11 @@ public class IMBankController {
 
     public IMBankController(IMBankServiceImpl bankService) {
         this.bankService = bankService;
-        this.logInWindow = new LogInWindow(this);
-        this.registerWindow = new RegisterWindow(this);
-        this.mainWindow = new MainWindow(this);
+        SwingUtilities.invokeLater(() -> {
+            this.logInWindow = new LogInWindow(this);
+            this.registerWindow = new RegisterWindow(this);
+            this.mainWindow = new MainWindow(this);
+        });
     }
 
     public void registerPerson(RegistrationRequestDTO registrationRequestDTO) {
@@ -246,6 +248,7 @@ public class IMBankController {
     }
 
     public void logoutUserSession(){
+        bankService.logoutUserSession();
         SwingUtilities.invokeLater(() -> {
             logInWindow.getUserNameField().setText("");
             logInWindow.getPassField().setText("");
@@ -253,20 +256,26 @@ public class IMBankController {
     }
 
     public void showLoginWindow() {
-        ViewUtility.show(logInWindow.getLoginFrame());
-        ViewUtility.hide(registerWindow.getRegisterFrame());
-        ViewUtility.hide(mainWindow.getMainFrame());
+        SwingUtilities.invokeLater(() -> {
+            ViewUtility.show(logInWindow.getLoginFrame());
+            ViewUtility.hide(registerWindow.getRegisterFrame());
+            ViewUtility.hide(mainWindow.getMainFrame());
+        });
     }
 
     public void showRegisterWindow() {
-        ViewUtility.show(registerWindow.getRegisterFrame());
-        ViewUtility.hide(logInWindow.getLoginFrame());
-        ViewUtility.hide(mainWindow.getMainFrame());
+        SwingUtilities.invokeLater(() -> {
+            ViewUtility.show(registerWindow.getRegisterFrame());
+            ViewUtility.hide(logInWindow.getLoginFrame());
+            ViewUtility.hide(mainWindow.getMainFrame());
+        });
     }
 
     public void showMainWindow() {
-        ViewUtility.show(mainWindow.getMainFrame());
-        ViewUtility.hide(logInWindow.getLoginFrame());
-        ViewUtility.hide(registerWindow.getRegisterFrame());
+        SwingUtilities.invokeLater(() -> {
+            ViewUtility.show(mainWindow.getMainFrame());
+            ViewUtility.hide(logInWindow.getLoginFrame());
+            ViewUtility.hide(registerWindow.getRegisterFrame());
+        });
     }
 }

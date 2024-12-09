@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.text.View;
 
 import DTO.RegistrationRequestDTO;
 import Utility.ViewUtility;
@@ -103,11 +104,7 @@ public class RegisterWindow {
     }
 
     private void registerWindowInitComponents() {
-        registerFrame = new JFrame("IM Bank: Register");
-        registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        registerFrame.setLayout(null);
-        registerFrame.setSize(width, height);
-        registerFrame.setLocationRelativeTo(null);
+        registerFrame = ViewFactory.createFrame("IM Bank: Register", width, height);
         registerFrame.addWindowListener(ViewUtility.getWindowAdapter());
 
         initStep1PanelComponents();
@@ -134,42 +131,26 @@ public class RegisterWindow {
         mainLbl.setForeground(Color.WHITE);
         bannerPanel.add(mainLbl);
 
-        mainLbl1 = new JLabel("Personal Information");
-        mainLbl1.setFont(new Font("MS UI Gothic", Font.BOLD, 28));
-        mainLbl1.setBounds(100, 90, 300, 30);
+        mainLbl1 = ViewFactory.createLabel
+                (step1Panel, "Personal Information", new ViewFactory.Bounds(100, 90, 300, 30), 28);
+        firstNameLbl = ViewFactory.createLabel
+                (step1Panel, "First Name", new ViewFactory.Bounds(100, 140, 250, 30), 20);
+        lastNameLbl = ViewFactory.createLabel
+                (step1Panel, "Last Name", new ViewFactory.Bounds(100, 190, 250, 30), 20);
+        ageLbl = ViewFactory.createLabel
+                (step1Panel, "Age", new ViewFactory.Bounds(100, 240, 70, 30), 20);
+        dtOfBirthLbl = ViewFactory.createLabel
+                (step1Panel, "Date of Birth", new ViewFactory.Bounds(100, 290, 250, 30), 20);
+        genderLbl = ViewFactory.createLabel
+                (step1Panel, "Gender", new ViewFactory.Bounds(100, 340, 150, 30), 20);
 
-        firstNameLbl = new JLabel("First Name:");
-        firstNameLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        firstNameLbl.setBounds(100, 140, 250, 30);
-
-        lastNameLbl = new JLabel("Last Name:");
-        lastNameLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        lastNameLbl.setBounds(100, 190, 250, 30);
-
-        ageLbl = new JLabel("Age:");
-        ageLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        ageLbl.setBounds(100, 240, 70, 30);
-
-        dtOfBirthLbl = new JLabel("Date of Birth:");
-        dtOfBirthLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        dtOfBirthLbl.setBounds(100, 290, 250, 30);
-
-        genderLbl = new JLabel("Gender:");
-        genderLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        genderLbl.setBounds(100, 340, 150, 30);
-
-        fNameField = new JTextField();
-        fNameField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        fNameField.setBounds(250, 140, 200, 30);
-
-        lNameField = new JTextField();
-        lNameField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        lNameField.setBounds(250, 190, 200, 30);
-
-        ageField = new JTextField(3);
-        ageField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
-        ageField.setBounds(250, 240, 200, 30);
-        ageField.addKeyListener(ViewUtility.addNumberInputKeyListener());
+        fNameField = ViewFactory.createTextField
+                (step1Panel, new ViewFactory.Bounds(250, 140, 200, 30));
+        lNameField = ViewFactory.createTextField
+                (step1Panel, new ViewFactory.Bounds(250, 190, 200, 30));
+        ageField = ViewFactory.createTextField
+                (step1Panel, new ViewFactory.Bounds(250, 240, 200, 30));
+            ageField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
         JDateComponentFactory fac = new JDateComponentFactory();
         datePicker = (JDatePickerImpl) fac.createJDatePicker();
@@ -186,16 +167,12 @@ public class RegisterWindow {
             }
         };
 
-        maleRadioBtn = new JRadioButton("Male");
-        maleRadioBtn.setFocusable(false);
-        maleRadioBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        maleRadioBtn.setBounds(250, 340, 80, 30);
+        maleRadioBtn = ViewFactory.createRadioButton
+                (step1Panel, "Male", new ViewFactory.Bounds(250, 350, 80, 30));
         maleRadioBtn.addItemListener(genderListener);
 
-        femaleRadioBtn = new JRadioButton("Female");
-        femaleRadioBtn.setFocusable(false);
-        femaleRadioBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        femaleRadioBtn.setBounds(340, 340, 100, 30);
+        femaleRadioBtn = ViewFactory.createRadioButton
+                (step1Panel, "Female", new ViewFactory.Bounds(340, 340, 100, 30));
         femaleRadioBtn.addItemListener(genderListener);
 
         genderBtnGroup = new ButtonGroup();
@@ -206,24 +183,12 @@ public class RegisterWindow {
         initRepeatComponents2();
 
         step1Panel.add(bannerPanel);
-        step1Panel.add(mainLbl1);
-        step1Panel.add(firstNameLbl);
-        step1Panel.add(lastNameLbl);
-        step1Panel.add(ageLbl);
-        step1Panel.add(dtOfBirthLbl);
-        step1Panel.add(fNameField);
-        step1Panel.add(lNameField);
-        step1Panel.add(ageField);
         step1Panel.add(datePicker);
-        step1Panel.add(genderLbl);
-        step1Panel.add(maleRadioBtn);
-        step1Panel.add(femaleRadioBtn);
         step1Panel.add(nextBtn);
         step1Panel.add(confirmationLbl);
         step1Panel.add(logInBtn);
 
         panels[0] = step1Panel;
-
         ViewUtility.setEnabledPanelAndComponents(panels[0], true);
     }
 
@@ -436,7 +401,6 @@ public class RegisterWindow {
         confirmationLbl.setFont(new Font("MS UI Gothic", Font.PLAIN, 15));
         confirmationLbl.setBounds(130, 460, 250, 30);
 
-
         logInBtn = new JButton("Log In");
         logInBtn.setFocusable(false);
         logInBtn.setBounds(290, 460, 90, 25);
@@ -508,23 +472,22 @@ public class RegisterWindow {
     private RegistrationRequestDTO getRegistrationData() {
 
         RegistrationRequestDTO registrationRequestDTO = new RegistrationRequestDTO();
-        registrationRequestDTO.setFirstName(String.valueOf(fNameField.getText()));
-        registrationRequestDTO.setLastName(String.valueOf(lNameField.getText()));
-        registrationRequestDTO.setAge(Integer.parseInt(ageField.getText()));
+            registrationRequestDTO.setFirstName(String.valueOf(fNameField.getText()));
+            registrationRequestDTO.setLastName(String.valueOf(lNameField.getText()));
+            registrationRequestDTO.setAge(Integer.parseInt(ageField.getText()));
 
-        Calendar selectedCalendar = (Calendar) datePicker.getModel().getValue();
-        java.util.Date utilDate = selectedCalendar.getTime();
-        Date sqlDate = new Date(utilDate.getTime());
-        registrationRequestDTO.setBirthdate(sqlDate);
-        registrationRequestDTO.setSex(selectedGenderRadioBtn.getText());
-        registrationRequestDTO.setPhoneNo(phoneNumField.getText());
-        registrationRequestDTO.setAddress(addressField.getText() + ", " + cityField.getText() + ", "
-                + provinceField.getText() + ", " + String.valueOf(zipCodeField.getText()));
-        registrationRequestDTO.setEmail(emailField.getText());
-        registrationRequestDTO.setUsername(usernameField.getText());
-        registrationRequestDTO.setPassword(String.valueOf(passField.getPassword()));
-        registrationRequestDTO.setBankAccountType(selectedBankAccountTypeRadioBtn.getText());
-
+            Calendar selectedCalendar = (Calendar) datePicker.getModel().getValue();
+            java.util.Date utilDate = selectedCalendar.getTime();
+            Date sqlDate = new Date(utilDate.getTime());
+            registrationRequestDTO.setBirthdate(sqlDate);
+            registrationRequestDTO.setSex(selectedGenderRadioBtn.getText());
+            registrationRequestDTO.setPhoneNo(phoneNumField.getText());
+            registrationRequestDTO.setAddress(addressField.getText() + ", " + cityField.getText() + ", "
+                    + provinceField.getText() + ", " + String.valueOf(zipCodeField.getText()));
+            registrationRequestDTO.setEmail(emailField.getText());
+            registrationRequestDTO.setUsername(usernameField.getText());
+            registrationRequestDTO.setPassword(String.valueOf(passField.getPassword()));
+            registrationRequestDTO.setBankAccountType(selectedBankAccountTypeRadioBtn.getText());
         return registrationRequestDTO;
     }
 

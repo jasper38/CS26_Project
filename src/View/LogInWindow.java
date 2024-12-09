@@ -135,7 +135,7 @@ public class LogInWindow {
 
     private void logInBtnActionPerformed(ActionEvent ae) {
         if(userNameField.getText().isEmpty() || String.valueOf(passField.getPassword()).isEmpty()) {
-            ViewUtility.showMessage("Please input Username and Password");
+            ViewUtility.showInfoMessage("Please input Username and Password");
             return;
         }
         bankController.verifyLogin(getUserCredentials());

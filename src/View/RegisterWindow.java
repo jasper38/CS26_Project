@@ -480,7 +480,7 @@ public class RegisterWindow {
         if (String.valueOf(passField.getPassword()).equals(String.valueOf(confirmPassField.getPassword()))) {
             bankController.registerPerson(getRegistrationData());
         } else {
-            ViewUtility.showMessage("Passwords don't match. Please try again");
+            ViewUtility.showInfoMessage("Passwords don't match. Please try again");
         }
     }
 

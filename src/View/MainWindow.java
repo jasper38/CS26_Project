@@ -721,7 +721,7 @@ public class MainWindow {
         if (popUpFrame2 == null || !popUpFrame2.isVisible()) {
             if(bankAccountNumField.getText().isEmpty() || cardPINField.getText().isEmpty()) {
 
-                ViewUtility.showMessage("Please enter fields.");
+                ViewUtility.showErrorMessage("Please enter fields.");
                 return;
             }
             bankController.checkForPendingTransactions();
@@ -749,7 +749,7 @@ public class MainWindow {
             System.out.println(transactionType + " " + selectedBank);
             bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
         } else {
-            ViewUtility.showMessage("Please enter fields.");
+            ViewUtility.showInfoMessage("Please enter fields.");
         }
         popUpFrame2.dispose();
         depositBtn.setEnabled(true);

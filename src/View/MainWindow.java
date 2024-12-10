@@ -103,7 +103,6 @@ public class MainWindow {
             initProfilePanel();
 
         mainFrame.getContentPane().add(bannerPanel);
-        //mainFrame.getContentPane().add(headerPanel);
         mainFrame.getContentPane().add(navPanel);
         mainFrame.getContentPane().add(homePanel);
         mainFrame.getContentPane().add(transactionHistoryPanel);
@@ -118,7 +117,6 @@ public class MainWindow {
         headerPanel = new JPanel();
         headerPanel.setLayout(null);
         headerPanel.setBounds(0, 0, 900, 80);
-        //headerPanel.setBackground(Color.CYAN);
 
             headerLbl = new JLabel("Welcome [Name of Person],");
             headerLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 28));

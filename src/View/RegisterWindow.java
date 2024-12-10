@@ -102,9 +102,9 @@ public class RegisterWindow {
             ViewFactory.createFieldLabel(step1Panel, "Date of Birth", new ViewFactory.Bounds(100, 290, 250, 30));
             ViewFactory.createFieldLabel(step1Panel, "Gender", new ViewFactory.Bounds(100, 340, 150, 30));
 
-            fNameField = ViewFactory.createTextField(step1Panel, new ViewFactory.Bounds(250, 140, 200, 30));
-            lNameField = ViewFactory.createTextField(step1Panel, new ViewFactory.Bounds(250, 190, 200, 30));
-            ageField = ViewFactory.createTextField(step1Panel, new ViewFactory.Bounds(250, 240, 200, 30));
+            fNameField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(250, 140, 200, 30));
+            lNameField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(250, 190, 200, 30));
+            ageField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(250, 240, 200, 30));
                 ageField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
             JDateComponentFactory fac = new JDateComponentFactory();
@@ -127,13 +127,10 @@ public class RegisterWindow {
             genderBtnGroup.add(maleRadioBtn);
             genderBtnGroup.add(femaleRadioBtn);
 
-            initRepeatComponents1();
-            initRepeatComponents2();
+            initRepeatComponents1(step1Panel);
+            initRepeatComponents2(step1Panel);
 
-        step1Panel.add(datePicker);
-        step1Panel.add(nextBtn);
-        step1Panel.add(confirmationLbl);
-        step1Panel.add(logInBtn);
+            step1Panel.add(datePicker);
 
         return step1Panel;
     }
@@ -150,22 +147,17 @@ public class RegisterWindow {
             ViewFactory.createFieldLabel(step2Panel, "Province:", new ViewFactory.Bounds(100, 290, 250, 30));
             ViewFactory.createFieldLabel(step2Panel, "Zip Code:", new ViewFactory.Bounds(100, 340, 250, 30));
 
-            phoneNumField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 140, 200, 30));
+            phoneNumField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(250, 140, 200, 30));
                 phoneNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
-            addressField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 190, 200, 30));
-            cityField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 240, 200, 30));
-            provinceField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 290, 200, 30));
-            zipCodeField = ViewFactory.createTextField(step2Panel, new ViewFactory.Bounds(250, 340, 200, 30));
+            addressField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(250, 190, 200, 30));
+            cityField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(250, 240, 200, 30));
+            provinceField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(250, 290, 200, 30));
+            zipCodeField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(250, 340, 200, 30));
                 zipCodeField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
-            initRepeatComponents1();
-            initRepeatComponents2();
-            initRepeatComponents3();
-
-        step2Panel.add(backBtn);
-        step2Panel.add(nextBtn);
-        step2Panel.add(confirmationLbl);
-        step2Panel.add(logInBtn);
+            initRepeatComponents1(step2Panel);
+            initRepeatComponents2(step2Panel);
+            initRepeatComponents3(step2Panel);
 
         return step2Panel;
     }
@@ -180,10 +172,10 @@ public class RegisterWindow {
             ViewFactory.createFieldLabel(step3Panel, "Username:", new ViewFactory.Bounds(100, 190, 250, 30));
             ViewFactory.createFieldLabel(step3Panel, "Password:", new ViewFactory.Bounds(100, 240, 250, 30));
             ViewFactory.createFieldLabel(step3Panel, "Confirm Password:", new ViewFactory.Bounds(100, 290, 250, 30));
-            ViewFactory.createFieldLabel(step3Panel, "Bank Account Type:", new ViewFactory.Bounds(100, 340, 150, 30));
+            ViewFactory.createFieldLabel(step3Panel, "Bank Account Type:", new ViewFactory.Bounds(100, 340, 250, 30));
 
-            emailField = ViewFactory.createTextField(step3Panel, new ViewFactory.Bounds(280, 140, 200, 30));
-            usernameField = ViewFactory.createTextField(step3Panel, new ViewFactory.Bounds(280, 190, 200, 30));
+            emailField = ViewFactory.createRegisterTextField(step3Panel, new ViewFactory.Bounds(280, 140, 200, 30));
+            usernameField = ViewFactory.createRegisterTextField(step3Panel, new ViewFactory.Bounds(280, 190, 200, 30));
             passField = ViewFactory.createPasswordField(step3Panel, new ViewFactory.Bounds(280, 240, 200, 30));
             confirmPassField = ViewFactory.createPasswordField(step3Panel, new ViewFactory.Bounds(280, 290, 200, 30));
 
@@ -203,81 +195,36 @@ public class RegisterWindow {
             bankAccountTypeBtnGroup.add(savingsRadioBtn);
             bankAccountTypeBtnGroup.add(checkingsRadioBtn);
 
-            submitBtn = new JButton("Submit");
-            submitBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
-            submitBtn.setForeground(new java.awt.Color(224, 224, 231));
-            submitBtn.setBackground(new java.awt.Color(35, 35, 77));
-            submitBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-            submitBtn.setBorderPainted(false);
-            submitBtn.setFocusable(false);
-            submitBtn.setBounds(280, 400, 70, 25);
+            submitBtn = ViewFactory.createCustomButton1(step3Panel, "Submit", new ViewFactory.Bounds(280, 400, 70, 25), 18);
             submitBtn.addActionListener(this::submitBtnActionPerformed);
 
-            initRepeatComponents1();
-            initRepeatComponents3();
-
-        //step3Panel.add(headerPanel);
-        step3Panel.add(savingsRadioBtn);
-        step3Panel.add(checkingsRadioBtn);
-        step3Panel.add(backBtn);
-        step3Panel.add(submitBtn);
-        step3Panel.add(confirmationLbl);
-        step3Panel.add(logInBtn);
+            initRepeatComponents1(step3Panel);
+            initRepeatComponents3(step3Panel);
 
         return step3Panel;
     }
 
     private void initHeaderPanel(JPanel panel){
         JPanel bannerPanel = ViewFactory.createHeaderPanel(panel);
-        ViewFactory.createHeaderLabel(bannerPanel, "IMBANK REGISTRATION");
+        ViewFactory.createHeaderLabel(bannerPanel, "IMBANK REGISTRATION", 40);
     }
 
-    private JPanel initFooterPanel() {
-        JPanel footer = new JPanel();
-        return footer;
-    }
-
-    private void initRepeatComponents1() {
-        confirmationLbl = new JLabel("Already have an account?");
-        confirmationLbl.setFont(new Font("MS UI Gothic", Font.PLAIN, 15));
-        confirmationLbl.setBounds(130, 460, 250, 30);
-
-        logInBtn = new JButton("Log In");
-        logInBtn.setFocusable(false);
-        logInBtn.setBorderPainted(false);
-        logInBtn.setBounds(290, 460, 90, 25);
-        logInBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 15));
-        logInBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        logInBtn.setForeground(new java.awt.Color(224, 224, 231));
-        logInBtn.setBackground(new java.awt.Color(35, 35, 77));
+    private void initRepeatComponents1(JPanel panel) {
+        ViewFactory.createConfirmationLabel(panel, "Already have an account?", new ViewFactory.Bounds(130, 460, 250, 30), 15);
+        logInBtn = ViewFactory.createCustomButton1(panel, "Log In", new ViewFactory.Bounds(315, 463, 90, 25), 18);
         logInBtn.addActionListener(this::logInBtnActionPerformed);
     }
 
-    private void initRepeatComponents2() {
-        nextBtn = new JButton("Next");
-        nextBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
-        nextBtn.setForeground(new java.awt.Color(224, 224, 231));
-        nextBtn.setBackground(new java.awt.Color(35, 35, 77));
-        nextBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        nextBtn.setBorderPainted(false);
-        nextBtn.setFocusable(false);
-        nextBtn.setBounds(280, 400, 70, 25);
+    private void initRepeatComponents2(JPanel panel) {
+        nextBtn = ViewFactory.createCustomButton1(panel, "Next", new ViewFactory.Bounds(280, 400, 70, 25), 18);
         nextBtn.addActionListener(this::nextBtnActionPerformed);
     }
 
-    private void initRepeatComponents3() {
-        backBtn = new JButton("Back");
-        backBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 18));
-        backBtn.setForeground(new java.awt.Color(224, 224, 231));
-        backBtn.setBackground(new java.awt.Color(35, 35, 77));
-        backBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-        backBtn.setBorderPainted(false);
-        backBtn.setFocusable(false);
-        backBtn.setBounds(190, 400, 70, 25);
+    private void initRepeatComponents3(JPanel panel) {
+        backBtn = ViewFactory.createCustomButton1(panel, "Back", new ViewFactory.Bounds(190, 400, 70, 25), 18);
         backBtn.addActionListener(this::backBtnActionPerformed);
     }
 
-    // Actions of buttons in the following lines of code
     private void logInBtnActionPerformed(ActionEvent ae) {
         bankController.showLoginWindow();
     }
@@ -291,26 +238,30 @@ public class RegisterWindow {
     }
 
     private void nextBtnActionPerformed(ActionEvent ae) {
-        if (panels[0].isVisible()) {
-            ViewUtility.enablePanelAndComponents(panels[0], false);
-            ViewUtility.enablePanelAndComponents(panels[1], true);
-        } else if (panels[1].isVisible()) {
-            ViewUtility.enablePanelAndComponents(panels[1], false);
-            ViewUtility.enablePanelAndComponents(panels[2], true);
-        }
+        SwingUtilities.invokeLater(() -> {
+            if (panels[0].isVisible()) {
+                ViewUtility.enablePanelAndComponents(panels[1], true);
+                ViewUtility.enablePanelAndComponents(panels[0], false);
+            } else if (panels[1].isVisible()) {
+                ViewUtility.enablePanelAndComponents(panels[2], true);
+                ViewUtility.enablePanelAndComponents(panels[1], false);
+            }
+            registerFrame.revalidate();
+        });
     }
 
     private void backBtnActionPerformed(ActionEvent ae) {
-        if (panels[2].isVisible()) {
-            ViewUtility.enablePanelAndComponents(panels[2], false);
-            ViewUtility.enablePanelAndComponents(panels[1], true);
-        } else if (panels[1].isVisible()) {
-            ViewUtility.enablePanelAndComponents(panels[1], false);
-            ViewUtility.enablePanelAndComponents(panels[0], true);
-        }
+        SwingUtilities.invokeLater(() -> {
+            if (panels[2].isVisible()) {
+                ViewUtility.enablePanelAndComponents(panels[1], true);
+                ViewUtility.enablePanelAndComponents(panels[2], false);
+            } else if (panels[1].isVisible()) {
+                ViewUtility.enablePanelAndComponents(panels[0], true);
+                ViewUtility.enablePanelAndComponents(panels[1], false);
+            }
+        });
     }
 
-    // Form Validation
     private RegistrationRequestDTO getRegistrationData() {
 
         RegistrationRequestDTO registrationRequestDTO = new RegistrationRequestDTO();

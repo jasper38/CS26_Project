@@ -68,9 +68,9 @@ public class LogInWindow {
                 logInBtn.addActionListener(this::logInBtnActionPerformed);
 
                 // Sign up section
-                ViewFactory.createConfirmationLabel(loginPanel, "Don't have an account?", new ViewFactory.Bounds(130, 364, 200, 30), 18);
+                ViewFactory.createConfirmationLabel(loginPanel, "Don't have an account?", new ViewFactory.Bounds(130, 385, 200, 30), 18);
 
-                registerBtn = ViewFactory.createCustomButton1(loginPanel, "Sign Up", new ViewFactory.Bounds(330,363, 79, 30), 18);
+                registerBtn = ViewFactory.createCustomButton1(loginPanel, "Sign Up", new ViewFactory.Bounds(330,384, 79, 30), 18);
                 registerBtn.addActionListener(this::registerBtnActionPerformed);
 
         loginFrame.getContentPane().add(loginPanel);

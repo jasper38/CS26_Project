@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -252,16 +253,17 @@ public class MainWindow {
         transactionHistoryPanel.setBounds(300, 80, 900, 810);
         //transactionHistoryPanel.setBackground(Color.GREEN);
 
-            columnNames = new String[]{
-                    "<html>Transaction<br>ID</html>",
-                    "<html>Bank Account<br>Number ID</html>",
-                    "<html>Bank<br>Name</html>",
-                    "<html>Transaction<br>Type</html>",
-                    "<html>Amount</html>",
-                    "<html>Transaction<br>DateTime</html>",
-                    "<html>Request<br>Status</html>",
-                    "<html>OTP</html>"
-            };
+        columnNames = new String[]{
+                "<html><center>Transaction<br>ID</center></html>",
+                "<html><center>Bank Account<br>Number ID</center></html>",
+                "<html><center>Bank<br>Name</center></html>",
+                "<html><center>Transaction<br>Type</center></html>",
+                "<html><center>Amount</center></html>",
+                "<html><center>Transaction<br>DateTime</center></html>",
+                "<html><center>Request<br>Status</center></html>",
+                "<html><center>OTP</center></html>"
+        };
+
 
             JLabel transactionHistoryLbl = new JLabel("Transaction History");
             transactionHistoryLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
@@ -274,7 +276,34 @@ public class MainWindow {
                     return false;
                 }
             };
-            scrollPane = new JScrollPane(table);
+
+            int[] columnWidths = {100, 100, 80, 110, 80, 200, 100, 80}; // Adjust as needed
+            for (int i = 0; i < columnWidths.length; i++) {
+                table.getColumnModel().getColumn(i).setPreferredWidth(columnWidths[i]);
+                table.getColumnModel().getColumn(i).setMinWidth(columnWidths[i]);
+                table.getColumnModel().getColumn(i).setMaxWidth(columnWidths[i]);
+            }
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            for (int i = 0; i < table.getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+
+
+            DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+            headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            headerRenderer.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
+            headerRenderer.setBackground(new Color(35, 35, 77));
+            headerRenderer.setForeground(Color.WHITE);
+
+
+            for (int i = 0; i < table.getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+            }
+
+
+        scrollPane = new JScrollPane(table);
             scrollPane.setBounds(10, 80, 870, 480);
             scrollPane.setBorder(null);
 
@@ -313,18 +342,20 @@ public class MainWindow {
 
         JPanel whitePanel = new JPanel();
         whitePanel.setLayout(null);
+        whitePanel.setBounds(30,100,830,450);
+        whitePanel.setBackground(Color.white);
 
 
 
             profileLbl = new JLabel("User Information");
             profileLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
             profileLbl.setForeground(new java.awt.Color(35, 35, 77));
-            profileLbl.setBounds(350,20,600,50);
+            profileLbl.setBounds(320,20,600,50);
 
             //Left Panel, Personal Information
             personInfoLbl = new JLabel("Personal Information");
             personInfoLbl.setFont(new Font("MS UI Gothic",1,28));
-            personInfoLbl.setBounds(80,130,400,40);
+            personInfoLbl.setBounds(80,120,400,40);
             personInfoLbl.setForeground(new Color(35, 35, 77));
 
             fnameLbl = new JLabel("Full Name: ");
@@ -351,7 +382,7 @@ public class MainWindow {
             accInfoLbl = new JLabel("Account Information");
             accInfoLbl.setFont(new Font("MS UI Gothic",1,28));
             accInfoLbl.setForeground(new Color(35, 35, 77));
-            accInfoLbl.setBounds(470,130,400,30);
+            accInfoLbl.setBounds(470,120,400,30);
 
             usernameLbl = new JLabel("Username: ");
             usernameLbl.setFont(new Font("MS UI Gothic", 1, 24));
@@ -392,6 +423,8 @@ public class MainWindow {
             confirmpassTF.setBounds(450,450,400,30);
             confirmpassTF.setForeground(new Color(35, 35, 77));
 
+
+
         profilePanel.add(personInfoLbl);
         profilePanel.add(changePassBtn);
         profilePanel.add(confirmpassTF);
@@ -408,6 +441,7 @@ public class MainWindow {
         profilePanel.add(bankAccIDNoLbl);
         profilePanel.add(contactNoLbl);
         profilePanel.add(emailLbl);
+        profilePanel.add(whitePanel);
 
         panels[2] =profilePanel;
 

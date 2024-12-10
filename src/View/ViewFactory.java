@@ -23,7 +23,7 @@ public final class ViewFactory {
     }
 
     public static void createConfirmationLabel(Container container, String text, Bounds bounds, int fontSize) {
-       ViewFactory.createConfirmationLabelHelper(container, text, bounds, fontSize);
+        ViewFactory.createConfirmationLabelHelper(container, text, bounds, fontSize);
     }
 
     public static void createMainLabel(Container container, String text, Bounds bounds) {

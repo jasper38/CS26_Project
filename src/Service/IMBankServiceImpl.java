@@ -151,13 +151,11 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
-    public boolean logoutUserSession() {
+    public void logoutUserSession() {
         if(!sessionUsername.isEmpty() && bankAccountNumberID != 0){
             sessionUsername = null;
             bankAccountNumberID = 0;
-            return true;
         }
-        return false;
     }
 
     @Override

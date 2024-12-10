@@ -127,7 +127,6 @@ public class MainWindow {
         headerPanel.add(headerLbl);
     }
 
-
     private void initNavPanel() {
         navPanel = new JPanel();
         navPanel.setLayout(null);
@@ -186,7 +185,6 @@ public class MainWindow {
         homePanel.setLayout(null);
         homePanel.setBounds(300, 80, 900, 1110);
 
-        //homePanel.setBackground(Color.GREEN);
 
         JPanel topPanel = new JPanel();
         topPanel.setBackground(new Color(255,255,255));

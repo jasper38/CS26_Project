@@ -531,7 +531,7 @@ public class MainWindow extends Component {
             // Switch to Edit mode
             changeContactNoTF = new JTextField(contactNoLbl.getText().replace("Contact No: ", "").trim());
             changeContactNoTF.setFont(new Font("MS UI Gothic", 1, 25));
-            changeContactNoTF.setBounds(600,280,120,30);
+            changeContactNoTF.setBounds(630,280,120,30);
             //changeContactNoTF.setBounds(contactNoLbl.getBounds()); // Use same bounds for consistency
 
             changeEmailTF = new JTextField(emailLbl.getText().replace("Email: ", "").trim());
@@ -544,8 +544,9 @@ public class MainWindow extends Component {
             profilePanel.add(changeEmailTF);
 
             // Hide labels
-            contactNoLbl.setVisible(true);
-            emailLbl.setVisible(true);
+            contactNoLbl.setText("Contact Number:"); //editable
+            emailLbl.setText("Email:");
+
 
             // Change button to Save
             editBtn.setText("Save");

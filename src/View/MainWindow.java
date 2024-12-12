@@ -315,6 +315,17 @@ public class MainWindow extends Component {
             deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
             deleteBtn.setBorderPainted(false);
             deleteBtn.addActionListener(this::deleteBtnActionPerformed);
+
+
+            JButton clearBtn = new JButton("Clear");
+            clearBtn.setFocusable(false);
+            clearBtn.setBounds(200, 530, 100, 30);
+            clearBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
+            clearBtn.setForeground(new java.awt.Color(224, 224, 231));
+            clearBtn.setBackground(new java.awt.Color(35, 35, 77));
+            clearBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+            clearBtn.setBorderPainted(false);
+            clearBtn.addActionListener(this::clearBtnActionPerformed);
             
 
             JTableHeader header = table.getTableHeader();
@@ -336,6 +347,7 @@ public class MainWindow extends Component {
             table.setShowVerticalLines(false);
 
         transactionHistoryPanel.add(deleteBtn);
+        transactionHistoryPanel.add(clearBtn);
         transactionHistoryPanel.add(transactionHistoryLbl);
         transactionHistoryPanel.add(scrollPane);
 
@@ -343,6 +355,22 @@ public class MainWindow extends Component {
 
         ViewUtility.enablePanelAndComponents(panels[1], false);
     }
+
+        private void clearBtnActionPerformed(ActionEvent actionEvent) {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to clear all transactions?",
+                    "Confirm Clear",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                tableModel.setRowCount(0);
+                JOptionPane.showMessageDialog(this,
+                        "All transactions have been cleared.",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
 
     private void deleteBtnActionPerformed(ActionEvent actionEvent) {
         int[] selectedRows = table.getSelectedRows(); // Get all selected row indices
@@ -507,68 +535,88 @@ public class MainWindow extends Component {
     private JTextField changeContactNoTF, changeEmailTF;
 
     private void editBtnActionPerformed(ActionEvent actionEvent) {
+        // Toggle between Edit and Save modes
+        if (editBtn.getText().equals("Edit")) {
+            // Switch to Edit mode
+            changeContactNoTF = new JTextField(contactNoLbl.getText().replace("Contact No: ", "").trim());
+            changeContactNoTF.setFont(new Font("MS UI Gothic", 1, 25));
+            changeContactNoTF.setBounds(500,280,90,30);
+            //changeContactNoTF.setBounds(contactNoLbl.getBounds()); // Use same bounds for consistency
 
-        // Remove existing labels
-        //profilePanel.remove(contactNoLbl);
-        //profilePanel.remove(emailLbl);
+            changeEmailTF = new JTextField(emailLbl.getText().replace("Email: ", "").trim());
+            changeEmailTF.setFont(new Font("MS UI Gothic", 1, 25));
+            changeEmailTF.setBounds(500,330,90,30);
+            //changeEmailTF.setBounds(emailLbl.getBounds()); // Use same bounds for consistency
 
-        // Create text fields to replace labels
-        changeContactNoTF = new JTextField(contactNoLbl.getText().replace("Contact No: ", "").trim());
-        changeContactNoTF.setFont(new Font("MS UI Gothic", 1, 25));
-        changeContactNoTF.setBounds(450, 280, 400, 30);
+            // Add text fields
+            profilePanel.add(changeContactNoTF);
+            profilePanel.add(changeEmailTF);
 
-        changeEmailTF = new JTextField(emailLbl.getText().replace("Email: ", "").trim());
-        changeEmailTF.setFont(new Font("MS UI Gothic", 1, 25));
-        changeEmailTF.setBounds(450, 330, 400, 30);
+            // Hide labels
+            contactNoLbl.setVisible(false);
+            emailLbl.setVisible(false);
 
-        // Add text fields to the panel
-        profilePanel.add(changeContactNoTF);
-        profilePanel.add(changeEmailTF);
+            // Change button to Save
+            editBtn.setText("Save");
+        } else {
+            // Switch to View mode (Save Changes)
+            String updatedContactNo = changeContactNoTF.getText().trim();
+            String updatedEmail = changeEmailTF.getText().trim();
 
-        // Add a Save button dynamically
-        JButton saveBtn = new JButton("Save");
-        saveBtn.setFocusable(false);
-        saveBtn.setBounds(155, 55, 100, 30); // Positioned next to the Edit button
-        saveBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
-        saveBtn.setForeground(new java.awt.Color(224, 224, 231));
-        saveBtn.setBackground(new java.awt.Color(35, 35, 77));
-        saveBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-        saveBtn.setBorderPainted(false);
+            // Validation
+            if (!updatedContactNo.matches("\\d{10}") || !updatedEmail.contains("@")) {
+                JOptionPane.showMessageDialog(profilePanel,
+                        "Invalid contact number or email. Please try again.",
+                        "Input Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // Add action listener for Save button
-        saveBtn.addActionListener(e -> {
-            saveChanges(saveBtn); // Pass Save button for removal after saving
-        });
+            // Update labels
+            contactNoLbl.setText("Contact No: " + updatedContactNo);
+            emailLbl.setText("Email: " + updatedEmail);
 
-        profilePanel.add(saveBtn);
+            // Remove text fields
+            profilePanel.remove(changeContactNoTF);
+            profilePanel.remove(changeEmailTF);
 
-        // Refresh the panel to show changes
+            // Show labels
+            contactNoLbl.setVisible(true);
+            emailLbl.setVisible(true);
+
+            // Change button back to Edit
+            editBtn.setText("Edit");
+        }
+
+        // Refresh panel and parent container
         profilePanel.revalidate();
         profilePanel.repaint();
     }
 
-    private void saveChanges(JButton saveBtn) {
-        // Get updated values from text fields
-        String updatedContactNo = changeContactNoTF.getText().trim();
-        String updatedEmail = changeEmailTF.getText().trim();
 
-        // Remove text fields and Save button
-        profilePanel.remove(changeContactNoTF);
-        profilePanel.remove(changeEmailTF);
-        profilePanel.remove(saveBtn);
 
-        // Update labels with new values
-        contactNoLbl.setText("Contact No: " + updatedContactNo);
-        emailLbl.setText("Email: " + updatedEmail);
-
-        // Add labels back to the panel
-        profilePanel.add(contactNoLbl);
-        profilePanel.add(emailLbl);
-
-        // Refresh the panel to show updated values
-        profilePanel.revalidate();
-        profilePanel.repaint();
-    }
+//    private void saveChanges(JButton saveBtn) {
+//        // Get updated values from text fields
+//        String updatedContactNo = changeContactNoTF.getText().trim();
+//        String updatedEmail = changeEmailTF.getText().trim();
+//
+//        // Remove text fields and Save button
+//        profilePanel.remove(changeContactNoTF);
+//        profilePanel.remove(changeEmailTF);
+//        profilePanel.remove(saveBtn);
+//
+//        // Update labels with new values
+//        contactNoLbl.setText("Contact No: " + updatedContactNo);
+//        emailLbl.setText("Email: " + updatedEmail);
+//
+//        // Add labels back to the panel
+//        profilePanel.add(contactNoLbl);
+//        profilePanel.add(emailLbl);
+//
+//        // Refresh the panel to show updated values
+//        profilePanel.revalidate();
+//        profilePanel.repaint();
+//    }
 
 
 

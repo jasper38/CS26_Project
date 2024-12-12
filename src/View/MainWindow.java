@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 
-public class MainWindow {
+public class MainWindow extends Component {
 
     private JFrame mainFrame;
 
@@ -303,8 +303,19 @@ public class MainWindow {
             }
 
             scrollPane = new JScrollPane(table);
-            scrollPane.setBounds(10, 80, 870, 480);
+            scrollPane.setBounds(10, 80, 870, 430);
             scrollPane.setBorder(null);
+            
+            JButton deleteBtn = new JButton("Delete");
+            deleteBtn.setFocusable(false);
+            deleteBtn.setBounds(90, 530, 100, 30);
+            deleteBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
+            deleteBtn.setForeground(new java.awt.Color(224, 224, 231));
+            deleteBtn.setBackground(new java.awt.Color(35, 35, 77));
+            deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+            deleteBtn.setBorderPainted(false);
+            deleteBtn.addActionListener(this::deleteBtnActionPerformed);
+            
 
             JTableHeader header = table.getTableHeader();
             header.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
@@ -324,6 +335,7 @@ public class MainWindow {
 
             table.setShowVerticalLines(false);
 
+        transactionHistoryPanel.add(deleteBtn);
         transactionHistoryPanel.add(transactionHistoryLbl);
         transactionHistoryPanel.add(scrollPane);
 
@@ -331,6 +343,44 @@ public class MainWindow {
 
         ViewUtility.enablePanelAndComponents(panels[1], false);
     }
+
+    private void deleteBtnActionPerformed(ActionEvent actionEvent) {
+        int[] selectedRows = table.getSelectedRows(); // Get all selected row indices
+        if (selectedRows.length == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "No items selected! \nPlease select at least one item.",
+                    "Select Rows",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Optional: Display the selected rows for debugging
+            StringBuilder rowsToDelete = new StringBuilder("Selected rows: ");
+            for (int row : selectedRows) {
+                rowsToDelete.append(row).append(" ");
+            }
+            System.out.println(rowsToDelete);
+
+            // Confirm deletion
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to delete the selected items?",
+                    "Confirm Delete",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+                // Remove rows in reverse order to prevent index shifting
+                for (int i = selectedRows.length - 1; i >= 0; i--) {
+                    model.removeRow(selectedRows[i]);
+                }
+
+                JOptionPane.showMessageDialog(this,
+                        "Selected items deleted successfully!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
 
     private void initProfilePanel() {
 
@@ -402,6 +452,16 @@ public class MainWindow {
             emailLbl.setForeground(new java.awt.Color(35, 35, 77));
             emailLbl.setBounds(450,330,400,30);
 
+            editBtn = new JButton("Edit");
+            editBtn.setFocusable(false);
+            editBtn.setBounds(45, 55, 100, 30);
+            editBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
+            editBtn.setForeground(new java.awt.Color(224, 224, 231));
+            editBtn.setBackground(new java.awt.Color(35, 35, 77));
+            editBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+            editBtn.setBorderPainted(false);
+            editBtn.addActionListener(this::editBtnActionPerformed);
+
             changePassBtn = new JButton("Change Password");
             changePassBtn.setFocusable(false);
             changePassBtn.setBounds(450, 500, 400, 40);
@@ -426,7 +486,7 @@ public class MainWindow {
         profilePanel.add(confirmpassTF);
         profilePanel.add(changePassTF);
         profilePanel.add(profileLbl);
-        //profilePanel.add(editBtn);
+        profilePanel.add(editBtn);
         profilePanel.add(fnameLbl);
         profilePanel.add(bdayLbl);
         profilePanel.add(ageLbl);
@@ -444,12 +504,80 @@ public class MainWindow {
         ViewUtility.enablePanelAndComponents(panels[2], false);
     }
 
+    private JTextField changeContactNoTF, changeEmailTF;
+
+    private void editBtnActionPerformed(ActionEvent actionEvent) {
+
+        // Remove existing labels
+        //profilePanel.remove(contactNoLbl);
+        //profilePanel.remove(emailLbl);
+
+        // Create text fields to replace labels
+        changeContactNoTF = new JTextField(contactNoLbl.getText().replace("Contact No: ", "").trim());
+        changeContactNoTF.setFont(new Font("MS UI Gothic", 1, 25));
+        changeContactNoTF.setBounds(450, 280, 400, 30);
+
+        changeEmailTF = new JTextField(emailLbl.getText().replace("Email: ", "").trim());
+        changeEmailTF.setFont(new Font("MS UI Gothic", 1, 25));
+        changeEmailTF.setBounds(450, 330, 400, 30);
+
+        // Add text fields to the panel
+        profilePanel.add(changeContactNoTF);
+        profilePanel.add(changeEmailTF);
+
+        // Add a Save button dynamically
+        JButton saveBtn = new JButton("Save");
+        saveBtn.setFocusable(false);
+        saveBtn.setBounds(155, 55, 100, 30); // Positioned next to the Edit button
+        saveBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
+        saveBtn.setForeground(new java.awt.Color(224, 224, 231));
+        saveBtn.setBackground(new java.awt.Color(35, 35, 77));
+        saveBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+        saveBtn.setBorderPainted(false);
+
+        // Add action listener for Save button
+        saveBtn.addActionListener(e -> {
+            saveChanges(saveBtn); // Pass Save button for removal after saving
+        });
+
+        profilePanel.add(saveBtn);
+
+        // Refresh the panel to show changes
+        profilePanel.revalidate();
+        profilePanel.repaint();
+    }
+
+    private void saveChanges(JButton saveBtn) {
+        // Get updated values from text fields
+        String updatedContactNo = changeContactNoTF.getText().trim();
+        String updatedEmail = changeEmailTF.getText().trim();
+
+        // Remove text fields and Save button
+        profilePanel.remove(changeContactNoTF);
+        profilePanel.remove(changeEmailTF);
+        profilePanel.remove(saveBtn);
+
+        // Update labels with new values
+        contactNoLbl.setText("Contact No: " + updatedContactNo);
+        emailLbl.setText("Email: " + updatedEmail);
+
+        // Add labels back to the panel
+        profilePanel.add(contactNoLbl);
+        profilePanel.add(emailLbl);
+
+        // Refresh the panel to show updated values
+        profilePanel.revalidate();
+        profilePanel.repaint();
+    }
+
+
+
     // Pop-up window for transaction
     private JFrame popUpFrame1;
     private JLabel bankAccountNumLbl;
     private JLabel cardPINLbl;
     private JTextField bankAccountNumField;
-    private JTextField cardPINField;
+    private JPasswordField cardPINField;
     private JButton cancelBtn;
     private JButton enterBtn;
 
@@ -492,13 +620,15 @@ public class MainWindow {
         cardPINLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
         cardPINLbl.setBounds(50, 160, 250, 30);
         cardPINLbl.setForeground(new Color(35, 35, 77));
+
         popUpFrame1.add(cardPINLbl);
 
-        cardPINField = new JTextField();
+        cardPINField = new JPasswordField();
         cardPINField.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
         cardPINField.setBounds(300, 160, 250, 30);
         cardPINField.setForeground(new Color(35, 35, 77));
         cardPINField.addKeyListener(ViewUtility.addNumberInputKeyListener());
+        cardPINField.setEchoChar('*');
         popUpFrame1.add(cardPINField);
 
         // Cancel Button
@@ -776,7 +906,7 @@ public class MainWindow {
 
     private void enterBtnActionPerformed(ActionEvent ae) {
         if (popUpFrames[1] == null || !popUpFrames[1].isVisible()) {
-            if(!String.valueOf(bankAccountNumField.getText()).isEmpty() && !String.valueOf(cardPINField.getText()).isEmpty()) {
+            if(!String.valueOf(bankAccountNumField.getText()).isEmpty() && !String.valueOf(cardPINField.getPassword()).isEmpty()) {
                 bankController.checkForPendingTransactions();
             } else {
                 ViewUtility.showErrorMessage(popUpFrame1,"Please enter fields.");
@@ -840,14 +970,14 @@ public class MainWindow {
         genderLbl.setText("Sex: " + userProfile.getSex());
         usernameLbl.setText("Username: " + userProfile.getUsername());
         bankAccIDNoLbl.setText("Bank Account Number: " + userProfile.getBankAccountNumberID());
-        contactNoLbl.setText("Contact Number: " + userProfile.getContactNumber());
-        emailLbl.setText("Email: " + userProfile.getEmail());
+        contactNoLbl.setText("Contact Number: " + userProfile.getContactNumber()); //editable
+        emailLbl.setText("Email: " + userProfile.getEmail()); //editable
     }
 
     public void proceedTransaction(){
         bankController.authenticateBankCredentials(
                 Integer.parseInt(bankAccountNumField.getText()),
-                Integer.parseInt(cardPINField.getText())
+                Integer.parseInt(String.valueOf(cardPINField.getPassword()))
         );
         popUpFrames[0].dispose();
         popUpFrames[0] = null;

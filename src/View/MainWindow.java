@@ -66,7 +66,7 @@ public class MainWindow {
     private int framewidth = 1200;
 
     private JPanel[] panels = new JPanel[3];
-    private JFrame[] popUpFrame = new JFrame[1];
+    private JFrame[] popUpFrames = new JFrame[2];
 
     private final IMBankController bankController;
 
@@ -265,7 +265,6 @@ public class MainWindow {
                 "<html><center>OTP</center></html>"
         };
 
-
             JLabel transactionHistoryLbl = new JLabel("Transaction History");
             transactionHistoryLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 35));
             transactionHistoryLbl.setForeground(new java.awt.Color(35, 35, 77));
@@ -463,7 +462,7 @@ public class MainWindow {
             public void windowClosing(WindowEvent e) {
                 withdrawBtn.setEnabled(true);
                 depositBtn.setEnabled(true);
-                popUpFrame[0] = null;
+                popUpFrames[0] = null;
             }
         });
 
@@ -528,7 +527,7 @@ public class MainWindow {
 
         // Display the frame
         popUpFrame1.setVisible(true);
-        popUpFrame[0] = popUpFrame1;
+        popUpFrames[0] = popUpFrame1;
     }
 
 
@@ -573,8 +572,9 @@ public class MainWindow {
             public void windowClosing(WindowEvent e) {
                 withdrawBtn.setEnabled(true);
                 depositBtn.setEnabled(true);
-                popUpFrame[0] = null;
-                popUpFrame2.dispose();
+                popUpFrames[0] = null;
+                popUpFrames[1].dispose();
+                popUpFrames[1] = null;
             }
         });
 
@@ -708,7 +708,9 @@ public class MainWindow {
 
         popUpFrame2.setResizable(false);
         popUpFrame2.setVisible(true);
-    }
+
+        popUpFrames[1] = popUpFrame2;
+     }
 
     // Navigation bar buttons here
     private void homeBtnActionPerformed(ActionEvent ae) {
@@ -750,7 +752,7 @@ public class MainWindow {
 
     // Transaction buttons here
     private void depositBtnActionPerformed(ActionEvent ae) {
-        if(popUpFrame[0] != null){
+        if(popUpFrames[0] != null){
             ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
             return;
         }
@@ -759,7 +761,7 @@ public class MainWindow {
     }
 
     private void withdrawBtnActionPerformed(ActionEvent ae) {
-        if(popUpFrame[0] != null){
+        if(popUpFrames[0] != null){
             ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
             return;
         }
@@ -768,38 +770,44 @@ public class MainWindow {
     }
 
     private void enterBtnActionPerformed(ActionEvent ae) {
-        if (popUpFrame2 == null || !popUpFrame2.isVisible()) {
+        if (popUpFrames[1] == null || !popUpFrames[1].isVisible()) {
             if(!String.valueOf(bankAccountNumField.getText()).isEmpty() && !String.valueOf(cardPINField.getText()).isEmpty()) {
                 bankController.checkForPendingTransactions();
             } else {
                 ViewUtility.showErrorMessage(popUpFrame1,"Please enter fields.");
             }
         } else {
-            popUpFrame2.dispose();
+            popUpFrames[1].dispose();
+            popUpFrames[1] = null;
         }
     }
 
     private void cancelBtnActionPerformed(ActionEvent ae) {
-        popUpFrame1.dispose();
-        popUpFrame[0] = null;
+        popUpFrames[0].dispose();
+        popUpFrames[0] = null;
 
         depositBtn.setEnabled(true);
         withdrawBtn.setEnabled(true);
 
-        if (popUpFrame2 != null && popUpFrame2.isVisible()) {
-            popUpFrame2.dispose();
+        if (popUpFrames[1] != null && popUpFrames[1].isVisible()) {
+            popUpFrames[1].dispose();
+            popUpFrames[1] = null;
         }
     }
 
     private void submitTransactionRequestBtnActionPerformed(ActionEvent ae) {
-        if(bankGroup.getSelection() != null && !amountField.getText().isEmpty()){
+        if(bankGroup.getSelection() != null && !String.valueOf(amountField.getText()).isEmpty()){
             String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
             System.out.println(transactionType + " " + selectedBank);
             bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
         } else {
             ViewUtility.showInfoMessage("Please enter fields.");
         }
-        popUpFrame2.dispose();
+        submitBtn = null;
+        popUpFrames[1].dispose();
+        popUpFrames[1] = null;
+        bankGroup.clearSelection();
+        amountField.setText("");
         depositBtn.setEnabled(true);
         withdrawBtn.setEnabled(true);
     }
@@ -836,8 +844,8 @@ public class MainWindow {
                 Integer.parseInt(bankAccountNumField.getText()),
                 Integer.parseInt(cardPINField.getText())
         );
-        popUpFrame[0].dispose();
-        popUpFrame[0] = null;
+        popUpFrames[0].dispose();
+        popUpFrames[0] = null;
     }
 
     public void updateHeaderLbl(String name){

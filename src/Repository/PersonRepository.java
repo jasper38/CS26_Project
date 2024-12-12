@@ -73,4 +73,21 @@ public class PersonRepository {
             return userProfileDTO;
         }
     }
+
+    public String getPersonFirstName(String username) throws SQLException {
+        String sql = "SELECT p.First_Name " +
+                     "FROM Person p " +
+                     "JOIN Customers c ON c.Person_ID = p.Person_ID " +
+                     "WHERE username = ?";
+        try (Connection conn = IMBankConnectionManager.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("First_Name");
+            } else {
+                throw new SQLException("First name not found");
+            }
+        }
+    }
 }

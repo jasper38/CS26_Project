@@ -8,6 +8,8 @@ import Utility.ViewUtility;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -64,6 +66,8 @@ public class MainWindow {
     private int framewidth = 1200;
 
     private JPanel[] panels = new JPanel[3];
+    private JFrame[] popUpFrame = new JFrame[1];
+
     private final IMBankController bankController;
 
     // Constructor
@@ -119,7 +123,7 @@ public class MainWindow {
         headerPanel.setLayout(null);
         headerPanel.setBounds(0, 0, 900, 80);
 
-            headerLbl = new JLabel("Welcome [Name of Person],");
+            headerLbl = new JLabel("Welcome ,");
             headerLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 28));
             headerLbl.setForeground(new java.awt.Color(35, 35, 77));
             headerLbl.setBounds(30, 30, 400, 50);
@@ -184,7 +188,6 @@ public class MainWindow {
         homePanel = new JPanel();
         homePanel.setLayout(null);
         homePanel.setBounds(300, 80, 900, 1110);
-
 
         JPanel topPanel = new JPanel();
         topPanel.setBackground(new Color(255,255,255));
@@ -300,8 +303,7 @@ public class MainWindow {
                 table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
             }
 
-
-        scrollPane = new JScrollPane(table);
+            scrollPane = new JScrollPane(table);
             scrollPane.setBounds(10, 80, 870, 480);
             scrollPane.setBorder(null);
 
@@ -342,7 +344,6 @@ public class MainWindow {
         whitePanel.setLayout(null);
         whitePanel.setBounds(30,100,830,450);
         whitePanel.setBackground(Color.white);
-
 
 
             profileLbl = new JLabel("User Information");
@@ -421,8 +422,6 @@ public class MainWindow {
             confirmpassTF.setBounds(450,450,400,30);
             confirmpassTF.setForeground(new Color(35, 35, 77));
 
-
-
         profilePanel.add(personInfoLbl);
         profilePanel.add(changePassBtn);
         profilePanel.add(confirmpassTF);
@@ -460,6 +459,13 @@ public class MainWindow {
         popUpFrame1 = ViewFactory.createFrame("Initiating Transaction Request", 600, 400);
         popUpFrame1.setLayout(null);
         popUpFrame1.setLocationRelativeTo(mainFrame);
+        popUpFrame1.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                withdrawBtn.setEnabled(true);
+                depositBtn.setEnabled(true);
+                popUpFrame[0] = null;
+            }
+        });
 
         // Header Label
         JLabel headerLabel1 = new JLabel("Transaction Details");
@@ -512,7 +518,7 @@ public class MainWindow {
         enterBtn = new JButton("Enter");
         enterBtn.setBounds(300, 250, 200, 40);
         enterBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-        enterBtn.setForeground(new Color(224, 150, 231));
+        enterBtn.setForeground(new Color(224, 215, 231));
         enterBtn.setBackground(new Color(35, 35, 77));
         enterBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
         enterBtn.setBorderPainted(false);
@@ -522,6 +528,7 @@ public class MainWindow {
 
         // Display the frame
         popUpFrame1.setVisible(true);
+        popUpFrame[0] = popUpFrame1;
     }
 
 
@@ -562,6 +569,14 @@ public class MainWindow {
         popUpFrame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         popUpFrame2.setLayout(null);
         popUpFrame2.setLocationRelativeTo(mainFrame);
+        popUpFrame2.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                withdrawBtn.setEnabled(true);
+                depositBtn.setEnabled(true);
+                popUpFrame[0] = null;
+                popUpFrame2.dispose();
+            }
+        });
 
             // Header Label
             chooseLbl.setText("Select Bank and Enter Amount");
@@ -719,7 +734,6 @@ public class MainWindow {
     }
 
     private void logoutBtnActionPerformed(ActionEvent ae) {
-        bankController.logoutUserSession();
         int response = JOptionPane.showConfirmDialog(
                 this.getMainFrame(),
                 "Are you sure you want to log out?",
@@ -730,40 +744,44 @@ public class MainWindow {
 
         if (response == JOptionPane.YES_OPTION) {
             bankController.showLoginWindow();
+            bankController.logoutUserSession();
         }
     }
 
     // Transaction buttons here
     private void depositBtnActionPerformed(ActionEvent ae) {
+        if(popUpFrame[0] != null){
+            ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
+            return;
+        }
         withdrawBtn.setEnabled(false);
         createPopUpWindow1();
     }
 
     private void withdrawBtnActionPerformed(ActionEvent ae) {
+        if(popUpFrame[0] != null){
+            ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
+            return;
+        }
         depositBtn.setEnabled(false);
         createPopUpWindow1();
     }
 
     private void enterBtnActionPerformed(ActionEvent ae) {
-        if (popUpFrame1 != null) {
-            popUpFrame1.dispose();
-        }
         if (popUpFrame2 == null || !popUpFrame2.isVisible()) {
-            if(bankAccountNumField.getText().isEmpty() || cardPINField.getText().isEmpty()) {
-
-                ViewUtility.showErrorMessage("Please enter fields.");
-                return;
+            if(!String.valueOf(bankAccountNumField.getText()).isEmpty() && !String.valueOf(cardPINField.getText()).isEmpty()) {
+                bankController.checkForPendingTransactions();
+            } else {
+                ViewUtility.showErrorMessage(popUpFrame1,"Please enter fields.");
             }
-            bankController.checkForPendingTransactions();
         } else {
             popUpFrame2.dispose();
         }
     }
 
     private void cancelBtnActionPerformed(ActionEvent ae) {
-        if (popUpFrame1 != null) {
-            popUpFrame1.dispose();
-        }
+        popUpFrame1.dispose();
+        popUpFrame[0] = null;
 
         depositBtn.setEnabled(true);
         withdrawBtn.setEnabled(true);
@@ -818,6 +836,14 @@ public class MainWindow {
                 Integer.parseInt(bankAccountNumField.getText()),
                 Integer.parseInt(cardPINField.getText())
         );
+        popUpFrame[0].dispose();
+        popUpFrame[0] = null;
+    }
+
+    public void updateHeaderLbl(String name){
+        SwingUtilities.invokeLater(() -> {
+            this.headerLbl.setText("Welcome " + name + ",");
+        });
     }
 
     // Getters/Setters

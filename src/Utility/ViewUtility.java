@@ -48,8 +48,8 @@ public final class ViewUtility {
         frame.setVisible(false);
     }
 
-    public static void showErrorMessage(String msg) {
-        JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    public static void showErrorMessage(JFrame parentFrame, String msg) {
+        JOptionPane.showMessageDialog(parentFrame, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void showInfoMessage(String msg) {

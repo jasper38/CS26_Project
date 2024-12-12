@@ -46,7 +46,7 @@ public class IMBankController {
                         throw new Exception();
                     }
                 } catch (Exception e) {
-                    ViewUtility.showErrorMessage("An Error occured during registration.");
+                    ViewUtility.showErrorMessage(null,"An Error occured during registration.");
                 }
             }
         };
@@ -66,13 +66,32 @@ public class IMBankController {
                 try {
                     LogInResult result = get();
                     if (result.isSuccess()) {
+                        getName();
                         getAccountBalance();
                         showMainWindow();
                     } else {
-                        ViewUtility.showInfoMessage(result.getMessage());
+                       throw new Exception("An unexpected error occurred during login.");
                     }
                 } catch (Exception e) {
-                    ViewUtility.showErrorMessage("An unexpected error occurred: " + e.getMessage());
+                    ViewUtility.showErrorMessage(null, e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    private void getName(){
+        SwingWorker<String, Void> worker = new SwingWorker<>() {
+            @Override
+            protected String doInBackground() throws Exception {
+                return bankService.getName();
+            }
+            @Override
+            protected void done() {
+                try {
+                    mainWindow.updateHeaderLbl(get());
+                } catch (Exception e) {
+                    ViewUtility.showErrorMessage(null,"An unexpected error occurred: " + e.getMessage());
                 }
             }
         };
@@ -196,7 +215,7 @@ public class IMBankController {
                         mainWindow.udpateTransactionHistoryTable(transaction);
                     }
                 } catch (Exception e){
-                    ViewUtility.showErrorMessage(e.getMessage());
+                    ViewUtility.showErrorMessage(null, e.getMessage());
                 }
             }
         };
@@ -240,7 +259,7 @@ public class IMBankController {
                       ViewUtility.showInfoMessage("Transaction cancelled.");
                   }
                 } catch (Exception e){
-                    ViewUtility.showErrorMessage(e.getMessage());
+                    ViewUtility.showErrorMessage(null, e.getMessage());
                 }
             }
         };

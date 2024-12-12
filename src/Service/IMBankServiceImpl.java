@@ -23,8 +23,8 @@ public class IMBankServiceImpl implements IMBankService {
 
     // session variables for seamless retrieval of data from db
     private String sessionUsername = "";
+    private String sessionName = "";
     private int bankAccountNumberID = 0;
-    private int customerID = 0;
 
     public IMBankServiceImpl(AffiliatedBankRepository affiliatedBankRepository,
                              BankAccountRepository bankAccountRepository, CardInfoRepository cardInfoRepository,
@@ -80,8 +80,13 @@ public class IMBankServiceImpl implements IMBankService {
         }
         sessionUsername = credentials.getUsername();
         bankAccountNumberID = bankAccountRepository.getBankAccountNumberID(sessionUsername);
-        customerID = customerRepository.getCustomerID(sessionUsername);
+        sessionName = personRepository.getPersonFirstName(sessionUsername);
         return new LogInResult(true, "Login successful");
+    }
+
+    @Override
+    public String getName() throws SQLException {
+        return sessionName;
     }
 
     @Override

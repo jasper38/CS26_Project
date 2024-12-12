@@ -26,4 +26,18 @@ public class AffiliatedBankRepository {
             return bankID;
         }
     }
+
+    public Double getBankCharge(int bankID) throws SQLException {
+        String sql = "SELECT Charge FROM Affiliated_Banks WHERE Bank_ID = ?";
+        try(Connection conn = IMBankConnectionManager.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1, bankID);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getDouble("Charge");
+            } else {
+                throw new SQLException("ID not found");
+            }
+        }
+    }
 }

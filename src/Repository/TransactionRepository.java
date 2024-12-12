@@ -97,4 +97,18 @@ public class TransactionRepository {
             return ps.executeUpdate();
         }
     }
+
+    public int updateTransactionStatus(int transactionID) throws SQLException {
+        String sql = "UPDATE Transaction "
+                + "SET Request_Status = ?, OTP = '------' "
+                + "WHERE Transaction_ID = ? AND Request_Status = 'Pending'";
+        try(Connection conn = IMBankConnectionManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setString(1, "Complete");
+            ps.setInt(2, transactionID);
+
+            return ps.executeUpdate();
+        }
+    }
 }

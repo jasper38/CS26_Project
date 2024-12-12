@@ -356,52 +356,43 @@ public class MainWindow extends Component {
         ViewUtility.enablePanelAndComponents(panels[1], false);
     }
 
-        private void clearBtnActionPerformed(ActionEvent actionEvent) {
-            int confirm = JOptionPane.showConfirmDialog(this,
-                    "Are you sure you want to clear all transactions?",
-                    "Confirm Clear",
-                    JOptionPane.YES_NO_OPTION);
+    private void clearBtnActionPerformed(ActionEvent actionEvent) {
+        int confirm = JOptionPane.showConfirmDialog(mainFrame, // Ensure dialog parent is correct
+                "Are you sure you want to clear all transactions?",
+                "Confirm Clear",
+                JOptionPane.YES_NO_OPTION);
 
-            if (confirm == JOptionPane.YES_OPTION) {
-                tableModel.setRowCount(0);
-                JOptionPane.showMessageDialog(this,
-                        "All transactions have been cleared.",
-                        "Success",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
+        if (confirm == JOptionPane.YES_OPTION) {
+            tableModel.setRowCount(0); // Clear all rows from the table model
+            JOptionPane.showMessageDialog(mainFrame,
+                    "All transactions have been cleared.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
 
 
     private void deleteBtnActionPerformed(ActionEvent actionEvent) {
         int[] selectedRows = table.getSelectedRows(); // Get all selected row indices
         if (selectedRows.length == 0) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(mainFrame,
                     "No items selected! \nPlease select at least one item.",
                     "Select Rows",
                     JOptionPane.ERROR_MESSAGE);
         } else {
-            // Optional: Display the selected rows for debugging
-            StringBuilder rowsToDelete = new StringBuilder("Selected rows: ");
-            for (int row : selectedRows) {
-                rowsToDelete.append(row).append(" ");
-            }
-            System.out.println(rowsToDelete);
-
-            // Confirm deletion
-            int confirm = JOptionPane.showConfirmDialog(this,
+            int confirm = JOptionPane.showConfirmDialog(mainFrame,
                     "Are you sure you want to delete the selected items?",
                     "Confirm Delete",
                     JOptionPane.YES_NO_OPTION);
 
             if (confirm == JOptionPane.YES_OPTION) {
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-                // Remove rows in reverse order to prevent index shifting
+                // Remove rows in reverse order to avoid index shifting
                 for (int i = selectedRows.length - 1; i >= 0; i--) {
-                    model.removeRow(selectedRows[i]);
+                    tableModel.removeRow(selectedRows[i]);
                 }
 
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(mainFrame,
                         "Selected items deleted successfully!",
                         "Success",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -540,12 +531,12 @@ public class MainWindow extends Component {
             // Switch to Edit mode
             changeContactNoTF = new JTextField(contactNoLbl.getText().replace("Contact No: ", "").trim());
             changeContactNoTF.setFont(new Font("MS UI Gothic", 1, 25));
-            changeContactNoTF.setBounds(500,280,90,30);
+            changeContactNoTF.setBounds(600,280,120,30);
             //changeContactNoTF.setBounds(contactNoLbl.getBounds()); // Use same bounds for consistency
 
             changeEmailTF = new JTextField(emailLbl.getText().replace("Email: ", "").trim());
             changeEmailTF.setFont(new Font("MS UI Gothic", 1, 25));
-            changeEmailTF.setBounds(500,330,90,30);
+            changeEmailTF.setBounds(520,330,120,30);
             //changeEmailTF.setBounds(emailLbl.getBounds()); // Use same bounds for consistency
 
             // Add text fields
@@ -553,8 +544,8 @@ public class MainWindow extends Component {
             profilePanel.add(changeEmailTF);
 
             // Hide labels
-            contactNoLbl.setVisible(false);
-            emailLbl.setVisible(false);
+            contactNoLbl.setVisible(true);
+            emailLbl.setVisible(true);
 
             // Change button to Save
             editBtn.setText("Save");
@@ -564,7 +555,7 @@ public class MainWindow extends Component {
             String updatedEmail = changeEmailTF.getText().trim();
 
             // Validation
-            if (!updatedContactNo.matches("\\d{10}") || !updatedEmail.contains("@")) {
+            if (!updatedContactNo.matches("\\d{11}") || !updatedEmail.contains("@")) {
                 JOptionPane.showMessageDialog(profilePanel,
                         "Invalid contact number or email. Please try again.",
                         "Input Error",
@@ -592,32 +583,6 @@ public class MainWindow extends Component {
         profilePanel.revalidate();
         profilePanel.repaint();
     }
-
-
-
-//    private void saveChanges(JButton saveBtn) {
-//        // Get updated values from text fields
-//        String updatedContactNo = changeContactNoTF.getText().trim();
-//        String updatedEmail = changeEmailTF.getText().trim();
-//
-//        // Remove text fields and Save button
-//        profilePanel.remove(changeContactNoTF);
-//        profilePanel.remove(changeEmailTF);
-//        profilePanel.remove(saveBtn);
-//
-//        // Update labels with new values
-//        contactNoLbl.setText("Contact No: " + updatedContactNo);
-//        emailLbl.setText("Email: " + updatedEmail);
-//
-//        // Add labels back to the panel
-//        profilePanel.add(contactNoLbl);
-//        profilePanel.add(emailLbl);
-//
-//        // Refresh the panel to show updated values
-//        profilePanel.revalidate();
-//        profilePanel.repaint();
-//    }
-
 
 
     // Pop-up window for transaction
@@ -909,6 +874,11 @@ public class MainWindow extends Component {
         ViewUtility.enablePanelAndComponents(panels[2], false);
         //bankController.cancelTransaction();
         bankController.getTransactionHistory();
+        if (tableModel.getRowCount() == 0) {
+            System.out.println("Transaction table is already cleared. No repopulation needed.");
+            return;
+        }
+
     }
 
     private void profileBtnActionPerformed(ActionEvent actionEvent) {
@@ -948,6 +918,7 @@ public class MainWindow extends Component {
             ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
             return;
         }
+
         depositBtn.setEnabled(false);
         createPopUpWindow1();
     }
@@ -983,6 +954,8 @@ public class MainWindow extends Component {
             String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
             System.out.println(transactionType + " " + selectedBank);
             bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
+
+
         } else {
             ViewUtility.showInfoMessage("Please enter fields.");
         }

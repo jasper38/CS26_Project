@@ -546,22 +546,22 @@ public class MainWindow {
     private String selectedBank;
 
     public void createPopUpWindow2() {
-
-        if (chooseLbl == null) {
-            chooseLbl = new JLabel();
-        }
-        if (amountLbl == null) {
-            amountLbl = new JLabel();
-        }
-        if (amountField == null) {
-            amountField = new JTextField();
-        }
-        if (cancelBtn == null) {
-            cancelBtn = new JButton();
-        }
-        if (submitBtn == null) {
-            submitBtn = new JButton();
-        }
+//
+//        if (chooseLbl == null) {
+//            chooseLbl = new JLabel();
+//        }
+//        if (amountLbl == null) {
+//            amountLbl = new JLabel();
+//        }
+//        if (amountField == null) {
+//            amountField = new JTextField();
+//        }
+//        if (cancelBtn == null) {
+//            cancelBtn = new JButton();
+//        }
+//        if (submitBtn == null) {
+//            submitBtn = new JButton();
+//        }
 
         // Create the pop-up frame
         popUpFrame2 = ViewFactory.createFrame("Ongoing Transaction...", 600, 500);
@@ -579,6 +579,7 @@ public class MainWindow {
         });
 
             // Header Label
+            chooseLbl = new JLabel();
             chooseLbl.setText("Select Bank and Enter Amount");
             chooseLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
             chooseLbl.setBounds(150, 30, 400, 40);
@@ -661,18 +662,21 @@ public class MainWindow {
             bank6Btn.setFocusable(false);
 
             // Amount Label
+            amountLbl = new JLabel();
             amountLbl.setText("Enter Amount:");
             amountLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
             amountLbl.setBounds(50, 300, 200, 30);
             amountLbl.setForeground(new Color(35, 35, 77));
 
             // Amount Text Field
+            amountField = new JTextField();
             amountField.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
             amountField.setBounds(250, 300, 250, 30);
             amountField.setForeground(new Color(35, 35, 77));
             amountField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
             // Cancel Button
+            cancelBtn = new JButton();
             cancelBtn.setText("Cancel");
             cancelBtn.setBounds(100, 400, 200, 40);
             cancelBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
@@ -684,6 +688,7 @@ public class MainWindow {
             cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
             // Submit Button
+            submitBtn = new JButton();
             submitBtn.setText("Submit");
             submitBtn.setBounds(350, 400, 200, 40);
             submitBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
@@ -803,7 +808,7 @@ public class MainWindow {
         } else {
             ViewUtility.showInfoMessage("Please enter fields.");
         }
-        submitBtn = null;
+        //submitBtn = null;
         popUpFrames[1].dispose();
         popUpFrames[1] = null;
         bankGroup.clearSelection();

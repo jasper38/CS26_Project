@@ -11,11 +11,13 @@ public final class ViewUtility {
 
     public static void enablePanelAndComponents(Container container, boolean isEnabled) {
         for (Component component : container.getComponents()) {
-            component.setEnabled(isEnabled);
             if (component instanceof Container) {
                 enablePanelAndComponents((Container) component, isEnabled);
             }
+            component.setEnabled(isEnabled);
         }
+        container.revalidate();
+        container.repaint();
         container.setVisible(isEnabled);
     }
 

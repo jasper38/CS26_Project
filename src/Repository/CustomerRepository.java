@@ -71,4 +71,34 @@ public class CustomerRepository {
             return ID;
         }
     }
+
+    public String updateCustomerUsernameAndEmail(String sessionUsername, String username, String email) throws SQLException {
+        String sql = "UPDATE Customers SET Username = ?, Email = ? WHERE Username = ?";
+        try (Connection conn = IMBankConnectionManager.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, sessionUsername);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                return getUpdatedUsername(username);
+            } else {
+                throw new SQLException("Failed to update Customer; no rows affected.");
+            }
+        }
+    }
+
+    public String getUpdatedUsername(String username) throws SQLException {
+        String sql = "SELECT Username FROM Customers WHERE Username = ?";
+        try (Connection conn = IMBankConnectionManager.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Username");
+            } else {
+                throw new SQLException("No username obtained.");
+            }
+        }
+    }
 }

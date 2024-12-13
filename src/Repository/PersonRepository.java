@@ -90,4 +90,18 @@ public class PersonRepository {
             }
         }
     }
+
+    public int updateContactNo(String username, String contactNum) throws SQLException {
+        String sql = "UPDATE Person p " +
+                     "JOIN Customers c ON p.Person_ID = c.Person_ID " +
+                     "SET p.Phone_No = ? " +
+                     "WHERE c.Username = ?";
+        try (Connection conn = IMBankConnectionManager.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, contactNum);
+            ps.setString(2, username);
+
+            return ps.executeUpdate();
+        }
+    }
 }

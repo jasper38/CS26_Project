@@ -7,11 +7,11 @@ import java.sql.SQLException;
 public class IMBankConnectionManager {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 
-    private static final String URL = "jdbc:mysql://localhost:8080/bankingsystem";
-    //private static final String URL = "jdbc:mysql://localhost:3306/bankingsystem";
+    //private static final String URL = "jdbc:mysql://localhost:8080/bankingsystem";
+    private static final String URL = "jdbc:mysql://localhost:3306/bankingsystem";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "Nening123!";
-    //private static final String PASSWORD = "jasper123";
+    //private static final String PASSWORD = "Nening123!";
+    private static final String PASSWORD = "jasper123";
     private static Connection con;
 
     //MGA KULANG

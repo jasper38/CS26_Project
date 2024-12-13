@@ -111,4 +111,18 @@ public class TransactionRepository {
             return ps.executeUpdate();
         }
     }
+
+    public void deleteByIds(List<Integer> ids) throws SQLException {
+        String sql = "DELETE FROM Transaction WHERE transaction.Transaction_ID IN (" +
+                String.join(",", ids.stream().map(id -> "?").toArray(String[]::new)) + ")";
+        try (Connection conn = IMBankConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < ids.size(); i++) {
+                stmt.setInt(i + 1, ids.get(i));
+            }
+
+            stmt.executeUpdate();
+        }
+    }
 }

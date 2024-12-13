@@ -18,6 +18,7 @@ public class IMBankController {
     private LogInWindow logInWindow;
     private RegisterWindow registerWindow;
     private MainWindow mainWindow;
+    private Timer activeTransactionTimer;
 
     public IMBankController(IMBankServiceImpl bankService) {
         this.bankService = bankService;
@@ -70,7 +71,7 @@ public class IMBankController {
                         getAccountBalance();
                         showMainWindow();
                     } else {
-                       throw new Exception("An unexpected error occurred during login.");
+                        ViewUtility.showInfoMessage(result.getMessage());
                     }
                 } catch (Exception e) {
                     ViewUtility.showErrorMessage(null, e.getMessage());
@@ -157,15 +158,21 @@ public class IMBankController {
                     int OTP = get();
                     if (OTP > 0) {
                         ViewUtility.showInfoMessage("Transaction Created. OTP: " + OTP);
-                            Timer timer = new Timer(60000, new ActionListener() {
+
+                        if(activeTransactionTimer != null && activeTransactionTimer.isRunning()) {
+                            System.out.println("Timer stopped");
+                            activeTransactionTimer.stop();
+                        }
+                            activeTransactionTimer = new Timer(60000, new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
                                     cancelTransaction();
                                     mainWindow.getTransactionBtn().doClick();
+                                    //((Timer) e.getSource()).stop();
                                 }
                             });
-                            timer.setRepeats(false);
-                            timer.start();
+                            activeTransactionTimer.setRepeats(false);
+                            activeTransactionTimer.start();
                     } else {
                         throw new Exception("Transaction could not be created");
                     }
@@ -264,6 +271,61 @@ public class IMBankController {
             }
         };
         worker.execute();
+    }
+
+    public void updateUserProfile(String username, String contactNum, String email){
+        SwingWorker<Integer, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Integer doInBackground() throws Exception {
+                return bankService.updateUserProfile(username, contactNum, email);
+            }
+            @Override
+            protected void done() {
+                try{
+                    int rowsAffected = get();
+                    if (rowsAffected > 0) {
+                        ViewUtility.showInfoMessage("User Profile Updated.");
+                    } else {
+                        throw new Exception("User Profile could not be updated");
+                    }
+                } catch (Exception e){
+                    ViewUtility.showInfoMessage(e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    public void deleteTransactionsByIdsAsync(List<Integer> idsToDelete, Runnable callback) {
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                bankService.deleteTransactionsByIds(idsToDelete);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    get();
+
+                    if (callback != null) {
+                        callback.run();
+                    }
+
+                    JOptionPane.showMessageDialog(null,
+                            "Selected items deleted successfully!",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null,
+                            "An error occurred while deleting records: " + e.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
+                }
+            }
+        }.execute();
     }
 
     public void logoutUserSession(){

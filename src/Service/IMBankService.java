@@ -13,7 +13,9 @@ public interface IMBankService {
     boolean verifyBankAccountCredentials(int bankAccountNumberID, int cardPIN) throws SQLException;
     int createTransaction(String transactionType, String selectedBank, int amount) throws SQLException;
     List<TransactionHistoryDTO> getTransactions() throws SQLException;
+    void deleteTransactionsByIds(List<Integer> ids) throws SQLException;
     UserProfileDTO getUserProfile() throws SQLException;
+    int updateUserProfile(String username, String contactNum, String email) throws SQLException;
     int getTransactionID() throws SQLException;
     int cancelPendingTransaction() throws SQLException;
     void logoutUserSession();

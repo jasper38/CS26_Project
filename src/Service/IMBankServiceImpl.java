@@ -133,12 +133,28 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
+    public void deleteTransactionsByIds(List<Integer> ids) throws SQLException {
+        if (ids == null || ids.isEmpty()) {
+            throw new IllegalArgumentException("No IDs provided for deletion.");
+        }
+        transactionRepository.deleteByIds(ids);
+    }
+
+    @Override
     public UserProfileDTO getUserProfile() throws SQLException {
         UserProfileDTO userProfileDTO = personRepository.getUserProfile(bankAccountNumberID);
         if(userProfileDTO == null) {
             throw new SQLException("User profile could not be retrieved");
         }
         return userProfileDTO;
+    }
+
+    @Override
+    public int updateUserProfile(String username, String contactNum, String email) throws SQLException {
+        String updatedUsername = customerRepository.updateCustomerUsernameAndEmail(sessionUsername, username, email);
+        int rowsAffected = personRepository.updateContactNo(updatedUsername, contactNum);
+        sessionUsername = updatedUsername;
+        return rowsAffected;
     }
 
     @Override

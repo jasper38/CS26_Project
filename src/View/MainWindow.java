@@ -1008,8 +1008,11 @@ public class MainWindow extends Component {
         );
 
         if (response == JOptionPane.YES_OPTION) {
+            tableModel.setNumRows(0);
+
             bankController.showLoginWindow();
             bankController.logoutUserSession();
+            homeBtn.doClick();
         }
     }
 

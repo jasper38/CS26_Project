@@ -29,7 +29,6 @@ public class RegistrationRequestFactory {
     public BankAccount createBankAccount(RegistrationRequestDTO registrationRequestDTO) {
         BankAccount bankAccount = new BankAccount();
         bankAccount.setBankAccountType(registrationRequestDTO.getBankAccountType());
-        bankAccount.setBankAccountBalance(registrationRequestDTO.getBankAccountBalance());
 
         return bankAccount;
     }

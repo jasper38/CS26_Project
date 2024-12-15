@@ -1,7 +1,7 @@
 package Repository;
 
 import DTO.UserProfileDTO;
-import DatabaseConnectionManager.IMBankConnectionManager;
+import Utility.IMBankConnectionManager;
 import Model.Person;
 
 import java.sql.*;

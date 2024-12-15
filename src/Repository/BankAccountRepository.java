@@ -1,6 +1,6 @@
 package Repository;
 
-import DatabaseConnectionManager.IMBankConnectionManager;
+import Utility.IMBankConnectionManager;
 import Model.BankAccount;
 
 import java.sql.*;

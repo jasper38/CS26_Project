@@ -7,14 +7,7 @@ import Utility.ViewUtility;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.text.View;
 
 
@@ -50,27 +43,35 @@ public class LogInWindow {
 
                 ViewFactory.createHeaderLabel(bannerPanel, "IMBANK LOG IN", 48);
                 // Username label
-                ViewFactory.createFieldLabel(loginPanel, "Username:", new ViewFactory.Bounds(110, 96, 150, 30));
+                ViewFactory.createFieldLabel(loginPanel, "Username:", new ViewFactory.Bounds(145, 96, 150, 30));
                 // Password label
-                ViewFactory.createFieldLabel(loginPanel, "Password:", new ViewFactory.Bounds(110, 190, 150, 30));
+                ViewFactory.createFieldLabel(loginPanel, "Password:", new ViewFactory.Bounds(145, 190, 150, 30));
 
                 // Username field
-                userNameField = ViewFactory.createLogInTextField(loginPanel, new ViewFactory.Bounds(110, 136, 362, 45));
+                userNameField = ViewFactory.createLogInTextField(loginPanel, new ViewFactory.Bounds(145, 136, 362, 45));
                 // Password field
-                passField = ViewFactory.createLogInPasswordField(loginPanel, new ViewFactory.Bounds(110, 230, 362, 45));
+                passField = ViewFactory.createLogInPasswordField(loginPanel, new ViewFactory.Bounds(145, 230, 362, 45));
                 passField.setEchoChar('*');
 
-                showPass = ViewFactory.createCheckBox(loginPanel, "Show Password", new ViewFactory.Bounds(480, 240, 180, 25));
+                showPass = ViewFactory.createCheckBox(loginPanel, "Show Password", new ViewFactory.Bounds(142, 276, 180, 25));
                 showPass.addActionListener(this::showPassActionPerformed);
 
                 // Submit button
-                logInBtn = ViewFactory.createCustomButton1(loginPanel, "Submit", new ViewFactory.Bounds(110, 302, 362, 43), 24);
+                logInBtn = ViewFactory.createCustomButton1(loginPanel, "Submit", new ViewFactory.Bounds(145, 320, 362, 43), 24);
                 logInBtn.addActionListener(this::logInBtnActionPerformed);
+                logInBtn.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                        .put(KeyStroke.getKeyStroke("ENTER"), "logIn");
+                logInBtn.getActionMap().put("logIn", new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        logInBtnActionPerformed(e);
+                    }
+                });
 
                 // Sign up section
-                ViewFactory.createConfirmationLabel(loginPanel, "Don't have an account?", new ViewFactory.Bounds(130, 385, 200, 30), 18);
+                ViewFactory.createConfirmationLabel(loginPanel, "Don't have an account?", new ViewFactory.Bounds(180, 395, 200, 30), 18);
 
-                registerBtn = ViewFactory.createCustomButton1(loginPanel, "Sign Up", new ViewFactory.Bounds(330,384, 79, 30), 18);
+                registerBtn = ViewFactory.createCustomButton1(loginPanel, "Sign Up", new ViewFactory.Bounds(385,394, 79, 30), 18);
                 registerBtn.addActionListener(this::registerBtnActionPerformed);
 
         loginFrame.getContentPane().add(loginPanel);
@@ -86,14 +87,18 @@ public class LogInWindow {
 
     private void logInBtnActionPerformed(ActionEvent ae) {
         if(userNameField.getText().isEmpty() || String.valueOf(passField.getPassword()).isEmpty()) {
-            ViewUtility.showInfoMessage("Please input Username and Password");
+            SwingUtilities.invokeLater(() -> {
+                ViewUtility.showInfoMessage("Please input Username and Password");
+            });
             return;
         }
-        bankController.verifyLogin(getUserCredentials());
+        SwingUtilities.invokeLater(() -> {
+            bankController.verifyLogin(getUserCredentials());
+        });
     }
 
     private void registerBtnActionPerformed(ActionEvent ae) {
-        bankController.showRegisterWindow();
+        SwingUtilities.invokeLater(bankController::showRegisterWindow);
     }
 
     private LogInRequestDTO getUserCredentials() {

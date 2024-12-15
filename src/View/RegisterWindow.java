@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.util.Calendar;
 
 import javax.swing.*;
-import javax.swing.text.View;
 
 import DTO.RegistrationRequestDTO;
 import Utility.ViewUtility;
@@ -17,47 +16,29 @@ import Controller.IMBankController;
 
 public class RegisterWindow {
 
-    // Cafe Verdania
-    // Simple GUI for backend testing
-
     private JFrame registerFrame;
 
     // Personal Information panel and its components
     private JPanel step1Panel;
-    private JTextField fNameField;
-    private JTextField lNameField;
-    private JTextField ageField;
+    private JTextField fNameField, lNameField, ageField;
     private ButtonGroup genderBtnGroup;
-    private JRadioButton maleRadioBtn;
-    private JRadioButton femaleRadioBtn;
-    private JRadioButton selectedGenderRadioBtn;
+    private JRadioButton maleRadioBtn, femaleRadioBtn, selectedGenderRadioBtn;
     private JDatePickerImpl datePicker;
 
     // Contact Information panel and its components
     private JPanel step2Panel;
-    private JTextField phoneNumField;
-    private JTextField addressField;
-    private JTextField cityField;
-    private JTextField provinceField;
-    private JTextField zipCodeField;
+    private JTextField phoneNumField, addressField, cityField;
+    private JTextField zipCodeField, provinceField;
 
     // Security panel and its components
     private JPanel step3Panel;
-    private JTextField emailField;
-    private JTextField usernameField;
-    private JPasswordField passField;
-    private JPasswordField confirmPassField;
+    private JTextField emailField, usernameField;
+    private JPasswordField passField, confirmPassField;
     private ButtonGroup bankAccountTypeBtnGroup;
-    private JRadioButton checkingsRadioBtn;
-    private JRadioButton savingsRadioBtn;
-    private JRadioButton selectedBankAccountTypeRadioBtn;
+    private JRadioButton checkingsRadioBtn, savingsRadioBtn, selectedBankAccountTypeRadioBtn;
 
     // Re-used components
-    private JButton nextBtn;
-    private JButton backBtn;
-    private JButton logInBtn;
-    private JButton submitBtn;
-    private JLabel confirmationLbl;
+    private JButton nextBtn, backBtn, logInBtn, submitBtn;
 
     //dimensions
     private int height = 600;
@@ -70,10 +51,10 @@ public class RegisterWindow {
 
     public RegisterWindow(IMBankController bankController) {
         this.bankController = bankController;
-        registerWindowInitComponents();
+        initRegisterWindowComponents();
     }
 
-    private void registerWindowInitComponents() {
+    private void initRegisterWindowComponents() {
         registerFrame = ViewFactory.createFrame("IM Bank: Register", width, height);
         registerFrame.addWindowListener(ViewUtility.getWindowAdapter());
 
@@ -211,7 +192,7 @@ public class RegisterWindow {
 
     private void initRepeatComponents1(JPanel panel) {
         ViewFactory.createConfirmationLabel(panel, "Already have an account?", new ViewFactory.Bounds(155, 495, 250, 30), 18);
-        logInBtn = ViewFactory.createCustomButton1(panel, "Log In", new ViewFactory.Bounds(364, 498, 70, 25), 18);
+        logInBtn = ViewFactory.createCustomButton1(panel, "Log In", new ViewFactory.Bounds(375, 498, 70, 25), 18);
         logInBtn.addActionListener(this::logInBtnActionPerformed);
     }
 
@@ -226,27 +207,51 @@ public class RegisterWindow {
     }
 
     private void logInBtnActionPerformed(ActionEvent ae) {
-        bankController.showLoginWindow();
+        SwingUtilities.invokeLater(() -> {
+            bankController.showLoginWindow();
+            ViewUtility.enablePanelAndComponents(panels[0], true);
+            ViewUtility.enablePanelAndComponents(panels[1], false);
+            ViewUtility.enablePanelAndComponents(panels[2], false);
+            clearFields();
+        });
     }
 
     private void submitBtnActionPerformed(ActionEvent ae) {
-        if (String.valueOf(passField.getPassword()).equals(String.valueOf(confirmPassField.getPassword()))) {
-            bankController.registerPerson(getRegistrationData());
-        } else {
-            ViewUtility.showInfoMessage("Passwords don't match. Please try again");
-        }
+        SwingUtilities.invokeLater(() -> {
+            if(usernameField.getText().isBlank() || emailField.getText().isBlank() || String.valueOf(passField.getPassword()).isBlank()
+                    || String.valueOf(confirmPassField.getPassword()).isBlank() || bankAccountTypeBtnGroup.getSelection() == null){
+                ViewUtility.showErrorMessage(null, "Please fill in all fields.");
+                return;
+            }
+            if (String.valueOf(passField.getPassword()).equals(String.valueOf(confirmPassField.getPassword()))) {
+                bankController.registerPerson(getRegistrationData());
+                clearFields();
+            } else {
+                ViewUtility.showInfoMessage("Passwords don't match. Please try again");
+            }
+        });
     }
 
     private void nextBtnActionPerformed(ActionEvent ae) {
         SwingUtilities.invokeLater(() -> {
             if (panels[0].isVisible()) {
+                if(String.valueOf(fNameField.getText()).isBlank() || String.valueOf(lNameField.getText()).isBlank()
+                        || String.valueOf(ageField.getText()).isBlank() || genderBtnGroup.getSelection() == null){
+                    ViewUtility.showErrorMessage(null, "Please fill in all fields.");
+                    return;
+                }
                 ViewUtility.enablePanelAndComponents(panels[1], true);
                 ViewUtility.enablePanelAndComponents(panels[0], false);
             } else if (panels[1].isVisible()) {
+                if(String.valueOf(phoneNumField.getText()).isBlank() || String.valueOf(addressField.getText()).isBlank()
+                        || String.valueOf(cityField.getText()).isBlank() || String.valueOf(zipCodeField.getText()).isBlank()
+                        || String.valueOf(provinceField.getText()).isBlank()){
+                    ViewUtility.showErrorMessage(null, "Please fill in all fields.");
+                    return;
+                }
                 ViewUtility.enablePanelAndComponents(panels[2], true);
                 ViewUtility.enablePanelAndComponents(panels[1], false);
             }
-            registerFrame.revalidate();
         });
     }
 
@@ -263,7 +268,6 @@ public class RegisterWindow {
     }
 
     private RegistrationRequestDTO getRegistrationData() {
-
         RegistrationRequestDTO registrationRequestDTO = new RegistrationRequestDTO();
             registrationRequestDTO.setFirstName(String.valueOf(fNameField.getText()));
             registrationRequestDTO.setLastName(String.valueOf(lNameField.getText()));
@@ -286,5 +290,22 @@ public class RegisterWindow {
 
     public JFrame getRegisterFrame() {
         return registerFrame;
+    }
+
+    private void clearFields() {
+        fNameField.setText("");
+        lNameField.setText("");
+        ageField.setText("");
+        genderBtnGroup.clearSelection();
+        phoneNumField.setText("");
+        addressField.setText("");
+        cityField.setText("");
+        zipCodeField.setText("");
+        provinceField.setText("");
+        usernameField.setText("");
+        emailField.setText("");
+        passField.setText("");
+        confirmPassField.setText("");
+        bankAccountTypeBtnGroup.clearSelection();
     }
 }

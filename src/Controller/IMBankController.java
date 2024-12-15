@@ -8,17 +8,17 @@ import View.MainWindow;
 import View.RegisterWindow;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
 public class IMBankController {
-    private final IMBankServiceImpl bankService;
+
     private LogInWindow logInWindow;
     private RegisterWindow registerWindow;
     private MainWindow mainWindow;
     private Timer activeTransactionTimer;
+
+    private final IMBankServiceImpl bankService;
 
     public IMBankController(IMBankServiceImpl bankService) {
         this.bankService = bankService;
@@ -30,7 +30,7 @@ public class IMBankController {
     }
 
     public void registerPerson(RegistrationRequestDTO registrationRequestDTO) {
-        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
             @Override
             protected Boolean doInBackground() throws SQLException {
                 return bankService.registerPerson(registrationRequestDTO);
@@ -44,10 +44,10 @@ public class IMBankController {
                         showLoginWindow();
                         ViewUtility.showInfoMessage("Registration Successful! Please claim your ATM Card at the Bank.");
                     }else {
-                        throw new Exception();
+                        throw new Exception("An Error occurred during registration.");
                     }
                 } catch (Exception e) {
-                    ViewUtility.showErrorMessage(null,"An Error occured during registration.");
+                    ViewUtility.showErrorMessage(null,e.getMessage());
                 }
             }
         };
@@ -58,7 +58,7 @@ public class IMBankController {
         SwingWorker<LogInResult, Void> worker = new SwingWorker<>() {
             @Override
             protected LogInResult doInBackground() throws Exception {
-                Thread.sleep(50);
+                Thread.sleep(30);
                 return bankService.verifyLogIn(logInRequest);
             }
 
@@ -90,9 +90,13 @@ public class IMBankController {
             @Override
             protected void done() {
                 try {
+                    String name = get();
+                    if(name.isEmpty()) {
+                        throw new Exception("An unexpected error occurred.");
+                    }
                     mainWindow.updateHeaderLbl(get());
                 } catch (Exception e) {
-                    ViewUtility.showErrorMessage(null,"An unexpected error occurred: " + e.getMessage());
+                    ViewUtility.showErrorMessage(null, e.getMessage());
                 }
             }
         };
@@ -100,7 +104,7 @@ public class IMBankController {
     }
 
     public void getAccountBalance() {
-        SwingWorker<Float, Void> worker = new SwingWorker<Float, Void>(){
+        SwingWorker<Float, Void> worker = new SwingWorker<>(){
             @Override
             protected Float doInBackground() throws Exception {
                 return bankService.getBankAccountBalance();
@@ -109,9 +113,12 @@ public class IMBankController {
             protected void done() {
                 try {
                     float bankAccountBalance = get();
+                    if (bankAccountBalance == 0) {
+                        throw new Exception("Failed to retrieve account balance.");
+                    }
                     mainWindow.setDisplayBalanceField(String.valueOf(bankAccountBalance));
                 } catch (Exception e) {
-                    ViewUtility.showInfoMessage("Failed to retrieve balance");
+                    ViewUtility.showInfoMessage(e.getMessage());
                 }
             }
         };
@@ -122,23 +129,19 @@ public class IMBankController {
         SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                try{
-                    return bankService.verifyBankAccountCredentials(bankAccountNumberID, cardPIN);
-                } catch (SQLException se) {
-                    throw new Exception(se.getMessage());
-                }
+                return bankService.verifyBankAccountCredentials(bankAccountNumberID, cardPIN);
             }
 
             @Override
             protected void done() {
                 try{
                     boolean isVerified = get();
-                    if (isVerified) {
-                        mainWindow.createPopUpWindow2();
-                    } else {
+                    if (!isVerified) {
                         throw new Exception("Invalid credentials");
                     }
+                    mainWindow.createPopUpWindow2();
                 } catch (Exception e) {
+                    mainWindow.clearAccountCredentialsField();
                     ViewUtility.showInfoMessage(e.getMessage());
                 }
             }
@@ -163,13 +166,9 @@ public class IMBankController {
                             System.out.println("Timer stopped");
                             activeTransactionTimer.stop();
                         }
-                            activeTransactionTimer = new Timer(60000, new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    cancelTransaction();
-                                    mainWindow.getTransactionBtn().doClick();
-                                    //((Timer) e.getSource()).stop();
-                                }
+                            activeTransactionTimer = new Timer(60000, _ -> {
+                                cancelTransaction();
+                                mainWindow.getTransactionBtn().doClick();
                             });
                             activeTransactionTimer.setRepeats(false);
                             activeTransactionTimer.start();
@@ -195,7 +194,7 @@ public class IMBankController {
                 try{
                     int transactionID = get();
                     if(transactionID > 0) {
-                        throw new Exception("You have a pending transaction. Please complete them first.");
+                        throw new Exception("Pending transaction detected. Please complete it first.");
                     }
                     mainWindow.proceedTransaction();
                 } catch (Exception e){
@@ -207,7 +206,7 @@ public class IMBankController {
     }
 
     public void getTransactionHistory(){
-        SwingWorker<List<TransactionHistoryDTO>, Void> worker = new SwingWorker<List<TransactionHistoryDTO>, Void>() {
+        SwingWorker<List<TransactionHistoryDTO>, Void> worker = new SwingWorker<>() {
             @Override
             protected List<TransactionHistoryDTO> doInBackground() throws Exception {
                 return bankService.getTransactions();
@@ -219,7 +218,7 @@ public class IMBankController {
                     mainWindow.getTableModel().setNumRows(0);
                     List<TransactionHistoryDTO> transactions = get();
                     for(TransactionHistoryDTO transaction : transactions){
-                        mainWindow.udpateTransactionHistoryTable(transaction);
+                        mainWindow.updateTransactionHistoryTable(transaction);
                     }
                 } catch (Exception e){
                     ViewUtility.showErrorMessage(null, e.getMessage());
@@ -308,7 +307,6 @@ public class IMBankController {
             protected void done() {
                 try {
                     get();
-
                     if (callback != null) {
                         callback.run();
                     }
@@ -322,7 +320,6 @@ public class IMBankController {
                             "An error occurred while deleting records: " + e.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
                 }
             }
         }.execute();

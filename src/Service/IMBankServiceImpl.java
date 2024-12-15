@@ -63,9 +63,7 @@ public class IMBankServiceImpl implements IMBankService {
         cardInfo.setBankAccountNumberID(bankAccountNumberID);
         cardInfoRepository.createCardInfo(cardInfo);
 
-        System.out.print(personID+ "" + customerID + "" + bankAccountNumberID);
         return (personID > -1 && customerID > -1 && bankAccountNumberID > -1);
-
     }
 
     @Override

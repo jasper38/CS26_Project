@@ -144,8 +144,13 @@ public final class ViewFactory {
 
     private static JToggleButton createToggleButtonHelper(Container container, String label, int x, int y) {
         JToggleButton toggleButton = new JToggleButton(label);
-        toggleButton.setFocusable(false);
-        toggleButton.setBounds(x, y, 100, 30);
+        toggleButton.setBounds(x, y, 150, 70);
+        toggleButton.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
+        toggleButton.setForeground(new Color(224, 224, 231));
+        toggleButton.setBackground(new Color(35, 35, 77));
+        toggleButton.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
+        toggleButton.setBorderPainted(false);
+        toggleButton.setFocusPainted(false);
         container.add(toggleButton);
         return toggleButton;
     }
@@ -155,7 +160,6 @@ public final class ViewFactory {
         button.setFont(new java.awt.Font("MS UI Gothic", Font.BOLD, fontSize));
         button.setForeground(new java.awt.Color(224, 224, 231));
         button.setBackground(new java.awt.Color(35, 35, 77));
-        //button.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
         button.setBorder(null);
         button.setFocusPainted(false);
         button.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
@@ -210,7 +214,7 @@ public final class ViewFactory {
         JCheckBox checkBox = new JCheckBox(text);
         checkBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 19));
         checkBox.setFocusPainted(false);
-        checkBox.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+        checkBox.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(),bounds.getHeight());
         container.add(checkBox);
         return checkBox;
     }

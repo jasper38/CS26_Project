@@ -1,7 +1,7 @@
 package Repository;
 
 import DTO.LogInRequestDTO;
-import DatabaseConnectionManager.IMBankConnectionManager;
+import Utility.IMBankConnectionManager;
 import Model.Customer;
 
 import java.sql.*;
@@ -53,22 +53,6 @@ public class CustomerRepository {
                     return null;
                 }
             }
-        }
-    }
-
-    public int getCustomerID(String username) throws SQLException {
-        String sql = "SELECT Customer_ID FROM Customers WHERE Username = ?";
-        int ID = 0;
-        try(Connection conn = IMBankConnectionManager.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
-
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()) {
-                ID = rs.getInt("Customer_ID");
-            }
-            return ID;
         }
     }
 

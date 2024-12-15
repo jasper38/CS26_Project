@@ -1,14 +1,13 @@
 package View;
 
 import DTO.ATM_DTO;
-import DatabaseConnectionManager.IMBankConnectionManager;
+import Utility.IMBankConnectionManager;
 import Repository.AffiliatedBankRepository;
 import Repository.BankAccountRepository;
 import Repository.TransactionRepository;
 import Utility.ViewUtility;
 
 import javax.swing.*;
-import javax.xml.transform.Source;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

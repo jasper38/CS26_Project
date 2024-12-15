@@ -1,6 +1,6 @@
 package Repository;
 
-import DatabaseConnectionManager.IMBankConnectionManager;
+import Utility.IMBankConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -14,8 +14,6 @@ public class RegistrationRequestDTO {
     private String password;
     private String email;
     private String bankAccountType;
-    private float bankAccountBalance;
-
 
     public RegistrationRequestDTO() {
         super();
@@ -107,13 +105,5 @@ public class RegistrationRequestDTO {
 
     public void setBankAccountType(String bankAccountType) {
         this.bankAccountType = bankAccountType;
-    }
-
-    public float getBankAccountBalance() {
-        return bankAccountBalance;
-    }
-
-    public void setBankAccountBalance(float bankAccountBalance) {
-        this.bankAccountBalance = bankAccountBalance;
     }
 }

@@ -6,17 +6,12 @@ import DTO.UserProfileDTO;
 import Utility.ViewUtility;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import java.awt.event.*;
+import java.util.*;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+import javax.swing.table.*;
 
 
 public class MainWindow extends Component {
@@ -24,24 +19,18 @@ public class MainWindow extends Component {
     private JFrame mainFrame;
 
     // Header panel and its components
-    private JPanel headerPanel;
-    private JLabel headerLbl;
-    private JPanel bannerPanel;
-    private JLabel bannerLbl;
+    private JPanel headerPanel, bannerPanel;
+    private JLabel headerLbl, bannerLbl;
 
     // Left Side Navigation Bar Panel and its components
     private JPanel navPanel;
-    private JButton homeBtn;
-    private JButton transactionHistoryBtn;
-    private JButton profileBtn;
-    private JButton logoutBtn;
+    private JButton homeBtn, transactionHistoryBtn, profileBtn, logoutBtn;
 
     // Home panel and its components here
     private JPanel homePanel;
     private JLabel balanceLbl;
     private JTextField displayBalanceField;
-    private JButton depositBtn;
-    private JButton withdrawBtn;
+    private JButton depositBtn, withdrawBtn;
 
     // Transaction history panel and its components
     private JPanel transactionHistoryPanel;
@@ -62,8 +51,7 @@ public class MainWindow extends Component {
     private JPanel editableProfilePanel;
 
     // Main window components
-    private JSeparator horizontalSeparator;
-    private JSeparator verticalSeparator;
+    private JSeparator horizontalSeparator, verticalSeparator;
 
     //dimensions
     private int frameheight = 700;
@@ -71,7 +59,6 @@ public class MainWindow extends Component {
 
     private JPanel[] panels = new JPanel[4];
     private JFrame[] popUpFrames = new JFrame[2];
-
 
     private final IMBankController bankController;
 
@@ -85,20 +72,9 @@ public class MainWindow extends Component {
         mainFrame = ViewFactory.createFrame("IM Bank: Main", framewidth, frameheight);
         mainFrame.addWindowListener(ViewUtility.getWindowAdapter());
 
+            initBannerPanel();
             initHeaderPanel();
             initNavPanel();
-
-            bannerPanel = new JPanel();
-            bannerPanel.setLayout(null);
-            bannerPanel.setBounds(0,0,framewidth,90);
-            bannerPanel.setBackground(new Color(35, 35, 77));
-
-            bannerLbl = new JLabel();
-            bannerLbl.setText("IMBANK");
-            bannerLbl.setBounds(500,10,300,60);
-            bannerLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 55));
-            bannerLbl.setForeground(Color.WHITE);
-            bannerPanel.add(bannerLbl);
 
             horizontalSeparator = new JSeparator(SwingConstants.HORIZONTAL);
             horizontalSeparator.setBounds(0, 80, 800, 2);
@@ -125,15 +101,29 @@ public class MainWindow extends Component {
         mainFrame.setResizable(false);
     }
 
+    private void initBannerPanel() {
+        bannerPanel = new JPanel();
+        bannerPanel.setLayout(null);
+        bannerPanel.setBounds(0,0,framewidth,90);
+        bannerPanel.setBackground(new Color(35, 35, 77));
+
+        bannerLbl = new JLabel();
+        bannerLbl.setText("IMBANK");
+        bannerLbl.setBounds(500,10,300,60);
+        bannerLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 55));
+        bannerLbl.setForeground(Color.WHITE);
+        bannerPanel.add(bannerLbl);
+    }
+
     private void initHeaderPanel() {
         headerPanel = new JPanel();
         headerPanel.setLayout(null);
         headerPanel.setBounds(0, 0, 900, 80);
 
-            headerLbl = new JLabel("Welcome ,");
-            headerLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 28));
-            headerLbl.setForeground(new java.awt.Color(35, 35, 77));
-            headerLbl.setBounds(30, 30, 400, 50);
+        headerLbl = new JLabel("Welcome ,");
+        headerLbl.setFont(new java.awt.Font("MS UI Gothic", 1, 28));
+        headerLbl.setForeground(new java.awt.Color(35, 35, 77));
+        headerLbl.setBounds(30, 30, 400, 50);
 
         headerPanel.add(headerLbl);
     }
@@ -142,53 +132,19 @@ public class MainWindow extends Component {
         navPanel = new JPanel();
         navPanel.setLayout(null);
         navPanel.setBounds(0, 82, 300, frameheight);
-
         navPanel.setBackground(new Color(255, 255, 255));
 
-            homeBtn = new JButton("Home");
-            homeBtn.setFocusable(false);
-            homeBtn.setBounds(0, 10, 300, 70); //+50
-            homeBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-            homeBtn.setForeground(new java.awt.Color(224, 224, 231));
-            homeBtn.setBackground(new java.awt.Color(35, 35, 77));
-            homeBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-            homeBtn.setBorderPainted(false);
+            homeBtn = ViewFactory.createCustomButton1(navPanel, "Home", new ViewFactory.Bounds(0, 10, 300, 70), 30);
             homeBtn.addActionListener(this::homeBtnActionPerformed);
 
-            transactionHistoryBtn = new JButton("Transaction History");
-            transactionHistoryBtn.setFocusable(false);
-            transactionHistoryBtn.setBounds(0, 83, 300, 70);
-            transactionHistoryBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-            transactionHistoryBtn.setForeground(new java.awt.Color(224, 224, 231));
-            transactionHistoryBtn.setBackground(new java.awt.Color(35, 35, 77));
-            transactionHistoryBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-            transactionHistoryBtn.setBorderPainted(false);
+            transactionHistoryBtn = ViewFactory.createCustomButton1(navPanel, "Transaction History", new ViewFactory.Bounds(0, 83, 300, 70), 30);
             transactionHistoryBtn.addActionListener(this::transactionHistoryBtnActionPerformed);
 
-            profileBtn = new JButton("Profile");
-            profileBtn.setFocusable(false);
-            profileBtn.setBounds(0, 156, 300, 70);
-            profileBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-            profileBtn.setForeground(new java.awt.Color(224, 224, 231));
-            profileBtn.setBackground(new java.awt.Color(35, 35, 77));
-            profileBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-            profileBtn.setBorderPainted(false);
+            profileBtn = ViewFactory.createCustomButton1(navPanel, "Profile", new ViewFactory.Bounds(0, 156, 300, 70), 30);
             profileBtn.addActionListener(this::profileBtnActionPerformed);
 
-            logoutBtn = new JButton("Logout");
-            logoutBtn.setFocusable(false);
-            logoutBtn.setBounds(0, 510, 300, 70);
-            logoutBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-            logoutBtn.setForeground(new java.awt.Color(224, 224, 231));
-            logoutBtn.setBackground(new java.awt.Color(35, 35, 77));
-            logoutBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-            logoutBtn.setBorderPainted(false);
+            logoutBtn = ViewFactory.createCustomButton1(navPanel, "Logout", new ViewFactory.Bounds(0, 512, 300, 70), 30);
             logoutBtn.addActionListener(this::logoutBtnActionPerformed);
-
-        navPanel.add(homeBtn);
-        navPanel.add(transactionHistoryBtn);
-        navPanel.add(profileBtn);
-        navPanel.add(logoutBtn);
     }
 
     private void initHomePanelAndComponents() {
@@ -198,12 +154,10 @@ public class MainWindow extends Component {
 
         JPanel topPanel = new JPanel();
         topPanel.setBackground(new Color(255,255,255));
-        //topPanel.setSize(680,150);
         topPanel.setBounds(50,125,760,140);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBackground(new Color(255,255,255));
-        //topPanel.setSize(680,150);
         bottomPanel.setBounds(50,300,760,170);
 
             balanceLbl = new JLabel("Current Account Balance:");
@@ -220,33 +174,16 @@ public class MainWindow extends Component {
             choiceLbl.setForeground(new java.awt.Color(35, 35, 77));
             choiceLbl.setBounds(180,320,550,40);
 
-            depositBtn = new JButton("Deposit");
-            depositBtn.setFocusable(false);
-            depositBtn.setBounds(200, 400, 200, 45);
-            depositBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-            depositBtn.setForeground(new java.awt.Color(224, 224, 231));
-            depositBtn.setBackground(new java.awt.Color(35, 35, 77));
-            //depositBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-            depositBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            depositBtn.setBorderPainted(false);
+            depositBtn = ViewFactory.createCustomButton1(homePanel, "Deposit", new ViewFactory.Bounds(200, 400, 200, 45), 30);
             depositBtn.addActionListener(this::depositBtnActionPerformed);
 
-            withdrawBtn = new JButton("Withdraw");
-            withdrawBtn.setFocusable(false);
-            withdrawBtn.setBounds(430, 400, 200, 45);
-            withdrawBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 30));
-            withdrawBtn.setForeground(new java.awt.Color(224, 224, 231));
-            withdrawBtn.setBackground(new java.awt.Color(35, 35, 77));
-            withdrawBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 35, 77), 1, true));
-            withdrawBtn.setBorderPainted(false);
+            withdrawBtn = ViewFactory.createCustomButton1(homePanel, "Withdraw", new ViewFactory.Bounds(430, 400, 200, 45), 30);
             withdrawBtn.addActionListener(this::withdrawBtnActionPerformed);
 
             homePanel.add(headerPanel);
             homePanel.add(choiceLbl);
             homePanel.add(balanceLbl);
             homePanel.add(displayBalanceField);
-            homePanel.add(depositBtn);
-            homePanel.add(withdrawBtn);
             homePanel.add(topPanel);
             homePanel.add(bottomPanel);
 
@@ -259,7 +196,6 @@ public class MainWindow extends Component {
         transactionHistoryPanel = new JPanel();
         transactionHistoryPanel.setLayout(null);
         transactionHistoryPanel.setBounds(300, 80, 900, 810);
-        //transactionHistoryPanel.setBackground(Color.GREEN);
 
         columnNames = new String[]{
                 "<html><center>Transaction<br>ID</center></html>",
@@ -297,13 +233,11 @@ public class MainWindow extends Component {
                 table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             }
 
-
             DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
             headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
             headerRenderer.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
             headerRenderer.setBackground(new Color(35, 35, 77));
             headerRenderer.setForeground(Color.WHITE);
-
 
             for (int i = 0; i < table.getColumnCount(); i++) {
                 table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
@@ -313,25 +247,8 @@ public class MainWindow extends Component {
             scrollPane.setBounds(10, 80, 870, 430);
             scrollPane.setBorder(null);
             
-            JButton deleteBtn = new JButton("Delete");
-            deleteBtn.setFocusable(false);
-            deleteBtn.setBounds(90, 530, 100, 30);
-            deleteBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
-            deleteBtn.setForeground(new java.awt.Color(224, 224, 231));
-            deleteBtn.setBackground(new java.awt.Color(35, 35, 77));
-            deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            deleteBtn.setBorderPainted(false);
+            JButton deleteBtn = ViewFactory.createCustomButton1(transactionHistoryPanel, "Delete", new ViewFactory.Bounds(90, 530, 100, 30), 25);
             deleteBtn.addActionListener(this::deleteBtnActionPerformed);
-
-            JButton clearBtn = new JButton("Clear");
-            clearBtn.setFocusable(false);
-            clearBtn.setBounds(200, 530, 100, 30);
-            clearBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
-            clearBtn.setForeground(new java.awt.Color(224, 224, 231));
-            clearBtn.setBackground(new java.awt.Color(35, 35, 77));
-            clearBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            clearBtn.setBorderPainted(false);
-            clearBtn.addActionListener(this::clearBtnActionPerformed);
 
             JTableHeader header = table.getTableHeader();
             header.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
@@ -339,7 +256,6 @@ public class MainWindow extends Component {
             header.setForeground(Color.WHITE);
             header.setReorderingAllowed(false);
             header.setBorder(BorderFactory.createEmptyBorder());
-            //header.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
 
             table.setFont(new java.awt.Font("MS UI Gothic", 1, 15));
             table.setRowHeight(30);
@@ -348,64 +264,14 @@ public class MainWindow extends Component {
             table.setGridColor(new Color(200, 200, 200));
             table.setSelectionBackground(new Color(173, 216, 230));
             table.setSelectionForeground(Color.BLACK);
-
             table.setShowVerticalLines(false);
 
-        transactionHistoryPanel.add(deleteBtn);
-        //transactionHistoryPanel.add(clearBtn);
         transactionHistoryPanel.add(transactionHistoryLbl);
         transactionHistoryPanel.add(scrollPane);
 
         panels[1] = transactionHistoryPanel;
 
         ViewUtility.enablePanelAndComponents(panels[1], false);
-    }
-
-    private void clearBtnActionPerformed(ActionEvent actionEvent) {
-        int confirm = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to clear all transactions?",
-                "Confirm Clear",
-                JOptionPane.YES_NO_OPTION);
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            tableModel.setRowCount(0);
-            JOptionPane.showMessageDialog(this,
-                    "All transactions have been cleared.",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-
-    private void deleteBtnActionPerformed(ActionEvent actionEvent) {
-        int[] selectedRows = table.getSelectedRows(); // Get selected row indices
-        if (selectedRows.length == 0) {
-            JOptionPane.showMessageDialog(this,
-                    "No items selected! \nPlease select at least one item.",
-                    "Select Rows",
-                    JOptionPane.ERROR_MESSAGE);
-        } else {
-            int confirm = JOptionPane.showConfirmDialog(this,
-                    "Are you sure you want to delete the selected items?",
-                    "Confirm Delete",
-                    JOptionPane.YES_NO_OPTION);
-
-            if (confirm == JOptionPane.YES_OPTION) {
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                List<Integer> idsToDelete = new ArrayList<>();
-
-                for (int row : selectedRows) {
-                    int modelRow = table.convertRowIndexToModel(row);
-                    int id = (int) model.getValueAt(modelRow, 0);
-                    idsToDelete.add(id);
-                }
-
-                bankController.deleteTransactionsByIdsAsync(idsToDelete, () -> {
-                    for (int i = selectedRows.length - 1; i >= 0; i--) {
-                        model.removeRow(table.convertRowIndexToModel(selectedRows[i]));
-                    }
-                });
-            }
-        }
     }
 
     private void initProfilePanel() {
@@ -476,24 +342,10 @@ public class MainWindow extends Component {
             emailLbl.setForeground(new java.awt.Color(35, 35, 77));
             emailLbl.setBounds(450,330,400,30);
 
-            editBtn = new JButton("Edit");
-            editBtn.setFocusable(false);
-            editBtn.setBounds(31, 55, 70, 30);
-            editBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
-            editBtn.setForeground(new java.awt.Color(224, 224, 231));
-            editBtn.setBackground(new java.awt.Color(35, 35, 77));
-            editBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            editBtn.setBorderPainted(false);
+            editBtn = ViewFactory.createCustomButton1(profilePanel, "Edit", new ViewFactory.Bounds(31, 55, 70, 30), 20);
             editBtn.addActionListener(this::editBtnActionPerformed);
 
-            changePassBtn = new JButton("Change Password");
-            changePassBtn.setFocusable(false);
-            changePassBtn.setBounds(450, 500, 400, 40);
-            changePassBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
-            changePassBtn.setForeground(new java.awt.Color(224, 224, 231));
-            changePassBtn.setBackground(new java.awt.Color(35, 35, 77));
-            changePassBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            changePassBtn.setBorderPainted(false);
+            changePassBtn = ViewFactory.createCustomButton1(profilePanel, "Change Password", new ViewFactory.Bounds(450, 500, 400, 40), 25);
 
             changePassTF = new JTextField();
             changePassTF.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
@@ -506,11 +358,9 @@ public class MainWindow extends Component {
             confirmpassTF.setForeground(new Color(35, 35, 77));
 
         profilePanel.add(personInfoLbl);
-        //profilePanel.add(changePassBtn);
-        //profilePanel.add(confirmpassTF);
-        //profilePanel.add(changePassTF);
+        profilePanel.add(confirmpassTF);
+        profilePanel.add(changePassTF);
         profilePanel.add(profileLbl);
-        profilePanel.add(editBtn);
         profilePanel.add(fnameLbl);
         profilePanel.add(bdayLbl);
         profilePanel.add(ageLbl);
@@ -593,66 +443,29 @@ public class MainWindow extends Component {
         emailLbl.setForeground(new java.awt.Color(35, 35, 77));
         emailLbl.setBounds(450,330,400,30);
 
-        JButton editBtn = new JButton("Edit");
-        editBtn.setFocusable(false);
-        editBtn.setBounds(31, 55, 70, 30);
-        editBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
-        editBtn.setForeground(new java.awt.Color(224, 224, 231));
-        editBtn.setBackground(new java.awt.Color(35, 35, 77));
-        editBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-        editBtn.setBorderPainted(false);
-        editBtn.setEnabled(false);
+        ViewFactory.createCustomButton1(editableProfilePanel, "Edit", new ViewFactory.Bounds(31, 55, 70, 30), 20);
 
-        JButton saveBtn = new JButton("Save");
-        saveBtn.setFocusable(false);
-        saveBtn.setBounds(102, 55, 70, 30);
-        saveBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
-        saveBtn.setForeground(new java.awt.Color(224, 224, 231));
-        saveBtn.setBackground(new java.awt.Color(35, 35, 77));
-        saveBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-        saveBtn.setBorderPainted(false);
-        saveBtn.setEnabled(false);
+        JButton saveBtn = ViewFactory.createCustomButton1(editableProfilePanel, "Save", new ViewFactory.Bounds(102, 55, 70, 30), 20);
         saveBtn.addActionListener(this::saveProfileChangesBtnActionPerformed);
 
-        JButton cancelBtn = new JButton("Cancel");
-        cancelBtn.setFocusable(false);
-        cancelBtn.setBounds(173, 55, 70, 30);
-        cancelBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 20));
-        cancelBtn.setForeground(new java.awt.Color(224, 224, 231));
-        cancelBtn.setBackground(new java.awt.Color(35, 35, 77));
-        cancelBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-        cancelBtn.setBorderPainted(false);
-        cancelBtn.setEnabled(false);
-        cancelBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                profileBtnActionPerformed(e);
-            }
-        });
-        //editBtn.addActionListener(this::editBtnActionPerformed);
+        JButton cancelBtn = ViewFactory.createCustomButton1(editableProfilePanel, "Cancel", new ViewFactory.Bounds(173, 55, 70, 30), 20);
+        cancelBtn.addActionListener(this::profileBtnActionPerformed);
 
-        JButton changePassBtn = new JButton("Change Password");
-        changePassBtn.setFocusable(false);
-        changePassBtn.setBounds(450, 500, 400, 40);
-        changePassBtn.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
-        changePassBtn.setForeground(new java.awt.Color(224, 224, 231));
-        changePassBtn.setBackground(new java.awt.Color(35, 35, 77));
-        changePassBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-        changePassBtn.setBorderPainted(false);
+        ViewFactory.createCustomButton1(editableProfilePanel, "Change Password", new ViewFactory.Bounds(450, 500, 400, 40), 25);
 
         usernameField = new JTextField();
-        contactNoField = new JTextField();
-        emailField = new JTextField();
-
         usernameField.setBounds(540, 82, 200, 30);
-        contactNoField.setBounds(560, 182, 200, 30);
-        emailField.setBounds(490, 232, 200, 30);
-
         usernameField.setFont(new Font("MS UI Gothic", 1, 24));
-        contactNoField.setFont(new Font("MS UI Gothic", 1, 24));
-        emailField.setFont(new Font("MS UI Gothic", 1, 24));
-
         usernameField.setForeground(new java.awt.Color(35, 35, 77));
+
+        contactNoField = new JTextField();
+        contactNoField.setBounds(560, 182, 200, 30);
+        contactNoField.setFont(new Font("MS UI Gothic", 1, 24));
         contactNoField.setForeground(new java.awt.Color(35, 35, 77));
+
+        emailField = new JTextField();
+        emailField.setBounds(490, 232, 200, 30);
+        emailField.setFont(new Font("MS UI Gothic", 1, 24));
         emailField.setForeground(new java.awt.Color(35, 35, 77));
 
         changePassTF = new JTextField();
@@ -675,13 +488,9 @@ public class MainWindow extends Component {
         whitePanel.add(emailField);
 
         editableProfilePanel.add(personInfoLbl);
-        //editableProfilePanel.add(changePassBtn);
-        //editableProfilePanel.add(confirmpassTF);
-        //editableProfilePanel.add(changePassTF);
+        editableProfilePanel.add(confirmpassTF);
+        editableProfilePanel.add(changePassTF);
         editableProfilePanel.add(profileLbl);
-        editableProfilePanel.add(editBtn);
-        editableProfilePanel.add(saveBtn);
-        editableProfilePanel.add(cancelBtn);
         editableProfilePanel.add(editPanelFNameLlb);
         editableProfilePanel.add(editPanelBDayLbl);
         editableProfilePanel.add(editPanelAgeLbl);
@@ -710,16 +519,14 @@ public class MainWindow extends Component {
 
     // Pop-up window for transaction
     private JFrame popUpFrame1;
-    private JLabel bankAccountNumLbl;
-    private JLabel cardPINLbl;
+    private JLabel bankAccountNumLbl, cardPINLbl;
     private JTextField bankAccountNumField;
     private JPasswordField cardPINField;
-    private JButton cancelBtn;
-    private JButton enterBtn;
+    private JButton cancelBtn, enterBtn;
 
     private void createPopUpWindow1() {
         // Create the pop-up frame
-        popUpFrame1 = ViewFactory.createFrame("Initiating Transaction Request", 600, 400);
+        popUpFrame1 = ViewFactory.createFrame("Initiating Transaction Request", 600, 350);
         popUpFrame1.setLayout(null);
         popUpFrame1.setLocationRelativeTo(mainFrame);
         popUpFrame1.addWindowListener(new WindowAdapter() {
@@ -731,65 +538,57 @@ public class MainWindow extends Component {
         });
 
         // Header Label
-        JLabel headerLabel1 = new JLabel("Transaction Details");
+        JLabel headerLabel1 = new JLabel("Verify Account Credentials");
         headerLabel1.setFont(new Font("MS UI Gothic", Font.BOLD, 30));
-        headerLabel1.setBounds(200, 30, 300, 40);
+        headerLabel1.setBounds(120, 25, 400, 40);
         headerLabel1.setForeground(new Color(35, 35, 77));
         popUpFrame1.add(headerLabel1);
 
         // Bank Account Number Label and Text Field
         bankAccountNumLbl = new JLabel("Bank Account Number:");
-        bankAccountNumLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        bankAccountNumLbl.setBounds(50, 100, 250, 30);
+        bankAccountNumLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 24));
+        bankAccountNumLbl.setBounds(50, 110, 250, 30);
         bankAccountNumLbl.setForeground(new Color(35, 35, 77));
         popUpFrame1.add(bankAccountNumLbl);
 
         bankAccountNumField = new JTextField();
-        bankAccountNumField.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-        bankAccountNumField.setBounds(300, 100, 250, 30);
+        bankAccountNumField.setFont(new Font("MS UI Gothic", Font.BOLD, 27));
+        bankAccountNumField.setBounds(300, 108, 250, 32);
         bankAccountNumField.setForeground(new Color(35, 35, 77));
         bankAccountNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
         popUpFrame1.add(bankAccountNumField);
 
         // Card PIN Label and Text Field
         cardPINLbl = new JLabel("Card PIN:");
-        cardPINLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-        cardPINLbl.setBounds(50, 160, 250, 30);
+        cardPINLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 24));
+        cardPINLbl.setBounds(50, 170, 250, 30);
         cardPINLbl.setForeground(new Color(35, 35, 77));
 
         popUpFrame1.add(cardPINLbl);
 
         cardPINField = new JPasswordField();
-        cardPINField.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-        cardPINField.setBounds(300, 160, 250, 30);
+        cardPINField.setFont(new Font("MS UI Gothic", Font.BOLD, 27));
+        cardPINField.setBounds(300, 168, 250, 32);
         cardPINField.setForeground(new Color(35, 35, 77));
         cardPINField.addKeyListener(ViewUtility.addNumberInputKeyListener());
         cardPINField.setEchoChar('*');
         popUpFrame1.add(cardPINField);
 
         // Cancel Button
-        cancelBtn = new JButton("Cancel");
-        cancelBtn.setBounds(100, 250, 150, 40);
-        cancelBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-        cancelBtn.setForeground(new Color(224, 215, 231));
-        cancelBtn.setBackground(new Color(35, 35, 77));
-        cancelBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-        cancelBtn.setBorderPainted(false);
-        cancelBtn.setFocusable(false);
+        cancelBtn = ViewFactory.createCustomButton1(popUpFrame1, "Cancel", new ViewFactory.Bounds(120, 250, 150, 40), 25);
         cancelBtn.addActionListener(this::cancelBtnActionPerformed);
-        popUpFrame1.add(cancelBtn);
 
         // Enter Button
-        enterBtn = new JButton("Enter");
-        enterBtn.setBounds(300, 250, 200, 40);
-        enterBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-        enterBtn.setForeground(new Color(224, 215, 231));
-        enterBtn.setBackground(new Color(35, 35, 77));
-        enterBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-        enterBtn.setBorderPainted(false);
-        enterBtn.setFocusable(false);
+        enterBtn = ViewFactory.createCustomButton1(popUpFrame1, "Enter", new ViewFactory.Bounds(320, 250, 150, 40), 25);
         enterBtn.addActionListener(this::enterBtnActionPerformed);
-        popUpFrame1.add(enterBtn);
+        enterBtn.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke("ENTER"), "enter");
+        enterBtn.getActionMap().put("enter", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enterBtnActionPerformed(e);
+            }
+        });
 
         // Display the frame
         popUpFrame1.setVisible(true);
@@ -797,21 +596,15 @@ public class MainWindow extends Component {
     }
 
     private JFrame popUpFrame2;
-    private JToggleButton bank1Btn;
-    private JToggleButton bank2Btn;
-    private JToggleButton bank3Btn;
-    private JToggleButton bank4Btn;
-    private JToggleButton bank5Btn;
-    private JToggleButton bank6Btn;
+    private JToggleButton bank1Btn, bank2Btn, bank3Btn;
+    private JToggleButton bank4Btn, bank5Btn, bank6Btn;
     private ButtonGroup bankGroup;
     private JButton submitBtn;
-    private JLabel chooseLbl;
-    private JLabel amountLbl;
+    private JLabel chooseLbl, amountLbl;
     private JTextField amountField;
     private String selectedBank;
 
     public void createPopUpWindow2() {
-
         // Create the pop-up frame
         popUpFrame2 = ViewFactory.createFrame("Ongoing Transaction...", 600, 500);
         popUpFrame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -821,26 +614,24 @@ public class MainWindow extends Component {
             public void windowClosing(WindowEvent e) {
                 withdrawBtn.setEnabled(true);
                 depositBtn.setEnabled(true);
-                popUpFrames[0] = null;
-                popUpFrames[1].dispose();
-                popUpFrames[1] = null;
+                disposePopUpFrame2();
             }
         });
 
             // Header Label
             chooseLbl = new JLabel();
             chooseLbl.setText("Select Bank and Enter Amount");
-            chooseLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-            chooseLbl.setBounds(150, 30, 400, 40);
+            chooseLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 29));
+            chooseLbl.setBounds(105, 30, 400, 40);
             chooseLbl.setForeground(new Color(35, 35, 77));
 
             // Create bank toggle buttons
-            bank1Btn = ViewFactory.createToggleButton(popUpFrame2, "IMBank", 20, 70);
-            bank2Btn = ViewFactory.createToggleButton(popUpFrame2, "BDO", 220, 70);
-            bank3Btn = ViewFactory.createToggleButton(popUpFrame2, "LandBank", 420, 70);
-            bank4Btn = ViewFactory.createToggleButton(popUpFrame2, "MetroBank", 20, 170);
-            bank5Btn = ViewFactory.createToggleButton(popUpFrame2, "BPI", 220, 170);
-            bank6Btn = ViewFactory.createToggleButton(popUpFrame2, "RCBC", 420, 170);
+            bank1Btn = ViewFactory.createToggleButton(popUpFrame2, "IMBank", 38, 110);
+            bank2Btn = ViewFactory.createToggleButton(popUpFrame2, "BDO", 218, 110);
+            bank3Btn = ViewFactory.createToggleButton(popUpFrame2, "LandBank", 398, 110);
+            bank4Btn = ViewFactory.createToggleButton(popUpFrame2, "MetroBank", 38, 200);
+            bank5Btn = ViewFactory.createToggleButton(popUpFrame2, "BPI", 218, 200);
+            bank6Btn = ViewFactory.createToggleButton(popUpFrame2, "RCBC", 398, 200);
 
             bankGroup = new ButtonGroup();
             bankGroup.add(bank1Btn);
@@ -861,109 +652,45 @@ public class MainWindow extends Component {
             bank5Btn.addActionListener(toggleListener);
             bank6Btn.addActionListener(toggleListener);
 
-            // Bank Buttons
-            bank1Btn.setBounds(20, 130, 150, 40);
-            bank1Btn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-            bank1Btn.setForeground(new Color(224, 224, 231));
-            bank1Btn.setBackground(new Color(35, 35, 77));
-            bank1Btn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            bank1Btn.setBorderPainted(false);
-            bank1Btn.setFocusable(false);
-
-            bank2Btn.setBounds(220, 130, 150, 40);
-            bank2Btn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-            bank2Btn.setForeground(new Color(224, 224, 231));
-            bank2Btn.setBackground(new Color(35, 35, 77));
-            bank2Btn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            bank2Btn.setBorderPainted(false);
-            bank2Btn.setFocusable(false);
-
-            bank3Btn.setBounds(420, 130, 150, 40);
-            bank3Btn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-            bank3Btn.setForeground(new Color(224, 224, 231));
-            bank3Btn.setBackground(new Color(35, 35, 77));
-            bank3Btn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            bank3Btn.setBorderPainted(false);
-            bank3Btn.setFocusable(false);
-
-            bank4Btn.setBounds(20, 230, 150, 40);
-            bank4Btn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-            bank4Btn.setForeground(new Color(224, 224, 231));
-            bank4Btn.setBackground(new Color(35, 35, 77));
-            bank4Btn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            bank4Btn.setBorderPainted(false);
-            bank4Btn.setFocusable(false);
-
-            bank5Btn.setBounds(220, 230, 150, 40);
-            bank5Btn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-            bank5Btn.setForeground(new Color(224, 224, 231));
-            bank5Btn.setBackground(new Color(35, 35, 77));
-            bank5Btn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            bank5Btn.setBorderPainted(false);
-            bank5Btn.setFocusable(false);
-
-            bank6Btn.setBounds(420, 230, 150, 40);
-            bank6Btn.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-            bank6Btn.setForeground(new Color(224, 224, 231));
-            bank6Btn.setBackground(new Color(35, 35, 77));
-            bank6Btn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            bank6Btn.setBorderPainted(false);
-            bank6Btn.setFocusable(false);
-
             // Amount Label
             amountLbl = new JLabel();
             amountLbl.setText("Enter Amount:");
-            amountLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-            amountLbl.setBounds(50, 300, 200, 30);
+            amountLbl.setFont(new Font("MS UI Gothic", Font.BOLD, 24));
+            amountLbl.setBounds(80, 320, 200, 30);
             amountLbl.setForeground(new Color(35, 35, 77));
 
             // Amount Text Field
             amountField = new JTextField();
-            amountField.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-            amountField.setBounds(250, 300, 250, 30);
+            amountField.setFont(new Font("MS UI Gothic", Font.BOLD, 27));
+            amountField.setBounds(250, 320, 250, 32);
             amountField.setForeground(new Color(35, 35, 77));
             amountField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
             // Cancel Button
-            cancelBtn = new JButton();
-            cancelBtn.setText("Cancel");
-            cancelBtn.setBounds(100, 400, 200, 40);
-            cancelBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-            cancelBtn.setForeground(new Color(224, 224, 231));
-            cancelBtn.setBackground(new Color(35, 35, 77));
-            cancelBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            cancelBtn.setBorderPainted(false);
-            cancelBtn.setFocusable(false);
+            cancelBtn = ViewFactory.createCustomButton1(popUpFrame2, "Cancel", new ViewFactory.Bounds(120, 400, 150, 40), 25);
             cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
             // Submit Button
-            submitBtn = new JButton();
-            submitBtn.setText("Submit");
-            submitBtn.setBounds(350, 400, 200, 40);
-            submitBtn.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
-            submitBtn.setForeground(new Color(224, 224, 231));
-            submitBtn.setBackground(new Color(35, 35, 77));
-            submitBtn.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
-            submitBtn.setBorderPainted(false);
-            submitBtn.setFocusable(false);
+            submitBtn = ViewFactory.createCustomButton1(popUpFrame2, "Submit", new ViewFactory.Bounds(320, 400, 150, 40), 25);
             submitBtn.addActionListener(this::submitTransactionRequestBtnActionPerformed);
+            submitBtn.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                     .put(KeyStroke.getKeyStroke("ENTER"), "submit");
+            submitBtn.getActionMap().put("submit", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    submitTransactionRequestBtnActionPerformed(e);
+                }
+            });
 
         popUpFrame2.add(chooseLbl);
         popUpFrame2.add(amountLbl);
-        popUpFrame2.add(bank1Btn);
-        popUpFrame2.add(bank2Btn);
-        popUpFrame2.add(bank3Btn);
-        popUpFrame2.add(bank4Btn);
-        popUpFrame2.add(bank5Btn);
-        popUpFrame2.add(bank6Btn);
-        popUpFrame2.add(cancelBtn);
-        popUpFrame2.add(submitBtn);
         popUpFrame2.add(amountField);
 
         popUpFrame2.setResizable(false);
         popUpFrame2.setVisible(true);
 
         popUpFrames[1] = popUpFrame2;
+        disposePopUpFrame1();
      }
 
     // Navigation bar buttons here
@@ -984,7 +711,6 @@ public class MainWindow extends Component {
             ViewUtility.enablePanelAndComponents(panels[2], false);
             ViewUtility.enablePanelAndComponents(panels[3], false);
         });
-        //bankController.cancelTransaction();
         bankController.getTransactionHistory();
     }
 
@@ -999,96 +725,146 @@ public class MainWindow extends Component {
     }
 
     private void logoutBtnActionPerformed(ActionEvent ae) {
-        int response = JOptionPane.showConfirmDialog(
-                this.getMainFrame(),
-                "Are you sure you want to log out?",
-                "Confirm Logout",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
+        SwingUtilities.invokeLater(() -> {
+            int response = JOptionPane.showConfirmDialog(
+                    this.getMainFrame(),
+                    "Are you sure you want to log out?",
+                    "Confirm Logout",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
 
-        if (response == JOptionPane.YES_OPTION) {
-            tableModel.setNumRows(0);
-
-            bankController.showLoginWindow();
-            bankController.logoutUserSession();
-            homeBtn.doClick();
-        }
+            if (response == JOptionPane.YES_OPTION) {
+                tableModel.setNumRows(0);
+                bankController.showLoginWindow();
+                bankController.logoutUserSession();
+                ViewUtility.enablePanelAndComponents(panels[0], true);
+                ViewUtility.enablePanelAndComponents(panels[1], false);
+                ViewUtility.enablePanelAndComponents(panels[2], false);
+                ViewUtility.enablePanelAndComponents(panels[3], false);
+                if(popUpFrames[0] != null) { disposePopUpFrame1(); }
+                if(popUpFrames[1] != null) { disposePopUpFrame2(); }
+            }
+        });
     }
 
     // Transaction buttons here
     private void depositBtnActionPerformed(ActionEvent ae) {
-        if(popUpFrames[0] != null){
-            ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
-            return;
-        }
-        withdrawBtn.setEnabled(false);
-        createPopUpWindow1();
+        SwingUtilities.invokeLater(() -> {
+            if(popUpFrames[0] != null || popUpFrames[1] != null){
+                ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
+                return;
+            }
+            withdrawBtn.setEnabled(false);
+            createPopUpWindow1();
+        });
     }
 
     private void withdrawBtnActionPerformed(ActionEvent ae) {
-        if(popUpFrames[0] != null){
-            ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
-            return;
-        }
-        depositBtn.setEnabled(false);
-        createPopUpWindow1();
+        SwingUtilities.invokeLater(() -> {
+            if(popUpFrames[0] != null || popUpFrames[1] != null){
+                ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
+                return;
+            }
+            depositBtn.setEnabled(false);
+            createPopUpWindow1();
+        });
     }
 
     private void enterBtnActionPerformed(ActionEvent ae) {
-        if (popUpFrames[1] == null || !popUpFrames[1].isVisible()) {
-            if(!String.valueOf(bankAccountNumField.getText()).isEmpty() && !String.valueOf(cardPINField.getPassword()).isEmpty()) {
-                bankController.checkForPendingTransactions();
+        SwingUtilities.invokeLater(() -> {
+            if (popUpFrames[1] == null || !popUpFrames[1].isVisible()) {
+                if(!String.valueOf(bankAccountNumField.getText()).isEmpty() && !String.valueOf(cardPINField.getPassword()).isEmpty()) {
+                    SwingUtilities.invokeLater(bankController::checkForPendingTransactions);
+                } else {
+                    SwingUtilities.invokeLater(() -> {
+                        ViewUtility.showErrorMessage(popUpFrame1,"Please enter fields.");
+                    });
+                }
             } else {
-                ViewUtility.showErrorMessage(popUpFrame1,"Please enter fields.");
+                disposePopUpFrame2();
             }
-        } else {
-            popUpFrames[1].dispose();
-            popUpFrames[1] = null;
-        }
+        });
     }
 
     private void cancelBtnActionPerformed(ActionEvent ae) {
-        popUpFrames[0].dispose();
-        popUpFrames[0] = null;
-
-        depositBtn.setEnabled(true);
-        withdrawBtn.setEnabled(true);
-
-        if (popUpFrames[1] != null && popUpFrames[1].isVisible()) {
-            popUpFrames[1].dispose();
-            popUpFrames[1] = null;
-        }
+        SwingUtilities.invokeLater(() -> {
+            if(popUpFrames[1] == null){ disposePopUpFrame1(); }
+            depositBtn.setEnabled(true);
+            withdrawBtn.setEnabled(true);
+            if (popUpFrames[1] != null && popUpFrames[1].isVisible()) {
+                disposePopUpFrame2();
+            }
+        });
     }
 
     private void submitTransactionRequestBtnActionPerformed(ActionEvent ae) {
-        if(bankGroup.getSelection() != null && !String.valueOf(amountField.getText()).isEmpty()){
-            String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
-            System.out.println(transactionType + " " + selectedBank);
-            bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
-        } else {
-            ViewUtility.showInfoMessage("Please enter fields.");
-        }
-        //submitBtn = null;
-        popUpFrames[1].dispose();
-        popUpFrames[1] = null;
-        bankGroup.clearSelection();
-        amountField.setText("");
-        depositBtn.setEnabled(true);
-        withdrawBtn.setEnabled(true);
+        SwingUtilities.invokeLater(() -> {
+            if(bankGroup.getSelection() != null && !String.valueOf(amountField.getText()).isEmpty()){
+                String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
+                System.out.println(transactionType + " " + selectedBank);
+                bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
+            } else {
+                ViewUtility.showInfoMessage("Please enter fields.");
+                return;
+            }
+            disposePopUpFrame2();
+            bankGroup.clearSelection();
+            amountField.setText("");
+            depositBtn.setEnabled(true);
+            withdrawBtn.setEnabled(true);
+        });
     }
 
     private void saveProfileChangesBtnActionPerformed(ActionEvent ae) {
-        if(!String.valueOf(usernameField.getText()).isEmpty() && !String.valueOf(contactNoField).isEmpty()
-          && !String.valueOf(emailField.getText()).isEmpty()){
-            bankController.updateUserProfile(String.valueOf(usernameField.getText()), String.valueOf(contactNoField.getText()), String.valueOf(emailField.getText()));
-            profileBtn.doClick();
-        } else {
-            ViewUtility.showInfoMessage("Fields cannot be empty or cancel changes.");
-        }
+        SwingUtilities.invokeLater(() -> {
+            if(!String.valueOf(usernameField.getText()).isEmpty() && !String.valueOf(contactNoField).isEmpty()
+                    && !String.valueOf(emailField.getText()).isEmpty()){
+                SwingUtilities.invokeLater(() -> {
+                    bankController.updateUserProfile(String.valueOf(usernameField.getText()), String.valueOf(contactNoField.getText()), String.valueOf(emailField.getText()));
+                    profileBtn.doClick();
+                });
+            } else {
+                ViewUtility.showInfoMessage("Fields cannot be empty or cancel changes.");
+            }
+        });
     }
 
-    public void udpateTransactionHistoryTable(TransactionHistoryDTO transactionHistory) {
+    private void deleteBtnActionPerformed(ActionEvent actionEvent) {
+        SwingUtilities.invokeLater(() -> {
+            int[] selectedRows = table.getSelectedRows(); // Get selected row indices
+            if (selectedRows.length == 0) {
+                JOptionPane.showMessageDialog(this,
+                        "No items selected! \nPlease select at least one item.",
+                            "Select Rows",
+                            JOptionPane.ERROR_MESSAGE);
+            } else {
+                int confirm = JOptionPane.showConfirmDialog(this,
+                        "Are you sure you want to delete the selected items?",
+                        "Confirm Delete",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    List<Integer> idsToDelete = new ArrayList<>();
+
+                    for (int row : selectedRows) {
+                        int modelRow = table.convertRowIndexToModel(row);
+                        int id = (int) model.getValueAt(modelRow, 0);
+                        idsToDelete.add(id);
+                    }
+
+                    bankController.deleteTransactionsByIdsAsync(idsToDelete, () -> {
+                        for (int i = selectedRows.length - 1; i >= 0; i--) {
+                            model.removeRow(table.convertRowIndexToModel(selectedRows[i]));
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void updateTransactionHistoryTable(TransactionHistoryDTO transactionHistory) {
         tableModel.addRow(new Object[]{
                 transactionHistory.getTransactionID(),
                 transactionHistory.getBankAccountNumberID(),
@@ -1102,6 +878,16 @@ public class MainWindow extends Component {
         tableModel.fireTableDataChanged();
         table.revalidate();
         table.repaint();
+    }
+
+    private void disposePopUpFrame1() {
+        popUpFrames[0].dispose();
+        popUpFrames[0] = null;
+    }
+
+    private void disposePopUpFrame2() {
+        popUpFrames[1].dispose();
+        popUpFrames[1] = null;
     }
 
     public void displayUserProfile(UserProfileDTO userProfile) {
@@ -1120,8 +906,8 @@ public class MainWindow extends Component {
         genderLbl.setText("Sex: " + userProfile.getSex());
         usernameLbl.setText("Username: " + userProfile.getUsername());
         bankAccIDNoLbl.setText("Bank Account ID NO.: " + userProfile.getBankAccountNumberID());
-        contactNoLbl.setText("Contact No: " + userProfile.getContactNumber()); //editable
-        emailLbl.setText("Email: " + userProfile.getEmail()); //editable
+        contactNoLbl.setText("Contact No: " + userProfile.getContactNumber());
+        emailLbl.setText("Email: " + userProfile.getEmail());
      }
 
     public void proceedTransaction(){
@@ -1129,14 +915,17 @@ public class MainWindow extends Component {
                 Integer.parseInt(bankAccountNumField.getText()),
                 Integer.parseInt(String.valueOf(cardPINField.getPassword()))
         );
-        popUpFrames[0].dispose();
-        popUpFrames[0] = null;
     }
 
     public void updateHeaderLbl(String name){
         SwingUtilities.invokeLater(() -> {
             this.headerLbl.setText("Welcome " + name + ",");
         });
+    }
+
+    public void clearAccountCredentialsField(){
+        bankAccountNumField.setText("");
+        cardPINField.setText("");
     }
 
     // Getters/Setters
@@ -1148,10 +937,12 @@ public class MainWindow extends Component {
         return mainFrame;
     }
 
-    public DefaultTableModel getTableModel() { return tableModel; }
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
 
     public void setDisplayBalanceField(String bankAccountBalance) {
-        this.displayBalanceField.setText(bankAccountBalance);;
+        this.displayBalanceField.setText("Php. " + bankAccountBalance);;
     }
 
     public JButton getTransactionBtn(){

@@ -1,8 +1,7 @@
 package Repository;
 
-import Controller.IMBankController;
 import DTO.TransactionHistoryDTO;
-import DatabaseConnectionManager.IMBankConnectionManager;
+import Utility.IMBankConnectionManager;
 import Model.Transaction;
 
 import java.sql.Connection;

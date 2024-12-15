@@ -1,6 +1,6 @@
 package Repository;
 
-import DatabaseConnectionManager.IMBankConnectionManager;
+import Utility.IMBankConnectionManager;
 import Model.CardInfo;
 
 import java.sql.Connection;
@@ -32,14 +32,12 @@ public class CardInfoRepository {
             ps.setInt(2, cardPIN);
             ResultSet rs = ps.executeQuery();
 
-            CardInfo cardInfo;
+            CardInfo cardInfo = null;
             if (rs.next()) {
                 cardInfo = new CardInfo();
                 cardInfo.setBankAccountNumberID(rs.getInt("Bank_Account_Number_ID"));
                 cardInfo.setCardPIN(rs.getInt("Card_PIN"));
-            } else {
-                throw new SQLException("Card not found");
-            }
+            } 
             return cardInfo;
         }
     }

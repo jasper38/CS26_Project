@@ -67,6 +67,24 @@ public class TransactionRepository {
         }
     }
 
+    public int getNumberOfTransactions(String username) throws SQLException {
+        String sql = "SELECT COUNT(*) " +
+                     "FROM Transaction t " +
+                     "JOIN Bank_Accounts ba ON t.Bank_Account_Number_ID = ba.Bank_Account_Number_ID " +
+                     "JOIN Customers c ON ba.Customer_ID = c.Customer_ID " +
+                     "WHERE c.Username = ? && t.Request_Status = 'Complete'";
+        try(Connection conn = IMBankConnectionManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return 0;
+            }
+        }
+    }
+
     public int getPendingTransactions(int bankAccountNumberID) throws SQLException {
         String sql = "SELECT Transaction_ID " +
                      "FROM Transaction " +

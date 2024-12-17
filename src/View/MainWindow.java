@@ -761,6 +761,7 @@ public class MainWindow extends Component {
     }
 
     private void withdrawBtnActionPerformed(ActionEvent ae) {
+        bankController.verifyNumberOfTransactions();
         SwingUtilities.invokeLater(() -> {
             if(popUpFrames[0] != null || popUpFrames[1] != null){
                 ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
@@ -775,11 +776,9 @@ public class MainWindow extends Component {
         SwingUtilities.invokeLater(() -> {
             if (popUpFrames[1] == null || !popUpFrames[1].isVisible()) {
                 if(!String.valueOf(bankAccountNumField.getText()).isEmpty() && !String.valueOf(cardPINField.getPassword()).isEmpty()) {
-                    SwingUtilities.invokeLater(bankController::checkForPendingTransactions);
+                    bankController.checkForPendingTransactions();
                 } else {
-                    SwingUtilities.invokeLater(() -> {
-                        ViewUtility.showErrorMessage(popUpFrame1,"Please enter fields.");
-                    });
+                    ViewUtility.showErrorMessage(popUpFrame1,"Please enter fields.");
                 }
             } else {
                 disposePopUpFrame2();
@@ -790,8 +789,7 @@ public class MainWindow extends Component {
     private void cancelBtnActionPerformed(ActionEvent ae) {
         SwingUtilities.invokeLater(() -> {
             if(popUpFrames[1] == null){ disposePopUpFrame1(); }
-            depositBtn.setEnabled(true);
-            withdrawBtn.setEnabled(true);
+                enableButtons();
             if (popUpFrames[1] != null && popUpFrames[1].isVisible()) {
                 disposePopUpFrame2();
             }
@@ -800,9 +798,18 @@ public class MainWindow extends Component {
 
     private void submitTransactionRequestBtnActionPerformed(ActionEvent ae) {
         SwingUtilities.invokeLater(() -> {
+            String balance = displayBalanceField.getText();
+            int index = balance.indexOf(" ");
+            float amountToTransact = Float.parseFloat(amountField.getText());
+            float currentBankAccountBalance = Float.parseFloat(balance.substring(index + 1));
+
+            if(currentBankAccountBalance - amountToTransact < 0 && withdrawBtn.isEnabled()){
+                ViewUtility.showInfoMessage("Insufficient bank account balance.");
+                return;
+            }
+
             if(bankGroup.getSelection() != null && !String.valueOf(amountField.getText()).isEmpty()){
                 String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
-                System.out.println(transactionType + " " + selectedBank);
                 bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
             } else {
                 ViewUtility.showInfoMessage("Please enter fields.");
@@ -811,8 +818,7 @@ public class MainWindow extends Component {
             disposePopUpFrame2();
             bankGroup.clearSelection();
             amountField.setText("");
-            depositBtn.setEnabled(true);
-            withdrawBtn.setEnabled(true);
+            enableButtons();
         });
     }
 
@@ -880,7 +886,7 @@ public class MainWindow extends Component {
         table.repaint();
     }
 
-    private void disposePopUpFrame1() {
+    public void disposePopUpFrame1() {
         popUpFrames[0].dispose();
         popUpFrames[0] = null;
     }
@@ -888,6 +894,11 @@ public class MainWindow extends Component {
     private void disposePopUpFrame2() {
         popUpFrames[1].dispose();
         popUpFrames[1] = null;
+    }
+
+    public void enableButtons(){
+        depositBtn.setEnabled(true);
+        withdrawBtn.setEnabled(true);
     }
 
     public void displayUserProfile(UserProfileDTO userProfile) {

@@ -149,6 +149,35 @@ public class IMBankController {
         worker.execute();
     }
 
+    public void verifyNumberOfTransactions(){
+        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return bankService.verifyNumberOfTransactions();
+            }
+            @Override
+            protected void done() {
+                try {
+                    boolean haveTransactions = get();
+                    if (!haveTransactions) {
+                        ViewUtility.showWarningMessage("Warning: System detected user does not have any transactions completed.");
+                        int choice = ViewUtility.showYesNoMessage("Do you still want to continue?");
+                        if(choice == JOptionPane.YES_OPTION) {
+                            ViewUtility.showInfoMessage
+                                    ("Please be advised that a Php 200 will deducted on account at the end of this month. Thank You.");
+                        } else {
+                            mainWindow.disposePopUpFrame1();
+                            mainWindow.enableButtons();
+                        }
+                    }
+                } catch (Exception e){
+                    ViewUtility.showErrorMessage(null, e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
     public void initiateTransactionRequest(String transactionType, String selectedBank, int amount){
         SwingWorker<Integer, Void> worker = new SwingWorker<>() {
             @Override

@@ -24,7 +24,7 @@ public class IMBankServiceImpl implements IMBankService {
     // session variables for seamless retrieval of data from db
     private String sessionUsername = "";
     private String sessionName = "";
-    private int bankAccountNumberID = 0;
+    private int sessionBankAccountNumberID = 0;
 
     public IMBankServiceImpl(AffiliatedBankRepository affiliatedBankRepository,
                              BankAccountRepository bankAccountRepository, CardInfoRepository cardInfoRepository,
@@ -77,7 +77,7 @@ public class IMBankServiceImpl implements IMBankService {
             return new LogInResult(false, "Invalid username or password");
         }
         sessionUsername = credentials.getUsername();
-        bankAccountNumberID = bankAccountRepository.getBankAccountNumberID(sessionUsername);
+        sessionBankAccountNumberID = bankAccountRepository.getBankAccountNumberID(sessionUsername);
         sessionName = personRepository.getPersonFirstName(sessionUsername);
         return new LogInResult(true, "Login successful");
     }
@@ -89,7 +89,7 @@ public class IMBankServiceImpl implements IMBankService {
 
     @Override
     public float getBankAccountBalance() throws SQLException {
-        return bankAccountRepository.getBankAccountBalance(bankAccountNumberID);
+        return bankAccountRepository.getBankAccountBalance(sessionBankAccountNumberID);
     }
 
     @Override
@@ -97,14 +97,20 @@ public class IMBankServiceImpl implements IMBankService {
         CardInfo bankAccountCredentials = cardInfoRepository.getCardInfo(bankAccountNumberID, cardPIN);
 
         if(bankAccountCredentials == null) { return false; }
-        return (bankAccountCredentials.getBankAccountNumberID() == bankAccountNumberID &&
+        return (bankAccountCredentials.getBankAccountNumberID() == sessionBankAccountNumberID &&
                 bankAccountCredentials.getCardPIN() == cardPIN);
+    }
+
+    @Override
+    public boolean verifyNumberOfTransactions() throws SQLException {
+        int numOfTransactions = transactionRepository.getNumberOfTransactions(sessionUsername);
+        return (numOfTransactions > 0);
     }
 
     @Override
     public int createTransaction(String transactionType ,String selectedBank, int amount) throws SQLException {
         Transaction transactionRequest = new Transaction();
-        transactionRequest.setBankAccountNumberID(bankAccountNumberID);
+        transactionRequest.setBankAccountNumberID(sessionBankAccountNumberID);
         int bankID = affiliatedBankRepository.getAffiliatedBankID(selectedBank);
         transactionRequest.setAffiliatedBankID(bankID);
         transactionRequest.setTransactionType(transactionType);
@@ -123,7 +129,7 @@ public class IMBankServiceImpl implements IMBankService {
 
     @Override
     public List<TransactionHistoryDTO> getTransactions() throws SQLException{
-        List<TransactionHistoryDTO> transactions = transactionRepository.getAllTransactions(bankAccountNumberID);
+        List<TransactionHistoryDTO> transactions = transactionRepository.getAllTransactions(sessionBankAccountNumberID);
         if(transactions == null) {
             throw new SQLException("Transaction could not be retrieved");
         }
@@ -140,7 +146,7 @@ public class IMBankServiceImpl implements IMBankService {
 
     @Override
     public UserProfileDTO getUserProfile() throws SQLException {
-        UserProfileDTO userProfileDTO = personRepository.getUserProfile(bankAccountNumberID);
+        UserProfileDTO userProfileDTO = personRepository.getUserProfile(sessionBankAccountNumberID);
         if(userProfileDTO == null) {
             throw new SQLException("User profile could not be retrieved");
         }
@@ -157,7 +163,7 @@ public class IMBankServiceImpl implements IMBankService {
 
     @Override
     public int getTransactionID() throws SQLException {
-        int transactionID = transactionRepository.getPendingTransactions(bankAccountNumberID);
+        int transactionID = transactionRepository.getPendingTransactions(sessionBankAccountNumberID);
         if(transactionID > 0) {
             return 1;
         }
@@ -166,14 +172,14 @@ public class IMBankServiceImpl implements IMBankService {
 
     @Override
     public int cancelPendingTransaction() throws SQLException {
-        return transactionRepository.updatePendingStatusIfDurationExceedsHour(bankAccountNumberID);
+        return transactionRepository.updatePendingStatusIfDurationExceedsHour(sessionBankAccountNumberID);
     }
 
     @Override
     public void logoutUserSession() {
-        if(!sessionUsername.isEmpty() && bankAccountNumberID != 0){
+        if(!sessionUsername.isEmpty() && sessionBankAccountNumberID != 0){
             sessionUsername = null;
-            bankAccountNumberID = 0;
+            sessionBankAccountNumberID = 0;
         }
     }
 

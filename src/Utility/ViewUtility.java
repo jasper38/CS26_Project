@@ -57,5 +57,13 @@ public final class ViewUtility {
     public static void showInfoMessage(String msg) {
         JOptionPane.showMessageDialog(null, msg, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public static void showWarningMessage(String msg) {
+        JOptionPane.showMessageDialog(null, msg, "Warning", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public static int showYesNoMessage(String msg) {
+        return JOptionPane.showConfirmDialog(null, msg, "Yes", JOptionPane.YES_NO_OPTION);
+    }
     // Add document filter here
 }

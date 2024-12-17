@@ -132,20 +132,20 @@ public final class ViewFactory {
     private static void createMainLabelHelper(Container container, String text, Bounds bounds) {
         JLabel label = new JLabel(text);
         label.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
-        label.setFont(new Font("MS UI Gothic", Font.BOLD, 28));
+        label.setFont(new Font("MS UI Gothic", Font.BOLD, 34));
         container.add(label);
     }
     private static void createFieldLabelHelper(Container container, String text, Bounds bounds) {
         JLabel label1 = new JLabel(text);
         label1.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
-        label1.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
+        label1.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
         container.add(label1);
     }
 
     private static JToggleButton createToggleButtonHelper(Container container, String label, int x, int y) {
         JToggleButton toggleButton = new JToggleButton(label);
         toggleButton.setBounds(x, y, 150, 70);
-        toggleButton.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
+        toggleButton.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
         toggleButton.setForeground(new Color(224, 224, 231));
         toggleButton.setBackground(new Color(35, 35, 77));
         toggleButton.setBorder(BorderFactory.createLineBorder(new Color(35, 35, 77), 1, true));
@@ -170,7 +170,7 @@ public final class ViewFactory {
     private static JRadioButton createRadioButtonHelper(Container container, String label, Bounds bounds) {
         JRadioButton radioButton = new JRadioButton(label);
         radioButton.setFocusable(false);
-        radioButton.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
+        radioButton.setFont(new Font("MS UI Gothic", Font.BOLD, 25));
         radioButton.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
         container.add(radioButton);
         return radioButton;
@@ -187,7 +187,7 @@ public final class ViewFactory {
 
     private static JTextField createRegisterTextFieldHelper(Container container, Bounds bounds) {
         JTextField textField = new JTextField();
-        textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
+        textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 25));
         textField.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
         container.add(textField);
         return textField;

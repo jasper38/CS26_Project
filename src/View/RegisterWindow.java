@@ -76,22 +76,22 @@ public class RegisterWindow {
 
             initHeaderPanel(step1Panel);
 
-            ViewFactory.createMainLabel(step1Panel, "Personal Information", new ViewFactory.Bounds(170, 100, 300, 30));
+            ViewFactory.createMainLabel(step1Panel, "Personal Information", new ViewFactory.Bounds(170, 100, 350, 40));
             ViewFactory.createFieldLabel(step1Panel, "First Name:", new ViewFactory.Bounds(80, 160, 250, 30));
             ViewFactory.createFieldLabel(step1Panel, "Last Name:", new ViewFactory.Bounds(80, 210, 250, 30));
             ViewFactory.createFieldLabel(step1Panel, "Age:", new ViewFactory.Bounds(80, 260, 70, 30));
             ViewFactory.createFieldLabel(step1Panel, "Date of Birth:", new ViewFactory.Bounds(80, 310, 250, 30));
             ViewFactory.createFieldLabel(step1Panel, "Gender:", new ViewFactory.Bounds(80, 360, 150, 30));
 
-            fNameField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(300, 160, 200, 30));
-            lNameField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(300, 210, 200, 30));
-            ageField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(300, 260, 200, 30));
+            fNameField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(320, 160, 200, 30));
+            lNameField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(320, 210, 200, 30));
+            ageField = ViewFactory.createRegisterTextField(step1Panel, new ViewFactory.Bounds(320, 260, 200, 30));
                 ageField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
             JDateComponentFactory fac = new JDateComponentFactory();
             datePicker = (JDatePickerImpl) fac.createJDatePicker();
             datePicker.setFont(new Font("MS UI Gothic", Font.BOLD, 20));
-            datePicker.setBounds(300, 310, 200, 30);
+            datePicker.setBounds(320, 310, 200, 30);
 
             ItemListener genderListener = e -> {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -99,9 +99,9 @@ public class RegisterWindow {
                 }
             };
 
-            maleRadioBtn = ViewFactory.createRadioButton(step1Panel, "Male", new ViewFactory.Bounds(300, 360, 80, 30));
+            maleRadioBtn = ViewFactory.createRadioButton(step1Panel, "Male", new ViewFactory.Bounds(320, 360, 80, 30));
                 maleRadioBtn.addItemListener(genderListener);
-            femaleRadioBtn = ViewFactory.createRadioButton(step1Panel, "Female", new ViewFactory.Bounds(380, 360, 100, 30));
+            femaleRadioBtn = ViewFactory.createRadioButton(step1Panel, "Female", new ViewFactory.Bounds(410, 360, 150, 30));
                 femaleRadioBtn.addItemListener(genderListener);
 
             genderBtnGroup = new ButtonGroup();
@@ -121,19 +121,19 @@ public class RegisterWindow {
 
             initHeaderPanel(step2Panel);
 
-            ViewFactory.createMainLabel(step2Panel, "Contact Information", new ViewFactory.Bounds(170, 100, 300, 30));
+            ViewFactory.createMainLabel(step2Panel, "Contact Information", new ViewFactory.Bounds(170, 100, 350, 30));
             ViewFactory.createFieldLabel(step2Panel, "Phone Number:", new ViewFactory.Bounds(80, 160, 250, 30));
             ViewFactory.createFieldLabel(step2Panel, "Address:", new ViewFactory.Bounds(80, 210, 250, 30));
             ViewFactory.createFieldLabel(step2Panel, "City:", new ViewFactory.Bounds(80, 260, 250, 30));
             ViewFactory.createFieldLabel(step2Panel, "Province:", new ViewFactory.Bounds(80, 310, 250, 30));
             ViewFactory.createFieldLabel(step2Panel, "Zip Code:", new ViewFactory.Bounds(80, 360, 250, 30));
 
-            phoneNumField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(300, 160, 200, 30));
+            phoneNumField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(320, 160, 200, 30));
                 phoneNumField.addKeyListener(ViewUtility.addNumberInputKeyListener());
-            addressField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(300, 210, 200, 30));
-            cityField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(300, 260, 200, 30));
-            provinceField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(300, 310, 200, 30));
-            zipCodeField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(300, 360, 200, 30));
+            addressField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(320, 210, 200, 30));
+            cityField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(320, 260, 200, 30));
+            provinceField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(320, 310, 200, 30));
+            zipCodeField = ViewFactory.createRegisterTextField(step2Panel, new ViewFactory.Bounds(320, 360, 200, 30));
                 zipCodeField.addKeyListener(ViewUtility.addNumberInputKeyListener());
 
             initRepeatComponents1(step2Panel);
@@ -148,17 +148,17 @@ public class RegisterWindow {
 
             initHeaderPanel(step3Panel);
 
-            ViewFactory.createMainLabel(step3Panel, "Security", new ViewFactory.Bounds(230, 100, 300, 30));
+            ViewFactory.createMainLabel(step3Panel, "Security", new ViewFactory.Bounds(250, 100, 300, 40));
             ViewFactory.createFieldLabel(step3Panel, "Email:", new ViewFactory.Bounds(80, 160, 250, 30));
             ViewFactory.createFieldLabel(step3Panel, "Username:", new ViewFactory.Bounds(80, 210, 250, 30));
             ViewFactory.createFieldLabel(step3Panel, "Password:", new ViewFactory.Bounds(80, 260, 250, 30));
             ViewFactory.createFieldLabel(step3Panel, "Confirm Password:", new ViewFactory.Bounds(80, 310, 250, 30));
             ViewFactory.createFieldLabel(step3Panel, "Bank Account Type:", new ViewFactory.Bounds(80, 360, 250, 30));
 
-            emailField = ViewFactory.createRegisterTextField(step3Panel, new ViewFactory.Bounds(300, 160, 200, 30));
-            usernameField = ViewFactory.createRegisterTextField(step3Panel, new ViewFactory.Bounds(300, 210, 200, 30));
-            passField = ViewFactory.createPasswordField(step3Panel, new ViewFactory.Bounds(300, 260, 200, 30));
-            confirmPassField = ViewFactory.createPasswordField(step3Panel, new ViewFactory.Bounds(300, 310, 200, 30));
+            emailField = ViewFactory.createRegisterTextField(step3Panel, new ViewFactory.Bounds(320, 160, 200, 30));
+            usernameField = ViewFactory.createRegisterTextField(step3Panel, new ViewFactory.Bounds(320, 210, 200, 30));
+            passField = ViewFactory.createPasswordField(step3Panel, new ViewFactory.Bounds(320, 260, 200, 30));
+            confirmPassField = ViewFactory.createPasswordField(step3Panel, new ViewFactory.Bounds(320, 310, 200, 30));
 
             ItemListener bankAccountTypeListener = e -> {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -166,17 +166,17 @@ public class RegisterWindow {
                 }
             };
 
-            savingsRadioBtn = ViewFactory.createRadioButton(step3Panel, "Savings", new ViewFactory.Bounds(300, 360, 100, 30));
+            savingsRadioBtn = ViewFactory.createRadioButton(step3Panel, "Savings", new ViewFactory.Bounds(320, 360, 120, 30));
                 savingsRadioBtn.addItemListener(bankAccountTypeListener);
 
-            checkingsRadioBtn = ViewFactory.createRadioButton(step3Panel, "Checkings", new ViewFactory.Bounds(400, 360, 120, 30));
+            checkingsRadioBtn = ViewFactory.createRadioButton(step3Panel, "Checkings", new ViewFactory.Bounds(440, 360, 160, 30));
                 checkingsRadioBtn.addItemListener(bankAccountTypeListener);
 
             bankAccountTypeBtnGroup = new ButtonGroup();
             bankAccountTypeBtnGroup.add(savingsRadioBtn);
             bankAccountTypeBtnGroup.add(checkingsRadioBtn);
 
-            submitBtn = ViewFactory.createCustomButton1(step3Panel, "Submit", new ViewFactory.Bounds(320, 450, 90, 30), 25);
+            submitBtn = ViewFactory.createCustomButton1(step3Panel, "Submit", new ViewFactory.Bounds(350, 450, 120, 35), 28);
             submitBtn.addActionListener(this::submitBtnActionPerformed);
 
             initRepeatComponents1(step3Panel);
@@ -191,18 +191,18 @@ public class RegisterWindow {
     }
 
     private void initRepeatComponents1(JPanel panel) {
-        ViewFactory.createConfirmationLabel(panel, "Already have an account?", new ViewFactory.Bounds(155, 495, 250, 30), 18);
-        logInBtn = ViewFactory.createCustomButton1(panel, "Log In", new ViewFactory.Bounds(375, 498, 70, 25), 18);
+        ViewFactory.createConfirmationLabel(panel, "Already have an account?", new ViewFactory.Bounds(170, 510, 250, 30), 18);
+        logInBtn = ViewFactory.createCustomButton1(panel, "Log In", new ViewFactory.Bounds(390, 513, 79, 30), 18);
         logInBtn.addActionListener(this::logInBtnActionPerformed);
     }
 
     private void initRepeatComponents2(JPanel panel) {
-        nextBtn = ViewFactory.createCustomButton1(panel, "Next", new ViewFactory.Bounds(320, 450, 90, 30), 25);
+        nextBtn = ViewFactory.createCustomButton1(panel, "Next", new ViewFactory.Bounds(350, 450, 120, 35), 28);
         nextBtn.addActionListener(this::nextBtnActionPerformed);
     }
 
     private void initRepeatComponents3(JPanel panel) {
-        backBtn = ViewFactory.createCustomButton1(panel, "Back", new ViewFactory.Bounds(200, 450, 90, 30), 25);
+        backBtn = ViewFactory.createCustomButton1(panel, "Back", new ViewFactory.Bounds(200, 450, 120, 35), 28);
         backBtn.addActionListener(this::backBtnActionPerformed);
     }
 
@@ -235,17 +235,32 @@ public class RegisterWindow {
     private void nextBtnActionPerformed(ActionEvent ae) {
         SwingUtilities.invokeLater(() -> {
             if (panels[0].isVisible()) {
-                if(String.valueOf(fNameField.getText()).isBlank() || String.valueOf(lNameField.getText()).isBlank()
-                        || String.valueOf(ageField.getText()).isBlank() || genderBtnGroup.getSelection() == null){
+                if (String.valueOf(fNameField.getText()).isBlank() || String.valueOf(lNameField.getText()).isBlank()
+                        || String.valueOf(ageField.getText()).isBlank() || genderBtnGroup.getSelection() == null) {
                     ViewUtility.showErrorMessage(null, "Please fill in all fields.");
                     return;
                 }
+
+                // Age validation
+                try {
+                    int age = Integer.parseInt(ageField.getText());
+                    if (age < 18) {
+                        JOptionPane.showMessageDialog(null, "You must be 18 years or older to proceed.",
+                                "Age Restriction", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid age.",
+                            "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 ViewUtility.enablePanelAndComponents(panels[1], true);
                 ViewUtility.enablePanelAndComponents(panels[0], false);
             } else if (panels[1].isVisible()) {
-                if(String.valueOf(phoneNumField.getText()).isBlank() || String.valueOf(addressField.getText()).isBlank()
+                if (String.valueOf(phoneNumField.getText()).isBlank() || String.valueOf(addressField.getText()).isBlank()
                         || String.valueOf(cityField.getText()).isBlank() || String.valueOf(zipCodeField.getText()).isBlank()
-                        || String.valueOf(provinceField.getText()).isBlank()){
+                        || String.valueOf(provinceField.getText()).isBlank()) {
                     ViewUtility.showErrorMessage(null, "Please fill in all fields.");
                     return;
                 }
@@ -254,6 +269,7 @@ public class RegisterWindow {
             }
         });
     }
+
 
     private void backBtnActionPerformed(ActionEvent ae) {
         SwingUtilities.invokeLater(() -> {

@@ -57,7 +57,7 @@ public class LogInWindow {
                 showPass.addActionListener(this::showPassActionPerformed);
 
                 // Submit button
-                logInBtn = ViewFactory.createCustomButton1(loginPanel, "Submit", new ViewFactory.Bounds(145, 320, 362, 43), 24);
+                logInBtn = ViewFactory.createCustomButton1(loginPanel, "Submit", new ViewFactory.Bounds(145, 335, 362, 43), 24);
                 logInBtn.addActionListener(this::logInBtnActionPerformed);
                 logInBtn.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                         .put(KeyStroke.getKeyStroke("ENTER"), "logIn");

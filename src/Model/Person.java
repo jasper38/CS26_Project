@@ -14,17 +14,6 @@ public class Person {
 
     public Person() {}
 
-    public Person(int personID, String firstName, String lastName, int age, Date birthdate, String sex, String phoneNum, String address) {
-        this.personID = personID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.birthdate = birthdate;
-        this.sex = sex;
-        this.phoneNum = phoneNum;
-        this.address = address;
-    }
-
     public int getPersonID() {
         return personID;
     }

@@ -12,15 +12,6 @@ public class BankAccount {
 
     public BankAccount(){};
 
-    public BankAccount(int bankAccountNumberID, int customerID, String bankAccountType, float bankAccountBalance, Date dateOpened, Date dateClosed) {
-        this.bankAccountNumberID = bankAccountNumberID;
-        this.customerID = customerID;
-        this.bankAccountType = bankAccountType;
-        this.bankAccountBalance = bankAccountBalance;
-        this.dateOpened = dateOpened;
-        this.dateClosed = dateClosed;
-    }
-
     public int getBankAccountNumberID() {
         return bankAccountNumberID;
     }

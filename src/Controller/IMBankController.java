@@ -160,15 +160,10 @@ public class IMBankController {
                 try {
                     boolean haveTransactions = get();
                     if (!haveTransactions) {
-                        ViewUtility.showWarningMessage("Warning: System detected user does not have any transactions completed.");
-                        int choice = ViewUtility.showYesNoMessage("Do you still want to continue?");
-                        if(choice == JOptionPane.YES_OPTION) {
-                            ViewUtility.showInfoMessage
-                                    ("Please be advised that a Php 200 will deducted on account at the end of this month. Thank You.");
-                        } else {
-                            mainWindow.disposePopUpFrame1();
-                            mainWindow.enableButtons();
-                        }
+                        mainWindow.disposePopUpFrame1();
+                        mainWindow.enableButtons();
+                        ViewUtility.showWarningMessage("Warning: System detected user does not have any transactions completed." +
+                                " ");
                     }
                 } catch (Exception e){
                     ViewUtility.showErrorMessage(null, e.getMessage());
@@ -352,6 +347,28 @@ public class IMBankController {
                 }
             }
         }.execute();
+    }
+
+    public void changePassword(String newPassword){
+        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return bankService.updatePassword(newPassword);
+            }
+            @Override
+            protected void done() {
+                try {
+                    boolean success = get();
+                    if (success) {
+                        ViewUtility.showInfoMessage("Password changed successfully.");
+                    }
+                } catch (Exception e) {
+                    ViewUtility.showErrorMessage(null, e.getMessage());
+                }
+            }
+        };
+        worker.execute();
     }
 
     public void logoutUserSession(){

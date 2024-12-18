@@ -9,14 +9,6 @@ public class Customer {
 
     public Customer(){};
 
-    public Customer(int customerID, String username, String password, String email, int personID) {
-        this.customerID = customerID;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.personID = personID;
-    }
-
     public int getCustomerID() {
         return customerID;
     }

@@ -345,21 +345,7 @@ public class MainWindow extends Component {
             editBtn = ViewFactory.createCustomButton1(profilePanel, "Edit", new ViewFactory.Bounds(31, 55, 70, 30), 20);
             editBtn.addActionListener(this::editBtnActionPerformed);
 
-            changePassBtn = ViewFactory.createCustomButton1(profilePanel, "Change Password", new ViewFactory.Bounds(450, 500, 400, 40), 25);
-
-            changePassTF = new JTextField();
-            changePassTF.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
-            changePassTF.setBounds(450,400,400,30);
-            changePassTF.setForeground(new Color(35, 35, 77));
-
-            confirmpassTF = new JTextField();
-            confirmpassTF.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
-            confirmpassTF.setBounds(450,450,400,30);
-            confirmpassTF.setForeground(new Color(35, 35, 77));
-
         profilePanel.add(personInfoLbl);
-        profilePanel.add(confirmpassTF);
-        profilePanel.add(changePassTF);
         profilePanel.add(profileLbl);
         profilePanel.add(fnameLbl);
         profilePanel.add(bdayLbl);
@@ -451,8 +437,6 @@ public class MainWindow extends Component {
         JButton cancelBtn = ViewFactory.createCustomButton1(editableProfilePanel, "Cancel", new ViewFactory.Bounds(173, 55, 70, 30), 20);
         cancelBtn.addActionListener(this::profileBtnActionPerformed);
 
-        ViewFactory.createCustomButton1(editableProfilePanel, "Change Password", new ViewFactory.Bounds(450, 500, 400, 40), 25);
-
         usernameField = new JTextField();
         usernameField.setBounds(540, 82, 200, 30);
         usernameField.setFont(new Font("MS UI Gothic", 1, 24));
@@ -468,6 +452,9 @@ public class MainWindow extends Component {
         emailField.setFont(new Font("MS UI Gothic", 1, 24));
         emailField.setForeground(new java.awt.Color(35, 35, 77));
 
+        changePassBtn = ViewFactory.createCustomButton1(editableProfilePanel, "Change Password", new ViewFactory.Bounds(450, 500, 400, 40), 25);
+        changePassBtn.addActionListener(this::changePassBtnActionPerformed);
+
         changePassTF = new JTextField();
         changePassTF.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
         changePassTF.setBounds(450,400,400,30);
@@ -477,6 +464,7 @@ public class MainWindow extends Component {
         confirmpassTF.setFont(new java.awt.Font("MS UI Gothic", 1, 25));
         confirmpassTF.setBounds(450,450,400,30);
         confirmpassTF.setForeground(new Color(35, 35, 77));
+
 
         JPanel whitePanel = new JPanel();
         whitePanel.setLayout(null);
@@ -510,6 +498,8 @@ public class MainWindow extends Component {
 
     private void editBtnActionPerformed(ActionEvent actionEvent) {
         SwingUtilities.invokeLater(() -> {
+            changePassTF.setText("");
+            confirmpassTF.setText("");
             ViewUtility.enablePanelAndComponents(panels[3], true);
             ViewUtility.enablePanelAndComponents(panels[0], false);
             ViewUtility.enablePanelAndComponents(panels[1], false);
@@ -716,6 +706,8 @@ public class MainWindow extends Component {
 
     private void profileBtnActionPerformed(ActionEvent actionEvent) {
         SwingUtilities.invokeLater(() -> {
+            confirmpassTF.setText("");
+            changePassTF.setText("");
             ViewUtility.enablePanelAndComponents(panels[0], false);
             ViewUtility.enablePanelAndComponents(panels[1], false);
             ViewUtility.enablePanelAndComponents(panels[2], true);
@@ -808,6 +800,11 @@ public class MainWindow extends Component {
                 return;
             }
 
+            if((currentBankAccountBalance - amountToTransact < 500 && withdrawBtn.isEnabled())
+              && (currentBankAccountBalance - amountToTransact > 0 && withdrawBtn.isEnabled())){
+
+            }
+
             if(bankGroup.getSelection() != null && !String.valueOf(amountField.getText()).isEmpty()){
                 String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
                 bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
@@ -833,6 +830,16 @@ public class MainWindow extends Component {
             } else {
                 ViewUtility.showInfoMessage("Fields cannot be empty or cancel changes.");
             }
+        });
+    }
+
+    private void changePassBtnActionPerformed(ActionEvent ae) {
+        SwingUtilities.invokeLater(() -> {
+            if(!changePassTF.getText().equals(confirmpassTF.getText())){
+                ViewUtility.showInfoMessage("Password does not match.");
+                return;
+            }
+            bankController.changePassword(changePassTF.getText());
         });
     }
 

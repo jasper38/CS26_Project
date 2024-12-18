@@ -158,6 +158,12 @@ public class IMBankServiceImpl implements IMBankService {
     }
 
     @Override
+    public boolean updatePassword(String newPassword) throws SQLException {
+        int rowsAffected = customerRepository.updateCustomerPassword(sessionUsername, newPassword);
+        return rowsAffected != 0;
+    }
+
+    @Override
     public int getTransactionID() throws SQLException {
         int transactionID = transactionRepository.getPendingTransactions(sessionBankAccountNumberID);
         if(transactionID > 0) {

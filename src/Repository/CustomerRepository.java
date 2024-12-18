@@ -85,4 +85,14 @@ public class CustomerRepository {
             }
         }
     }
+
+    public int updateCustomerPassword(String sessionUsername, String password) throws SQLException {
+        String sql = "UPDATE Customers SET Password = ? WHERE Username = ?";
+        try (Connection conn = IMBankConnectionManager.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, password);
+            ps.setString(2, sessionUsername);
+            return ps.executeUpdate();
+        }
+    }
 }

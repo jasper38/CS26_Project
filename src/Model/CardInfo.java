@@ -7,12 +7,6 @@ public class CardInfo {
 
     public CardInfo(){}
 
-    public CardInfo(Long cardNumber, int cardPIN, int bankAccountNumberID) {
-        this.cardNumber = cardNumber;
-        this.cardPIN = cardPIN;
-        this.bankAccountNumberID = bankAccountNumberID;
-    }
-
     public Long getCardNumber() {
         return cardNumber;
     }

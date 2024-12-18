@@ -17,6 +17,7 @@ public interface IMBankService {
     void deleteTransactionsByIds(List<Integer> ids) throws SQLException;
     UserProfileDTO getUserProfile() throws SQLException;
     int updateUserProfile(String username, String contactNum, String email) throws SQLException;
+    boolean updatePassword(String newPassword) throws SQLException;
     int getTransactionID() throws SQLException;
     int cancelPendingTransaction() throws SQLException;
     void logoutUserSession();

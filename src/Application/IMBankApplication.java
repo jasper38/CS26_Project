@@ -9,7 +9,7 @@ public class IMBankApplication {
         IMBankServiceImpl bankService = new IMBankServiceImpl(
                 new AffiliatedBankRepository(), new BankAccountRepository(),
                 new CardInfoRepository(), new CustomerRepository(),
-                new PersonRepository(), new TransactionRepository()
+                new PersonRepository(), new TransactionRepository(), new FlagRepository()
         );
 
         IMBankController bankController =

@@ -701,6 +701,7 @@ public class MainWindow extends Component {
             ViewUtility.enablePanelAndComponents(panels[2], false);
             ViewUtility.enablePanelAndComponents(panels[3], false);
         });
+//      bankController.cancelTransaction();
         bankController.getTransactionHistory();
     }
 
@@ -753,7 +754,6 @@ public class MainWindow extends Component {
     }
 
     private void withdrawBtnActionPerformed(ActionEvent ae) {
-        bankController.verifyNumberOfTransactions();
         SwingUtilities.invokeLater(() -> {
             if(popUpFrames[0] != null || popUpFrames[1] != null){
                 ViewUtility.showInfoMessage("You have an ongoing transaction window open.");
@@ -789,30 +789,37 @@ public class MainWindow extends Component {
     }
 
     private void submitTransactionRequestBtnActionPerformed(ActionEvent ae) {
+        bankController.getHasExceededFlag();
         SwingUtilities.invokeLater(() -> {
+            boolean hasExceededFlag = Boolean.parseBoolean(flag);
             String balance = displayBalanceField.getText();
             int index = balance.indexOf(" ");
             float amountToTransact = Float.parseFloat(amountField.getText());
             float currentBankAccountBalance = Float.parseFloat(balance.substring(index + 1));
+            String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
+
+            if((currentBankAccountBalance - amountToTransact < 500 && withdrawBtn.isEnabled()) && (currentBankAccountBalance - amountToTransact >= 0 && withdrawBtn.isEnabled()) ||
+                (currentBankAccountBalance - (amountToTransact + 20) < 500 && withdrawBtn.isEnabled() && !selectedBank.equals("IMBank")) && (currentBankAccountBalance - (amountToTransact + 20) >= 0 && withdrawBtn.isEnabled() && !selectedBank.equals("IMBank"))){
+                System.out.println("Invoked.1");
+                if(!hasExceededFlag){
+                    bankController.checkIfAmountExceedMaintainingBalance(transactionType, currentBankAccountBalance, amountToTransact, selectedBank);
+                    return;
+                }
+            }
 
             if(currentBankAccountBalance - amountToTransact < 0 && withdrawBtn.isEnabled()){
+                System.out.println("Invoked.0");
                 ViewUtility.showInfoMessage("Insufficient bank account balance.");
                 return;
             }
 
-            if((currentBankAccountBalance - amountToTransact < 500 && withdrawBtn.isEnabled())
-              && (currentBankAccountBalance - amountToTransact > 0 && withdrawBtn.isEnabled())){
-
-            }
-
             if(bankGroup.getSelection() != null && !String.valueOf(amountField.getText()).isEmpty()){
-                String transactionType = (depositBtn.isEnabled())? depositBtn.getText() : withdrawBtn.getText()+"al";
+                System.out.println("Invoked.1.0");
                 bankController.initiateTransactionRequest(transactionType , selectedBank, Integer.parseInt(amountField.getText()));
             } else {
                 ViewUtility.showInfoMessage("Please enter fields.");
                 return;
             }
-            disposePopUpFrame2();
             bankGroup.clearSelection();
             amountField.setText("");
             enableButtons();
@@ -848,9 +855,9 @@ public class MainWindow extends Component {
             int[] selectedRows = table.getSelectedRows(); // Get selected row indices
             if (selectedRows.length == 0) {
                 JOptionPane.showMessageDialog(this,
-                        "No items selected! \nPlease select at least one item.",
-                            "Select Rows",
-                            JOptionPane.ERROR_MESSAGE);
+                    "No items selected! \nPlease select at least one item.",
+                    "Select Rows",
+                        JOptionPane.ERROR_MESSAGE);
             } else {
                 int confirm = JOptionPane.showConfirmDialog(this,
                         "Are you sure you want to delete the selected items?",
@@ -879,14 +886,14 @@ public class MainWindow extends Component {
 
     public void updateTransactionHistoryTable(TransactionHistoryDTO transactionHistory) {
         tableModel.addRow(new Object[]{
-                transactionHistory.getTransactionID(),
-                transactionHistory.getBankAccountNumberID(),
-                transactionHistory.getBankName(),
-                transactionHistory.getTransactionType(),
-                transactionHistory.getAmount(),
-                transactionHistory.getTransactionDateTime(),
-                transactionHistory.getRequestStatus(),
-                transactionHistory.getOTP()
+            transactionHistory.getTransactionID(),
+            transactionHistory.getBankAccountNumberID(),
+            transactionHistory.getBankName(),
+            transactionHistory.getTransactionType(),
+            transactionHistory.getAmount(),
+            transactionHistory.getTransactionDateTime(),
+            transactionHistory.getRequestStatus(),
+            transactionHistory.getOTP()
         });
         tableModel.fireTableDataChanged();
         table.revalidate();
@@ -898,7 +905,7 @@ public class MainWindow extends Component {
         popUpFrames[0] = null;
     }
 
-    private void disposePopUpFrame2() {
+    public void disposePopUpFrame2() {
         popUpFrames[1].dispose();
         popUpFrames[1] = null;
     }
@@ -966,5 +973,10 @@ public class MainWindow extends Component {
     public JButton getTransactionBtn(){
         return transactionHistoryBtn;
     }
+
+    private String flag ="";
+    public void setFlag(String flag){
+        this.flag = flag;
+    };
 }
 

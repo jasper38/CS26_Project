@@ -10,6 +10,7 @@ import View.RegisterWindow;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class IMBankController {
 
@@ -19,6 +20,10 @@ public class IMBankController {
     private Timer activeTransactionTimer;
 
     private final IMBankServiceImpl bankService;
+    private int amount = 0;
+    private float deductedBankBalance;
+    private boolean hasExceededMaintainingBalance = false;
+    private String bankName = "";
 
     public IMBankController(IMBankServiceImpl bankService) {
         this.bankService = bankService;
@@ -67,6 +72,7 @@ public class IMBankController {
                 try {
                     LogInResult result = get();
                     if (result.isSuccess()) {
+                        getHasExceededFlag();
                         getName();
                         getAccountBalance();
                         showMainWindow();
@@ -104,21 +110,31 @@ public class IMBankController {
     }
 
     public void getAccountBalance() {
-        SwingWorker<Float, Void> worker = new SwingWorker<>(){
+        SwingWorker<Float, Void> worker = new SwingWorker<>() {
             @Override
             protected Float doInBackground() throws Exception {
                 return bankService.getBankAccountBalance();
             }
+
             @Override
             protected void done() {
                 try {
-                    float bankAccountBalance = get();
-                    if (bankAccountBalance == 0) {
-                        throw new Exception("Failed to retrieve account balance.");
+                    float currentBalance = get(); // Retrieve the balance
+                    System.out.println("Current Balance: " + currentBalance);
+                    System.out.println(deductedBankBalance);
+                    System.out.println(hasExceededMaintainingBalance);
+                    if (((currentBalance <= 200) && (currentBalance >= 0)) || ((currentBalance > 200) && (currentBalance < 500))) {
+                        if(!hasExceededMaintainingBalance) {
+                            updateBankAccountBalance(deductedBankBalance);
+                        } else {
+                            getHasExceededFlag();
+                        }
                     }
-                    mainWindow.setDisplayBalanceField(String.valueOf(bankAccountBalance));
+                    getHasExceededFlag();
+                    mainWindow.setDisplayBalanceField(String.valueOf(currentBalance));
                 } catch (Exception e) {
-                    ViewUtility.showInfoMessage(e.getMessage());
+                    e.printStackTrace(); // Log the exception
+                    ViewUtility.showInfoMessage("Error: " + e.getMessage());
                 }
             }
         };
@@ -184,23 +200,24 @@ public class IMBankController {
                 try{
                     int OTP = get();
                     if (OTP > 0) {
+                        mainWindow.disposePopUpFrame2();
                         ViewUtility.showInfoMessage("Transaction Created. OTP: " + OTP);
 
                         if(activeTransactionTimer != null && activeTransactionTimer.isRunning()) {
                             System.out.println("Timer stopped");
                             activeTransactionTimer.stop();
                         }
-                            activeTransactionTimer = new Timer(60000, _ -> {
+                        activeTransactionTimer = new Timer(60000, _ -> {
                                 cancelTransaction();
                                 mainWindow.getTransactionBtn().doClick();
                             });
-                            activeTransactionTimer.setRepeats(false);
-                            activeTransactionTimer.start();
+                        activeTransactionTimer.setRepeats(false);
+                        activeTransactionTimer.start();
                     } else {
-                        throw new Exception("Transaction could not be created");
+                        throw new Exception("Transaction could not be created. Insufficient balance after deduction of bank charge.");
                     }
                 } catch (Exception e) {
-                    ViewUtility.showInfoMessage(e.getMessage());
+                    ViewUtility.showInfoMessage("Transaction could not be created. Insufficient balance.");
                 }
             }
         };
@@ -364,6 +381,103 @@ public class IMBankController {
                         ViewUtility.showInfoMessage("Password changed successfully.");
                     }
                 } catch (Exception e) {
+                    ViewUtility.showErrorMessage(null, e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    public void checkIfAmountExceedMaintainingBalance(String transactionType, float currentBankAccountBalance , float amountToTransact, String selectedBank){
+        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return bankService.checkIfAmountExceeded(currentBankAccountBalance, amountToTransact, selectedBank);
+            }
+            @Override
+            protected void done() {
+                try{
+                    boolean check = get();
+                    if (check) {
+                        int choice = JOptionPane.showConfirmDialog(null, "A Php 200 deduction will be incurred. Do you still want to continue?", "Warning", JOptionPane.YES_NO_OPTION);
+                        if(choice == JOptionPane.YES_OPTION){
+                            amount = (int) currentBankAccountBalance - (int) amountToTransact;
+                            deductedBankBalance = amount - 200;
+                            bankName = selectedBank;
+                            initiateTransactionRequest(transactionType, selectedBank, (int) amountToTransact);
+                            updateToTrue();
+                        } else {
+                            mainWindow.enableButtons();
+                        }
+                        mainWindow.enableButtons();
+                        mainWindow.disposePopUpFrame2();
+                    } else {
+                        ViewUtility.showInfoMessage("After performing calculations of - Php 200, your current bank account balance is insufficient.");
+                    }
+                } catch (Exception e){
+                    ViewUtility.showErrorMessage(null, e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    private void updateBankAccountBalance(float amount){
+        SwingWorker<Integer, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Integer doInBackground() throws Exception {
+                return bankService.updateBankAccountBalance(amount);
+            }
+            @Override
+            protected void done() {
+                try {
+                    int rowsAffected = get();
+                    if (rowsAffected > 0) {
+                        System.out.println("Manipulation");
+                    }
+                } catch (Exception e){
+                    ViewUtility.showErrorMessage(null, e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    private void updateToTrue(){
+        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return bankService.updateToTrue();
+            }
+            @Override
+            protected void done() {
+                try {
+                    boolean updated = get();
+                    if(updated){
+                        System.out.println("Tagged");
+                    }
+                } catch (Exception e){
+                    ViewUtility.showErrorMessage(null, e.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    public void getHasExceededFlag(){
+        SwingWorker<String, Void> worker = new SwingWorker<>() {
+
+            @Override
+            protected String doInBackground() throws Exception {
+                return bankService.getHasExceededFlag();
+            }
+            @Override
+            protected void done() {
+                try {
+                    System.out.println(get());
+                    hasExceededMaintainingBalance = Boolean.parseBoolean(get());
+                    mainWindow.setFlag(get());
+                } catch(Exception e){
                     ViewUtility.showErrorMessage(null, e.getMessage());
                 }
             }

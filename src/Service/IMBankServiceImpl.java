@@ -16,16 +16,18 @@ public class IMBankServiceImpl implements IMBankService {
     private final CustomerRepository customerRepository;
     private final PersonRepository personRepository;
     private final TransactionRepository transactionRepository;
+    private final FlagRepository flagRepository;
 
     // session variables for seamless retrieval of data from db
     private String sessionUsername = "";
     private String sessionName = "";
     private int sessionBankAccountNumberID = 0;
+    private float currentBalance = 0;
 
     public IMBankServiceImpl(AffiliatedBankRepository affiliatedBankRepository,
                              BankAccountRepository bankAccountRepository, CardInfoRepository cardInfoRepository,
                              CustomerRepository customerRepository, PersonRepository personRepository,
-                             TransactionRepository transactionRepository) {
+                             TransactionRepository transactionRepository, FlagRepository flagRepository) {
         super();
         this.affiliatedBankRepository = affiliatedBankRepository;
         this.bankAccountRepository = bankAccountRepository;
@@ -33,6 +35,7 @@ public class IMBankServiceImpl implements IMBankService {
         this.customerRepository = customerRepository;
         this.personRepository = personRepository;
         this.transactionRepository = transactionRepository;
+        this.flagRepository = flagRepository;
     }
 
     @Override
@@ -85,7 +88,8 @@ public class IMBankServiceImpl implements IMBankService {
 
     @Override
     public float getBankAccountBalance() throws SQLException {
-        return bankAccountRepository.getBankAccountBalance(sessionBankAccountNumberID);
+        currentBalance = bankAccountRepository.getBankAccountBalance(sessionBankAccountNumberID);
+        return currentBalance;
     }
 
     @Override
@@ -105,9 +109,16 @@ public class IMBankServiceImpl implements IMBankService {
 
     @Override
     public int createTransaction(String transactionType ,String selectedBank, int amount) throws SQLException {
+
+        int bankID = affiliatedBankRepository.getAffiliatedBankID(selectedBank);
+        double bankCharge = affiliatedBankRepository.getBankCharge(bankID);
+
+        if((amount + bankCharge) > currentBalance) {
+            return 0;
+        }
+
         Transaction transactionRequest = new Transaction();
         transactionRequest.setBankAccountNumberID(sessionBankAccountNumberID);
-        int bankID = affiliatedBankRepository.getAffiliatedBankID(selectedBank);
         transactionRequest.setAffiliatedBankID(bankID);
         transactionRequest.setTransactionType(transactionType);
         transactionRequest.setAmount(amount);
@@ -119,7 +130,7 @@ public class IMBankServiceImpl implements IMBankService {
         if(rowsAffected > 0) {
             return Integer.parseInt(transactionRequest.getOTP());
         } else {
-            throw new SQLException("Transaction could not be created");
+            return 0;
         }
     }
 
@@ -175,6 +186,54 @@ public class IMBankServiceImpl implements IMBankService {
     @Override
     public int cancelPendingTransaction() throws SQLException {
         return transactionRepository.updatePendingStatusIfDurationExceedsHour(sessionBankAccountNumberID);
+    }
+
+    @Override
+    public boolean checkIfAmountExceeded(float currentBankAccountBalance, float amountToTransact, String selectedBank) throws SQLException {
+
+        int bankID = affiliatedBankRepository.getAffiliatedBankID(selectedBank);
+        double bankCharge = affiliatedBankRepository.getBankCharge(bankID);
+
+        float notExceedingAmount = currentBankAccountBalance - amountToTransact;
+        if(notExceedingAmount < 500 && notExceedingAmount >= 0){
+            System.out.println("Invoked.3");
+            float balanceAfterDeduction = notExceedingAmount - 200;
+            if(balanceAfterDeduction >= 0){
+                System.out.println("Invoked.4");
+                if(balanceAfterDeduction - bankCharge >= 0){
+                    System.out.println("Invoked.5");
+                    return true;
+                } else{
+                    System.out.println("Invoked.6");
+                    return false;
+                }
+            } else {
+                System.out.println("Invoked.7");
+                return false; // less than na siya sa currentBankAccountBalance, meaning negative na dri iyang account balance
+            }
+        } else {
+            System.out.println("Invoked.8");
+            return notExceedingAmount - (float) bankCharge > 0;
+        }
+    }
+
+    @Override
+    public boolean updateToTrue() throws SQLException {
+        return flagRepository.setFlagToTrueIfExceeded(sessionBankAccountNumberID) > 0;
+    }
+
+    @Override
+    public String getHasExceededFlag() throws SQLException {
+        String flag = flagRepository.getHasExceededFlag(sessionBankAccountNumberID);
+        if(flag == null) {
+            return "";
+        }
+        return flag;
+    }
+
+    @Override
+    public int updateBankAccountBalance(float amount) throws SQLException {
+        return bankAccountRepository.updateBankAccountBalance(sessionBankAccountNumberID, amount);
     }
 
     @Override

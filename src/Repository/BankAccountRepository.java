@@ -73,4 +73,20 @@ public class BankAccountRepository {
             return bankAccountID;
         }
     }
+
+    public int updateBankAccountBalance(int bankAccountNumberID, float bankAccountBalance) throws SQLException {
+        String sql = "UPDATE Bank_Accounts " +
+                     "SET Bank_Account_Balance = ? " +
+                     "WHERE Bank_Account_Number_ID = ?";
+        try (Connection conn = IMBankConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setFloat(1, bankAccountBalance);
+            ps.setInt(2, bankAccountNumberID);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                return rowsAffected;
+            } else
+                throw new SQLException("Failed to update Bank Account; no rows affected.");
+        }
+    }
 }

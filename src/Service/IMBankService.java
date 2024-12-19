@@ -20,6 +20,10 @@ public interface IMBankService {
     boolean updatePassword(String newPassword) throws SQLException;
     int getTransactionID() throws SQLException;
     int cancelPendingTransaction() throws SQLException;
+    boolean checkIfAmountExceeded(float currentBankAccountBalance,float amountToTransact, String selectedBank) throws SQLException;
+    boolean updateToTrue() throws SQLException;
+    String getHasExceededFlag() throws SQLException;
+    int updateBankAccountBalance(float amount) throws SQLException;
     void logoutUserSession();
     int generateOTP();
 }
